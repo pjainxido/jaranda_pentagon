@@ -1,9 +1,7 @@
+import React from "react";
+
 function App() {
-  return (
-    <div className="App">
-      자란다
-    </div>
-  );
+  return <div>자란다</div>;
 }
 
 export default App;
