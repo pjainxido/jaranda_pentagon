@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { data } from "./dummy_data.json"
+import { data } from "./dummy_data.json";
 
 const Searching = (category, searchInput) => {
 
@@ -60,24 +60,20 @@ const Search = () => {
 					<SearchBox type="submit" value="검색" />
 				</form>
 			</Container>
-			<div>
-				{data.map((i) => <div key={i.creditCard}>{i.name}</div>)}
-				{/* {data.filter((category) => category.name === "Virge")} */}
-			</div>
 		</>
 	)
 };
 
 const Container = styled.div`
-	display: flex;
-`
+  display: flex;
+`;
 
 const Category = styled.select`
-	color: black;
-`
+  color: black;
+`;
 
 const SearchBox = styled.input`
-	color: black;
-`
+  color: black;
+`;
 
 export default Search;

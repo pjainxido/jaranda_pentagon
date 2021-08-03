@@ -13,8 +13,7 @@
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.0",
     "styled-reset": "^4.3.4",
-    "web-vitals": "^1.0.1",
-    "yarn": "^1.22.11"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -48,5 +47,4 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "prop-types": "^15.7.2"
   }
-
 }
