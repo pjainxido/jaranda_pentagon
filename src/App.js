@@ -1,7 +1,10 @@
+import React from 'react';
+import AdminRolePageView from 'components/AdminRolePageView';
+
 function App() {
   return (
-    <div className="App">
-      자란다
+    <div className='App'>
+      <AdminRolePageView/>
     </div>
   );
 }
