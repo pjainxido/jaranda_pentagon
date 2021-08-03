@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagenation from "./Pagenation";
@@ -28,10 +28,17 @@ const Container = styled.div`
 const ROLE = ["admin", "teacher", "parent"];
 
 const Table = ({ data, loading, page, setPage }) => {
+
   const [perPage, setPerPage] = useState(10);
   if (loading) {
     return <div>loading...</div>;
   }
+
+	const postChange = (e) => {
+		//여기서 변경될 때 서버에 id, value POST 해주면 될듯
+		console.log(e.target.id, e.target.value);
+	}
+
   return (
     <Container>
       <table>
@@ -51,7 +58,7 @@ const Table = ({ data, loading, page, setPage }) => {
               <td>{item.userId}</td>
               <td>{item.name}</td>
               <td>
-                <select>
+                <select id={item.id} onChange={postChange}>
                   <option>{item.role}</option>
                   {ROLE.filter((i) => i !== item.role).map((i) => (
                     <option key={i}>{i}</option>
