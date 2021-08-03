@@ -13,7 +13,6 @@ const Container = styled.div`
 
 const ButtonStyle = styled.button`
   background-color: inherit;
-  cursor: pointer;
   margin: 0 5px;
 `;
 
@@ -21,6 +20,8 @@ const PageNextButton = styled(ButtonStyle)`
   border: 1px solid black;
   height: 30px;
   font-size: 1rem;
+  opacity: ${(props) => (props.pageNumbers >= 10 ? 1 : 0.1)};
+  cursor: ${(props) => (props.pageNumbers >= 10 ? "pointer" : "default")};
 `;
 
 const PageButton = styled(ButtonStyle)`
@@ -29,6 +30,7 @@ const PageButton = styled(ButtonStyle)`
     ${(props) => (props.clickButton ? "#A5D25F" : "rgba(0, 0, 0, 0.1)")};
   color: ${(props) => (props.clickButton ? "#A5D25F" : "black")};
   font-size: 1.5rem;
+  cursor: pointer;
 `;
 
 const AlertMsg = styled.div`
@@ -36,7 +38,7 @@ const AlertMsg = styled.div`
   color: red;
 `;
 
-function Pagenation({ page, setPage, pageData }) {
+function Pagenation({ page, perPage, setPage, pageData }) {
   const [pageCount, setPageCount] = useState(1);
   const [alertMessage, setAlertMessage] = useState("");
   const handlePageClick = (e) => {
@@ -46,7 +48,7 @@ function Pagenation({ page, setPage, pageData }) {
   };
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(pageData.length / 10); i++) {
+  for (let i = 1; i <= Math.ceil(pageData.length / perPage); i++) {
     pageNumbers.push(i);
   }
 
@@ -61,7 +63,7 @@ function Pagenation({ page, setPage, pageData }) {
   };
 
   const handleNextPage = () => {
-    const pages = Math.round(Math.floor(pageData.length / 10) / 10);
+    const pages = Math.round(Math.floor(pageData.length / perPage) / perPage);
     if (pageCount + 1 > pages) {
       setAlertMessage("마지막 페이지 입니다");
       return;
@@ -74,18 +76,29 @@ function Pagenation({ page, setPage, pageData }) {
   return (
     <Container>
       <div>
-        <PageNextButton onClick={handlePrevPage}>PREV</PageNextButton>
-        {pageNumbers.slice(10 * (pageCount - 1), 10 * pageCount).map((item) => (
-          <PageButton
-            key={item}
-            onClick={handlePageClick}
-            clickButton={page === item}
-          >
-            {item}
-          </PageButton>
-        ))}
+        <PageNextButton
+          onClick={pageNumbers.length >= perPage && handlePrevPage}
+        >
+          PREV
+        </PageNextButton>
+        {pageNumbers
+          .slice(perPage * (pageCount - 1), perPage * pageCount)
+          .map((item) => (
+            <PageButton
+              key={item}
+              onClick={handlePageClick}
+              pageNumbers={pageNumbers.length}
+              clickButton={page === item}
+            >
+              {item}
+            </PageButton>
+          ))}
 
-        <PageNextButton onClick={handleNextPage}>NEXT</PageNextButton>
+        <PageNextButton
+          onClick={pageNumbers.length >= perPage && handleNextPage}
+        >
+          NEXT
+        </PageNextButton>
       </div>
       {alertMessage && <AlertMsg>{alertMessage}</AlertMsg>}
     </Container>
@@ -96,6 +109,7 @@ Pagenation.propTypes = {
   page: PropTypes.number,
   setPage: PropTypes.func,
   pageData: PropTypes.array,
+  perPage: PropTypes.number,
 };
 
 export default Pagenation;
