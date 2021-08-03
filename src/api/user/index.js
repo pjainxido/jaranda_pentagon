@@ -6,12 +6,17 @@
  *  password: string
  *  age: number
  *  address: string
+ *  creditCard: {
+ *    cardNumber: number,
+ *    expiryDate: number,
+ *    cvc: number
+ *  }
  *  createdAt: timestamp(firestore 자체 데이터 타입; 유저 생성시 알아서 입력되도록 처리)
  */
 
 import { db, firebaseInstance } from 'firebase.js';
 
-export const createUser = ({ userId, password, role = 'parents', name, age, address }) => {
+export const createUser = ({ userId, password, role = 'parent', name, age, address, creditCard }) => {
 	db.collection('user')
 		.add({
 			userId,
@@ -20,6 +25,7 @@ export const createUser = ({ userId, password, role = 'parents', name, age, addr
 			password,
 			age,
 			address,
+			creditCard,
 			createdAt: firebaseInstance.firestore.Timestamp.now(),
 		})
 		.then((docRef) => {
@@ -47,9 +53,9 @@ export const getAllUsers = () => {
 		});
 };
 
+// 로그인 용
 export const findUserByIdAndPassword = async (inputId, inputPassword) => {
 	const usersRef = db.collection('user');
-	let hasThisUser = false;
 
 	const result = usersRef
 		.where('userId', '==', inputId)
@@ -82,4 +88,20 @@ export const findUserByIdAndPassword = async (inputId, inputPassword) => {
 		// id로 유저가 검색되지 않아도 빈 비열 리턴F
 		return [];
 	}
+};
+
+// 회원가입 시 아이디 중복 검사 용
+export const checkUserByUserId = (inputId) => {
+	const usersRef = db.collection('user');
+
+	return usersRef
+		.where('userId', '==', inputId)
+		.get()
+		.then((querySnapshot) => {
+			// 중복되는 아이디가 없으면 true, 있으면 false
+			return querySnapshot.empty ? true : false;
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 };
