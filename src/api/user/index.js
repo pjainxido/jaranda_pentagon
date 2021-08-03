@@ -85,16 +85,16 @@ export const findUserByIdAndPassword = async (inputId, inputPassword) => {
 		// 비밀번호도 일치하면 유저 데이터 리턴 아니면 빈 배열 리턴
 		return userData[0].password === inputPassword ? userData : [];
 	} else {
-		// id로 유저가 검색되지 않아도 빈 비열 리턴F
+		// id로 유저가 검색되지 않아도 빈 비열 리턴
 		return [];
 	}
 };
 
 // 회원가입 시 아이디 중복 검사 용
 export const checkUserByUserId = (inputId) => {
-	const usersRef = db.collection('user');
+	const userRef = db.collection('user');
 
-	return usersRef
+	return userRef
 		.where('userId', '==', inputId)
 		.get()
 		.then((querySnapshot) => {
