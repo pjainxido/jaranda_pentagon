@@ -1,8 +1,9 @@
+import { changeUserRole } from "api/user";
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
-import Modal from "./modal/Modal";
+import Modal from "./Modal";
 
 const Container = styled.div`
   > table {
@@ -37,6 +38,12 @@ const Table = ({ data, loading, page, setPage }) => {
   if (loading) {
     return <div>loading...</div>;
   }
+
+  const postChange = (e) => {
+    //서버에 id, value POST
+    changeUserRole(e.target.id, e.target.value);
+  };
+
   return (
     <Container>
       <button onClick={handleModalOpen}>add user</button>
@@ -58,7 +65,7 @@ const Table = ({ data, loading, page, setPage }) => {
               <td>{item.userId}</td>
               <td>{item.name}</td>
               <td>
-                <select>
+                <select id={item.id} onChange={postChange}>
                   <option>{item.role}</option>
                   {ROLE.filter((i) => i !== item.role).map((i) => (
                     <option key={i}>{i}</option>
