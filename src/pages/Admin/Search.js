@@ -1,34 +1,58 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { data } from "./dummy_data.json";
+import Table from "./Table";
+import { Link } from "react-router-dom";
 
 const Searching = (category, searchInput) => {
-  const filterdData = data.filter(
-    (item) => item[`${category}`] === searchInput
-  );
+  // console.log(category, searchInput)
+  let filterdData = data.filter((item) => item[`${category}`] === searchInput);
+  if (filterdData.length === 0) {
+    filterdData = "noresult";
+  }
   return filterdData;
 };
 
 const Search = () => {
   const [category, setCategory] = useState();
-  const [inputs, setInputs] = useState();
+  const [inputs, setInputs] = useState({
+    userInput: "",
+  });
+  const [searchedItem, setSearchedItem] = useState([]);
 
-  const handleOnChange = (e) => {
+  const { userInput } = inputs;
+
+  const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
 
-  const onChange = (e) => {
-    setInputs(e.target.value);
+  const handleSearchChange = (e) => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    Searching(category, inputs);
+    const result = Searching(category, inputs.userInput);
+    setSearchedItem(result);
   };
+
+  const clearState = (e) => {
+    e.preventDefault();
+    setInputs({
+      userInput: "",
+    });
+    setSearchedItem([]);
+  };
+
+  // console.log(searchedItem)
   return (
     <>
       <Container>
-        <Category onChange={handleOnChange}>
+        <Category onChange={handleCategoryChange}>
           <option value="default">선택</option>
           <option value="userId">ID</option>
           <option value="name">이름</option>
@@ -38,13 +62,34 @@ const Search = () => {
           <option value="creditCard">카드번호</option>
         </Category>
         <form onSubmit={onSubmit}>
-          <SearchBox type="search" onChange={onChange} />
-          <SearchBox type="submit" value="검색" />
+          <SearchBox
+            type="search"
+            name="userInput"
+            value={userInput}
+            onChange={handleSearchChange}
+            placeholder="검색"
+          />
         </form>
+        <Link to="/admin">
+          <SearchBox type="reset" onClick={clearState} />
+        </Link>
       </Container>
+      <div>
+        {searchedItem.length > 0 ? (
+          searchedItem === "noresult" ? (
+            <div>검색결과가 없습니다.</div>
+          ) : (
+            <Table data={searchedItem} />
+          )
+        ) : (
+          <Table data={data} />
+        )}
+      </div>
     </>
   );
 };
+
+//<div>{searchedItem.map((i) => <div key={i.creditCard}>{i.name}</div>)}</div>
 
 const Container = styled.div`
   display: flex;

@@ -31,30 +31,6 @@ function Admin() {
     <Container>
       <h1>유저 정보</h1>
       <Search />
-      <table>
-        <thead>
-          <tr>
-            <th>user_id</th>
-            <th>name</th>
-            <th>role</th>
-            <th>address</th>
-            <th>age</th>
-            <th>credit_card</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dummyData.data.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.userId}</td>
-              <td>{item.name}</td>
-              <td>{item.role}</td>
-              <td>{item.address}</td>
-              <td>{item.creditCard}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </Container>
   );
 }
