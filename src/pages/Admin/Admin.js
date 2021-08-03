@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import dummyData from "./pages/Admin/dummy_data.json";
+import dummyData from "pages/Admin/dummy_data.json";
 
 const Container = styled.div`
   margin-top: 60px;
