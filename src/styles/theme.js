@@ -1,0 +1,26 @@
+const size = {
+  login: "500px",
+};
+
+const colors = {
+  green: "#87bf44",
+  blue: "#0085fd",
+  red: "#f8666a",
+};
+
+const common = {
+  button: `
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  border-radius: 5px;
+  `,
+};
+
+const theme = {
+  size,
+  colors,
+  common,
+};
+
+export default theme;
