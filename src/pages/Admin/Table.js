@@ -29,11 +29,15 @@ const ROLE = ["admin", "teacher", "parent"];
 
 const Table = ({ data, loading, page, setPage }) => {
   const [perPage, setPerPage] = useState(10);
+
+  const handleModalOpen = () => {};
+
   if (loading) {
     return <div>loading...</div>;
   }
   return (
     <Container>
+      <button onClick={handleModalOpen}>add user</button>
       <table>
         <thead>
           <tr>

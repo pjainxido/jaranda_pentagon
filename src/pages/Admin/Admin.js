@@ -4,6 +4,7 @@ import Search from "./Search";
 
 const Container = styled.div`
   margin-top: 60px;
+  padding: 0 20px;
   > table {
     border: 1px solid black;
     color: black;

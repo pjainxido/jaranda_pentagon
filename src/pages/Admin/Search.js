@@ -133,11 +133,12 @@ const Search = () => {
 
 const Back = styled.div`
   position: absolute;
-  right: 0;
+  right: 20px;
 `;
 
 const Container = styled.div`
   display: flex;
+  margin-bottom: 10px;
 `;
 
 const Category = styled.select`
