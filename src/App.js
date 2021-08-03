@@ -1,8 +1,17 @@
 import React from "react";
-import Search from "./pages/Admin/index"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "pages/Home/Home";
+import GlobalStyles from "styles/GlobalStyles";
 
 function App() {
-  return <Search />;
+  return (
+    <Router>
+      <GlobalStyles />
+      <Switch>
+        <Route path="/" exact component={Home} />
+      </Switch>
+    </Router>
+  );
 }
 
 export default App;
