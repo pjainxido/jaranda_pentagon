@@ -6,12 +6,17 @@
  *  password: string
  *  age: number
  *  address: string
+ *  creditCard: {
+ *    cardNumber: number,
+ *    expiryDate: number,
+ *    cvc: number
+ *  }
  *  createdAt: timestamp(firestore 자체 데이터 타입; 유저 생성시 알아서 입력되도록 처리)
  */
 
 import { db, firebaseInstance } from 'firebase.js';
 
-export const createUser = ({ userId, password, role = 'parents', name, age, address }) => {
+export const createUser = ({ userId, password, role = 'parent', name, age, address, creditCard }) => {
 	db.collection('user')
 		.add({
 			userId,
@@ -20,6 +25,7 @@ export const createUser = ({ userId, password, role = 'parents', name, age, addr
 			password,
 			age,
 			address,
+      creditCard,
 			createdAt: firebaseInstance.firestore.Timestamp.now(),
 		})
 		.then((docRef) => {
