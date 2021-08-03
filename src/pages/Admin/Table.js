@@ -51,14 +51,16 @@ const Table = ({ data, loading, page, setPage }) => {
               <td>{item.userId}</td>
               <td>{item.name}</td>
               <td>
-								<select>
-									<option>{item.role}</option>
-									{ROLE.filter((i) => (i !== item.role)).map((i) => <option key={i}>{i}</option>)}
-								</select>
-							</td>
+                <select>
+                  <option>{item.role}</option>
+                  {ROLE.filter((i) => i !== item.role).map((i) => (
+                    <option key={i}>{i}</option>
+                  ))}
+                </select>
+              </td>
               <td>{item.address}</td>
               <td>{item.age}</td>
-              <td>{item.creditCard}</td>
+              <td>{item.creditCard?.cardNumber}</td>
             </tr>
           ))}
         </tbody>
