@@ -1,19 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const Item = styled.li`
+  display: flex;
+`
+const CheckBoxContainer = styled.div``;
 
 const RoleSelectorItem = ({ pageViewName, checkRole, checkItemChange}) => {
   return (
-    <li>
+    <Item>
       <span>{pageViewName}</span>
-      <div>
+      <CheckBoxContainer>
         teacher
         <input type='checkbox' name={pageViewName} checked={checkRole('teacher',pageViewName)} onChange={(e)=>checkItemChange(e,'teacher')}/>
-      </div>
-      <div>
+      </CheckBoxContainer>
+      <CheckBoxContainer>
         parent
         <input type='checkbox' name={pageViewName} checked={checkRole('parent',pageViewName)} onChange={(e)=>checkItemChange(e,'parent')}/>
-      </div>
-    </li>
+      </CheckBoxContainer>
+    </Item>
   );
 };
 

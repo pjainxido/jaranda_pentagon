@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import RoleSelectorItem from './RoleSelectorItem';
+import styled from 'styled-components';
+
+const Container = styled.div`
+ ul{
+
+ }
+`
+
+const ApiCallButton = styled.button`
+
+`
 
 const AdminRolePageView = () => {
   const mockPageViewList = ['사자', '호랑이', '코끼리', '기린', '개', '고양이'];
@@ -50,16 +61,18 @@ const AdminRolePageView = () => {
   }
 
   return (
-    <div>
+    <Container>
       <ul>
         {pageViewList.map((item, index) => {
           return <RoleSelectorItem pageViewName={item} checkRole={checkRole} checkItemChange={checkItemChange} key={index} />;
         })}
       </ul>
+      teacher pageview list
       <div>{roleData?.teacher}</div>
+      parent pageview list
       <div>{roleData?.parent}</div>
-      <button onClick={submitRoleData}>페이지 뷰 업데이트</button>
-    </div>
+      <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
+    </Container>
   );
 };
 
