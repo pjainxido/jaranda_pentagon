@@ -89,7 +89,13 @@ const Container = styled.div`
   max-width: 1000px;
 `;
 
-const ApiCallButton = styled.button``;
+const ApiCallButton = styled.button`
+  ${({ theme }) => theme.common.button}
+  height: 30px;
+  background-color: ${({ theme }) => theme.colors.blue};
+  color: #fff;
+  font-size: 13px;
+`;
 
 const Table = styled.table`
   text-align: center;
