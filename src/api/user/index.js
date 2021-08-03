@@ -25,7 +25,7 @@ export const createUser = ({ userId, password, role = 'parent', name, age, addre
 			password,
 			age,
 			address,
-      creditCard,
+			creditCard,
 			createdAt: firebaseInstance.firestore.Timestamp.now(),
 		})
 		.then((docRef) => {
@@ -53,9 +53,9 @@ export const getAllUsers = () => {
 		});
 };
 
+// 로그인 용
 export const findUserByIdAndPassword = async (inputId, inputPassword) => {
 	const usersRef = db.collection('user');
-	let hasThisUser = false;
 
 	const result = usersRef
 		.where('userId', '==', inputId)
@@ -88,4 +88,20 @@ export const findUserByIdAndPassword = async (inputId, inputPassword) => {
 		// id로 유저가 검색되지 않아도 빈 비열 리턴F
 		return [];
 	}
+};
+
+// 회원가입 시 아이디 중복 검사 용
+export const checkUserByUserId = (inputId) => {
+	const usersRef = db.collection('user');
+
+	return usersRef
+		.where('userId', '==', inputId)
+		.get()
+		.then((querySnapshot) => {
+			// 중복되는 아이디가 없으면 true, 있으면 false
+			return querySnapshot.empty ? true : false;
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 };
