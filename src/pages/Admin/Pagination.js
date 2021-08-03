@@ -30,7 +30,6 @@ const PageButton = styled(ButtonStyle)`
     ${(props) => (props.clickButton ? "#A5D25F" : "rgba(0, 0, 0, 0.1)")};
   color: ${(props) => (props.clickButton ? "#A5D25F" : "black")};
   font-size: 1.5rem;
-  cursor: pointer;
 `;
 
 const AlertMsg = styled.div`
@@ -38,7 +37,7 @@ const AlertMsg = styled.div`
   color: red;
 `;
 
-function Pagenation({ page, perPage, setPage, pageData }) {
+function Pagination({ page, perPage, setPage, pageData }) {
   const [pageCount, setPageCount] = useState(1);
   const [alertMessage, setAlertMessage] = useState("");
   const handlePageClick = (e) => {
@@ -53,6 +52,9 @@ function Pagenation({ page, perPage, setPage, pageData }) {
   }
 
   const handlePrevPage = () => {
+    if (pageNumbers.length < perPage) {
+      return;
+    }
     if (pageCount === 1) {
       setAlertMessage("마지막 페이지 입니다");
       return;
@@ -64,6 +66,9 @@ function Pagenation({ page, perPage, setPage, pageData }) {
 
   const handleNextPage = () => {
     const pages = Math.round(Math.floor(pageData.length / perPage) / perPage);
+    if (pageNumbers.length < perPage) {
+      return;
+    }
     if (pageCount + 1 > pages) {
       setAlertMessage("마지막 페이지 입니다");
       return;
@@ -76,11 +81,7 @@ function Pagenation({ page, perPage, setPage, pageData }) {
   return (
     <Container>
       <div>
-        <PageNextButton
-          onClick={pageNumbers.length >= perPage && handlePrevPage}
-        >
-          PREV
-        </PageNextButton>
+        <PageNextButton onClick={handlePrevPage}>PREV</PageNextButton>
         {pageNumbers
           .slice(perPage * (pageCount - 1), perPage * pageCount)
           .map((item) => (
@@ -94,22 +95,18 @@ function Pagenation({ page, perPage, setPage, pageData }) {
             </PageButton>
           ))}
 
-        <PageNextButton
-          onClick={pageNumbers.length >= perPage && handleNextPage}
-        >
-          NEXT
-        </PageNextButton>
+        <PageNextButton onClick={handleNextPage}>NEXT</PageNextButton>
       </div>
       {alertMessage && <AlertMsg>{alertMessage}</AlertMsg>}
     </Container>
   );
 }
 
-Pagenation.propTypes = {
+Pagination.propTypes = {
   page: PropTypes.number,
   setPage: PropTypes.func,
   pageData: PropTypes.array,
   perPage: PropTypes.number,
 };
 
-export default Pagenation;
+export default Pagination;

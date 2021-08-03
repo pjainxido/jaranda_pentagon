@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Pagenation from "./Pagenation";
+import Pagination from "./Pagination";
+import Modal from "./modal/Modal";
 
 const Container = styled.div`
   > table {
@@ -30,7 +31,8 @@ const ROLE = ["admin", "teacher", "parent"];
 const Table = ({ data, loading, page, setPage }) => {
   const [perPage, setPerPage] = useState(10);
 
-  const handleModalOpen = () => {};
+  const [isShown, setIsShown] = useState(false);
+  const handleModalOpen = () => setIsShown(true);
 
   if (loading) {
     return <div>loading...</div>;
@@ -38,6 +40,7 @@ const Table = ({ data, loading, page, setPage }) => {
   return (
     <Container>
       <button onClick={handleModalOpen}>add user</button>
+      {isShown && <Modal setIsShown={setIsShown} />}
       <table>
         <thead>
           <tr>
@@ -69,7 +72,7 @@ const Table = ({ data, loading, page, setPage }) => {
           ))}
         </tbody>
       </table>
-      <Pagenation
+      <Pagination
         page={page}
         perPage={perPage}
         setPage={setPage}

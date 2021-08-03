@@ -147,6 +147,7 @@ const Category = styled.select`
 
 const Input = styled.input`
   color: black;
+  cursor: pointer;
 `;
 
 export default Search;
