@@ -5,6 +5,7 @@ import Home from "pages/Home/Home";
 import theme from "styles/theme";
 import GlobalStyles from "styles/GlobalStyles";
 import { ThemeProvider } from "styled-components";
+import AdminRolePageView from "components/AdminRolePageView";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Nav />
         <GlobalStyles />
         <Switch>
+          <Route path="/admin-role" exact component={AdminRolePageView} />
           <Route path="/" exact component={Home} />
         </Switch>
       </ThemeProvider>
