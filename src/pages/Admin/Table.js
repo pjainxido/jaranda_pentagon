@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import { changeUserRole } from "api/user";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagenation from "./Pagenation";
@@ -35,8 +36,8 @@ const Table = ({ data, loading, page, setPage }) => {
   }
 
 	const postChange = (e) => {
-		//여기서 변경될 때 서버에 id, value POST 해주면 될듯
-		console.log(e.target.id, e.target.value);
+		//서버에 id, value POST
+    changeUserRole(e.target.id, e.target.value);
 	}
 
   return (
