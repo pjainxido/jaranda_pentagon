@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { data } from "./dummy_data.json";
+import Table from "./Table";
+import { Link } from "react-router-dom";
 
 const Searching = (category, searchInput) => {
 	// console.log(category, searchInput)
@@ -37,6 +39,15 @@ const Search = () => {
 		const result = Searching(category, inputs.userInput);
 		setSearchedItem(result);
 	};
+
+	const clearState = (e) => {
+		e.preventDefault();
+		setInputs({
+			userInput: '',
+		});
+		setSearchedItem([]);
+	};
+
 	// console.log(searchedItem)
 	return (
 		<>
@@ -59,19 +70,24 @@ const Search = () => {
 						placeholder="검색"
 					/>
 				</form>
+				<Link to="/admin">
+					<SearchBox type="reset" onClick={clearState}/>
+				</Link>
 			</Container>
 			<div>
 				{
 					searchedItem.length > 0 ?
 					(
 						searchedItem === "noresult" ?
-							<div>검색결과가 없습니다.</div> : <div>{searchedItem.map((i) => <div key={i.creditCard}>{i.name}</div>)}</div>
-					) : <div>test</div>
+							<div>검색결과가 없습니다.</div> : <Table data={searchedItem} />
+					) : <Table data={data} />
 				}
 			</div>
 		</>
 	)
 };
+
+//<div>{searchedItem.map((i) => <div key={i.creditCard}>{i.name}</div>)}</div>
 
 const Container = styled.div`
   display: flex;

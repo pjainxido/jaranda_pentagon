@@ -31,7 +31,7 @@ function Admin() {
     <Container>
       <h1>유저 정보</h1>
       <Search />
-      <table>
+      {/* <table>
         <thead>
           <tr>
             <th>user_id</th>
@@ -54,7 +54,7 @@ function Admin() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
     </Container>
   );
 }
