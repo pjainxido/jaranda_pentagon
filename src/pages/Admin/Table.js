@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagenation from "./Pagenation";
-import { getAllUsers } from "api/user";
 
 const Container = styled.div`
   > table {
@@ -26,6 +25,8 @@ const Container = styled.div`
   }
 `;
 
+const ROLE = ["admin", "teacher", "parent"];
+
 const Table = ({ data, loading, page, setPage }) => {
   if (loading) {
     return <div>loading...</div>;
@@ -48,7 +49,12 @@ const Table = ({ data, loading, page, setPage }) => {
             <tr key={item.id}>
               <td>{item.userId}</td>
               <td>{item.name}</td>
-              <td>{item.role}</td>
+              <td>
+								<select>
+									<option>{item.role}</option>
+									{ROLE.filter((i) => (i !== item.role)).map((i) => <option key={i}>{i}</option>)}
+								</select>
+							</td>
               <td>{item.address}</td>
               <td>{item.age}</td>
               <td>{item.creditCard}</td>
