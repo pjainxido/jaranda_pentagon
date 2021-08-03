@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { data } from "./dummy_data.json";
 import Table from "./Table";
-import { Link } from "react-router-dom";
 
 const Searching = (category, searchInput) => {
-  // console.log(category, searchInput)
   let filterdData = data.filter((item) => item[`${category}`] === searchInput);
   if (filterdData.length === 0) {
     filterdData = "noresult";
@@ -40,39 +38,55 @@ const Search = () => {
     setSearchedItem(result);
   };
 
+  const selectItem = useRef();
+
   const clearState = (e) => {
     e.preventDefault();
+    setCategory();
     setInputs({
       userInput: "",
     });
     setSearchedItem([]);
+    selectItem.current.value = "default";
   };
 
-  // console.log(searchedItem)
   return (
     <>
       <Container>
-        <Category onChange={handleCategoryChange}>
+        <Category onChange={handleCategoryChange} ref={selectItem}>
           <option value="default">선택</option>
-          <option value="userId">ID</option>
-          <option value="name">이름</option>
-          <option value="role">역할</option>
-          <option value="address">주소</option>
-          <option value="age">나이</option>
-          <option value="creditCard">카드번호</option>
+          <option value="userId" ref={selectItem}>
+            ID
+          </option>
+          <option value="name" ref={selectItem}>
+            이름
+          </option>
+          <option value="role" ref={selectItem}>
+            역할
+          </option>
+          <option value="address" ref={selectItem}>
+            주소
+          </option>
+          <option value="age" ref={selectItem}>
+            나이
+          </option>
+          <option value="creditCard" ref={selectItem}>
+            카드번호
+          </option>
         </Category>
         <form onSubmit={onSubmit}>
-          <SearchBox
+          <Input
             type="search"
             name="userInput"
             value={userInput}
             onChange={handleSearchChange}
             placeholder="검색"
           />
+          <Input type="submit" value="검색" />
         </form>
-        <Link to="/admin">
-          <SearchBox type="reset" onClick={clearState} />
-        </Link>
+        <Back>
+          <Input type="reset" onClick={clearState} value="목록" />
+        </Back>
       </Container>
       <div>
         {searchedItem.length > 0 ? (
@@ -89,7 +103,10 @@ const Search = () => {
   );
 };
 
-//<div>{searchedItem.map((i) => <div key={i.creditCard}>{i.name}</div>)}</div>
+const Back = styled.div`
+  position: absolute;
+  right: 0;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -99,7 +116,7 @@ const Category = styled.select`
   color: black;
 `;
 
-const SearchBox = styled.input`
+const Input = styled.input`
   color: black;
 `;
 
