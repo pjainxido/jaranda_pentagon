@@ -97,20 +97,29 @@ const ApiCallButton = styled.button`
   font-size: 13px;
 `;
 
+
 const Table = styled.table`
+  border: 1px solid black;
+  color: black;
+  width: 100%;
+  height: 100%;
+  max-height: 240px;
   text-align: center;
+  table-layout: fixed;
 `;
 const Thead = styled.thead`
   th,
   td {
-    padding: 10px;
-    border: 1px solid red;
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px 0;
   }
 `;
 const Tbody = styled.tbody`
   th,
   td {
+    border: 1px solid black;
+    border-collapse: collapse;
     padding: 10px;
-    border: 1px solid red;
   }
 `;
