@@ -105,3 +105,18 @@ export const checkUserByUserId = (inputId) => {
 			console.error(error);
 		});
 };
+
+// 유저 권한 변경용 for 관리자
+export const changeUserRole = (id, newRole) => {
+	const userRef = db.collection('user');
+
+	userRef
+		.doc(id)
+		.set({ role: newRole }, { merge: true })
+		.then(() => {
+			console.log('Document successfully written!');
+		})
+		.catch((error) => {
+			console.error('Error writing document: ', error);
+		});
+};
