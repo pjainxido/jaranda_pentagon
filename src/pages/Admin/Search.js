@@ -3,26 +3,46 @@ import styled from "styled-components";
 import { data } from "./dummy_data.json"
 
 const Searching = (category, searchInput) => {
+
 	const filterdData = data.filter((item) => item[`${category}`] === searchInput);
+	if (!filterdData) {
+		filterdData = "noresult";
+	}
+
 	return filterdData;
 }
 
 const Search = () => {
 	const [category, setCategory] = useState();
-	const [inputs, setInputs] = useState();
+	const [inputs, setInputs] = useState({
+		userInput: '',
+	});
+	const [searchedItem, setSearchedItem] = useState();
+
+	const { userInput } = inputs;
 
 	const handleOnChange = (e) => {
 		setCategory(e.target.value);
 	}
 
 	const onChange = (e) => {
-		setInputs(e.target.value);
-	}
+		const { name, value } = e.target;
+		setInputs({
+			...inputs,
+			[name]: value,
+		});
+	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		Searching(category, inputs);
-	}
+		const result = Searching(category, inputs.userInput);
+		setSearchedItem(result);
+		setInputs({
+			userInput: '',
+		});
+	};
+
+	console.log(searchedItem)
 	return (
 		<>
 			<Container>
@@ -36,7 +56,7 @@ const Search = () => {
 					<option value="creditCard">카드번호</option>
 				</Category>
 				<form onSubmit={onSubmit}>
-					<SearchBox type="search" onChange={onChange} />
+					<SearchBox type="search" name="userInput" value={userInput} onChange={onChange} />
 					<SearchBox type="submit" value="검색" />
 				</form>
 			</Container>
