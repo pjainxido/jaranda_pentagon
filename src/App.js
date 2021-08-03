@@ -1,7 +1,8 @@
 import React from "react";
+import Search from "./pages/Admin/index"
 
 function App() {
-  return <div>자란다</div>;
+  return <Search />;
 }
 
 export default App;

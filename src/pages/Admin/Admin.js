@@ -1,7 +1,8 @@
 import React from "react";
+import Search from "./Search";
 
 function Admin() {
-  return <div>Admin</div>;
+  return <Search />;
 }
 
 export default Admin;
