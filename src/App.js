@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Nav />
       <Switch>
-        <Route path="/admin-role" exact component={AdminRolePageView} />
+        <Route path="/admin/menu-role" exact component={AdminRolePageView} />
         <Route path="/" exact component={Home} />
       </Switch>
     </Router>
