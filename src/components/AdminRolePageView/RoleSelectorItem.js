@@ -1,32 +1,42 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
-const Item = styled.li`
-  display: flex;
-`
-const CheckBoxContainer = styled.div``;
-
-const RoleSelectorItem = ({ pageViewName, checkRole, checkItemChange}) => {
+const RoleSelectorItem = ({
+  pageViewName,
+  roleNameList,
+  checkRole,
+  checkItemChange,
+}) => {
   return (
-    <Item>
-      <span>{pageViewName}</span>
-      <CheckBoxContainer>
-        teacher
-        <input type='checkbox' name={pageViewName} checked={checkRole('teacher',pageViewName)} onChange={(e)=>checkItemChange(e,'teacher')}/>
-      </CheckBoxContainer>
-      <CheckBoxContainer>
-        parent
-        <input type='checkbox' name={pageViewName} checked={checkRole('parent',pageViewName)} onChange={(e)=>checkItemChange(e,'parent')}/>
-      </CheckBoxContainer>
-    </Item>
+    <Tr>
+      <PageName>{pageViewName}</PageName>
+      {roleNameList.map((role, index) => (
+        <CheckBoxContainer key={index}>
+          <CheckBox
+            type="checkbox"
+            name={pageViewName}
+            checked={checkRole(role, pageViewName)}
+            onChange={(e) => checkItemChange(e, role)}
+          />
+        </CheckBoxContainer>
+      ))}
+    </Tr>
   );
 };
 
-RoleSelectorItem.propTypes ={
+RoleSelectorItem.propTypes = {
   pageViewName: PropTypes.string,
+  roleNameList: PropTypes.array,
   checkRole: PropTypes.func,
-  checkItemChange: PropTypes.func
-}
+  checkItemChange: PropTypes.func,
+};
 
 export default RoleSelectorItem;
+
+const Tr = styled.tr``;
+const PageName = styled.td``;
+const CheckBoxContainer = styled.td``;
+const CheckBox = styled.input`
+  cursor: pointer;
+`;
