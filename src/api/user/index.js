@@ -29,3 +29,57 @@ export const createUser = ({ userId, password, role = 'parents', name, age, addr
 			console.error('Error adding document: ', error);
 		});
 };
+
+export const getAllUsers = () => {
+	return db
+		.collection('user')
+		.get()
+		.then((querySnapshot) => {
+			const result = [];
+			querySnapshot.forEach((doc) => {
+				// console.log({ ...doc.data(), id: doc.id });
+				result.push({ ...doc.data(), id: doc.id });
+			});
+			return result;
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+};
+
+export const findUserByIdAndPassword = async (inputId, inputPassword) => {
+	const usersRef = db.collection('user');
+	let hasThisUser = false;
+
+	const result = usersRef
+		.where('userId', '==', inputId)
+		.get()
+		.then((querySnapshot) => {
+			// console.log(querySnapshot);
+			if (querySnapshot.empty) {
+				return [];
+			} else {
+				const result = [];
+				querySnapshot.forEach((doc) => {
+					// doc.data() is never undefined for query doc snapshots
+					console.log({ ...doc.data(), id: doc.id });
+					result.push({ ...doc.data(), id: doc.id });
+				});
+
+				return result;
+			}
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+
+	const userData = await result;
+	// 유저가 id로 검색되는 경우
+	if (userData.length > 0) {
+		// 비밀번호도 일치하면 유저 데이터 리턴 아니면 빈 배열 리턴
+		return userData[0].password === inputPassword ? userData : [];
+	} else {
+		// id로 유저가 검색되지 않아도 빈 비열 리턴F
+		return [];
+	}
+};
