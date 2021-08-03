@@ -1,17 +1,24 @@
-import React, { useState, useRef } from "react";
+import { getAllUsers } from "api/user";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { data } from "./dummy_data.json";
 import Table from "./Table";
 
-const Searching = (category, searchInput) => {
-  let filterdData = data.filter((item) => item[`${category}`] === searchInput);
-  if (filterdData.length === 0) {
-    filterdData = "noresult";
-  }
-  return filterdData;
-};
-
 const Search = () => {
+  const [pageData, setPageData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+
+  const Searching = (category, searchInput) => {
+    let filterdData = pageData.filter(
+      (item) => item[`${category}`] === searchInput
+    );
+    if (filterdData.length === 0) {
+      filterdData = "noresult";
+    }
+    setPage(1);
+    return filterdData;
+  };
+
   const [category, setCategory] = useState();
   const [inputs, setInputs] = useState({
     userInput: "",
@@ -49,6 +56,17 @@ const Search = () => {
     setSearchedItem([]);
     selectItem.current.value = "default";
   };
+
+  useEffect(async () => {
+    try {
+      const data = await getAllUsers();
+      setPageData(data);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   return (
     <>
@@ -93,10 +111,20 @@ const Search = () => {
           searchedItem === "noresult" ? (
             <div>검색결과가 없습니다.</div>
           ) : (
-            <Table data={searchedItem} />
+            <Table
+              data={searchedItem}
+              page={page}
+              setPage={setPage}
+              loading={loading}
+            />
           )
         ) : (
-          <Table data={data} />
+          <Table
+            data={pageData}
+            page={page}
+            setPage={setPage}
+            loading={loading}
+          />
         )}
       </div>
     </>

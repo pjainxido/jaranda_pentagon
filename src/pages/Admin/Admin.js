@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import dummyData from "pages/Admin/dummy_data.json";
 import Search from "./Search";
 
 const Container = styled.div`

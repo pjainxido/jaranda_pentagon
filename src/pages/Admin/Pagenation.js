@@ -36,7 +36,7 @@ const AlertMsg = styled.div`
   color: red;
 `;
 
-function Pagenation({ page, setPage, data }) {
+function Pagenation({ page, setPage, pageData }) {
   const [pageCount, setPageCount] = useState(1);
   const [alertMessage, setAlertMessage] = useState("");
   const handlePageClick = (e) => {
@@ -44,6 +44,11 @@ function Pagenation({ page, setPage, data }) {
     setPage(Number(innerText));
     return;
   };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(pageData.length / 10); i++) {
+    pageNumbers.push(i);
+  }
 
   const handlePrevPage = () => {
     if (pageCount === 1) {
@@ -56,7 +61,7 @@ function Pagenation({ page, setPage, data }) {
   };
 
   const handleNextPage = () => {
-    const pages = Math.round(Math.floor(data.length / 10) / 10);
+    const pages = Math.round(Math.floor(pageData.length / 10) / 10);
     if (pageCount + 1 > pages) {
       setAlertMessage("마지막 페이지 입니다");
       return;
@@ -70,13 +75,13 @@ function Pagenation({ page, setPage, data }) {
     <Container>
       <div>
         <PageNextButton onClick={handlePrevPage}>PREV</PageNextButton>
-        {data.slice(10 * (pageCount - 1), 10 * pageCount).map((item) => (
+        {pageNumbers.slice(10 * (pageCount - 1), 10 * pageCount).map((item) => (
           <PageButton
-            key={item.id}
+            key={item}
             onClick={handlePageClick}
-            clickButton={page === item.id}
+            clickButton={page === item}
           >
-            {item.id}
+            {item}
           </PageButton>
         ))}
 
@@ -90,7 +95,7 @@ function Pagenation({ page, setPage, data }) {
 Pagenation.propTypes = {
   page: PropTypes.number,
   setPage: PropTypes.func,
-  data: PropTypes.array,
+  pageData: PropTypes.array,
 };
 
 export default Pagenation;

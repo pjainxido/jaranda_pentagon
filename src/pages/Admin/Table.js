@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagenation from "./Pagenation";
+import { getAllUsers } from "api/user";
 
 const Container = styled.div`
   > table {
@@ -25,10 +26,8 @@ const Container = styled.div`
   }
 `;
 
-const Table = ({ data }) => {
-  const [page, setPage] = useState(1);
-
-  if (!data) {
+const Table = ({ data, loading, page, setPage }) => {
+  if (loading) {
     return <div>loading...</div>;
   }
   return (
@@ -47,7 +46,7 @@ const Table = ({ data }) => {
         <tbody>
           {data.slice(10 * page - 10, 10 * page).map((item) => (
             <tr key={item.id}>
-              <td>{item.id}</td>
+              <td>{item.userId}</td>
               <td>{item.name}</td>
               <td>{item.role}</td>
               <td>{item.address}</td>
@@ -57,13 +56,16 @@ const Table = ({ data }) => {
           ))}
         </tbody>
       </table>
-      <Pagenation page={page} setPage={setPage} data={data} />
+      <Pagenation page={page} setPage={setPage} pageData={data} />
     </Container>
   );
 };
 
 Table.propTypes = {
   data: PropTypes.array,
+  loading: PropTypes.bool,
+  page: PropTypes.number,
+  setPage: PropTypes.func,
 };
 
 export default Table;
