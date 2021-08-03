@@ -13,17 +13,20 @@ const AdminRolePageView = () => {
 
   useEffect(async () => {
     try {
-      const allMenu = await getAllMenus(); //{id: "zmJLD9tK9tKWBDc6Kc0k" name: "parentsA"} 형태의 object array 값으로 옴
-      const roleData = await getAllRoles();
-      // {id: "J3xfehOePLqzpHhxqtwY"
-      // menus: (3) ["teacherA", "teacherB", "teacherC"]
-      // name: "teacher"}
-      // 형식의 object array로 return name이 admin인 값도 있어 find로직으로 수정 
+      const allMenu = await getAllMenus();
+      const fetchRoleData = await getAllRoles();
+
+      const roleNames = fetchRoleData.map((role) => role.name);
+      const roles = new Object();
+
+      for (const name of roleNames) {
+        if (name !== "admin") {
+          roles[name] = fetchRoleData.find((item) => item.name === name).menus;
+        }
+      }
+
       setPageViewList(allMenu.map((item) => item.name));
-      setRoleData({
-        teacher: roleData.find((item) => item.name === "teacher").menus,
-        parent: roleData.find((item) => item.name === "parents").menus,
-      });
+      setRoleData(roles);
     } catch (err) {
       console.error(err);
     }
@@ -88,7 +91,7 @@ const AdminRolePageView = () => {
       teacher pageview list
       <div>{roleData?.teacher}</div>
       parent pageview list
-      <div>{roleData?.parent}</div>
+      <div>{roleData?.parents}</div>
       <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
     </Container>
   );
