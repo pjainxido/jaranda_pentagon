@@ -15,6 +15,12 @@ const common = {
   cursor: pointer;
   border-radius: 5px;
   `,
+  input: `  
+  border: 1px solid rgba(154, 154, 154, 0.5);
+  border-radius: 5px;
+  :focus {
+    outline: none;
+  }`,
 };
 
 const theme = {
