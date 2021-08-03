@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagenation from "./Pagenation";
@@ -28,6 +28,7 @@ const Container = styled.div`
 const ROLE = ["admin", "teacher", "parent"];
 
 const Table = ({ data, loading, page, setPage }) => {
+  const [perPage, setPerPage] = useState(10);
   if (loading) {
     return <div>loading...</div>;
   }
@@ -45,7 +46,7 @@ const Table = ({ data, loading, page, setPage }) => {
           </tr>
         </thead>
         <tbody>
-          {data.slice(10 * page - 10, 10 * page).map((item) => (
+          {data.slice(perPage * page - perPage, perPage * page).map((item) => (
             <tr key={item.id}>
               <td>{item.userId}</td>
               <td>{item.name}</td>
@@ -62,7 +63,12 @@ const Table = ({ data, loading, page, setPage }) => {
           ))}
         </tbody>
       </table>
-      <Pagenation page={page} setPage={setPage} pageData={data} />
+      <Pagenation
+        page={page}
+        perPage={perPage}
+        setPage={setPage}
+        pageData={data}
+      />
     </Container>
   );
 };
