@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import dummyData from "pages/Admin/dummy_data.json";
+import Search from "./Search";
 
 const Container = styled.div`
   margin-top: 60px;
@@ -25,21 +26,11 @@ const Container = styled.div`
   }
 `;
 
-const SearchForm = styled.form`
-  display: inline-flex;
-  justify-content: flex-end;
-  width: 100%;
-  margin-bottom: 10px;
-`;
-
-function App() {
+function Admin() {
   return (
     <Container>
       <h1>유저 정보</h1>
-      <SearchForm>
-        <input placeholder="검색" />
-        <button>검색</button>
-      </SearchForm>
+      <Search />
       <table>
         <thead>
           <tr>
@@ -52,7 +43,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {dummyData.map((item) => (
+          {dummyData.data.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.userId}</td>
@@ -68,4 +59,4 @@ function App() {
   );
 }
 
-export default App;
+export default Admin;
