@@ -1,20 +1,32 @@
 import React, { useState, useEffect } from "react";
 import RoleSelectorItem from "./RoleSelectorItem";
 import styled from "styled-components";
+import { getAllMenus } from "api/menu";
+import { getAllRoles } from "api/role";
 
 const AdminRolePageView = () => {
-  const mockPageViewList = ["사자", "호랑이", "코끼리", "기린", "개", "고양이"];
-  const mockRoleData = {
-    teacher: ["사자", "고양이"],
-    parent: ["코끼리"],
-  };
   const [pageViewList, setPageViewList] = useState([]);
-  const [roleData, setRoleData] = useState({});
+  const [roleData, setRoleData] = useState({
+    teacher: [],
+    parent: [],
+  });
 
-  useEffect(() => {
-    // get pageViewlist roleData from api
-    setPageViewList(mockPageViewList);
-    setRoleData(mockRoleData);
+  useEffect(async () => {
+    try {
+      const allMenu = await getAllMenus(); //{id: "zmJLD9tK9tKWBDc6Kc0k" name: "parentsA"} 형태의 object array 값으로 옴
+      const roleData = await getAllRoles();
+      // {id: "J3xfehOePLqzpHhxqtwY"
+      // menus: (3) ["teacherA", "teacherB", "teacherC"]
+      // name: "teacher"}
+      // 형식의 object array로 return name이 admin인 값도 있어 find로직으로 수정 
+      setPageViewList(allMenu.map((item) => item.name));
+      setRoleData({
+        teacher: roleData.find((item) => item.name === "teacher").menus,
+        parent: roleData.find((item) => item.name === "parents").menus,
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   const checkRole = (role, pageViewName) => {
@@ -96,7 +108,6 @@ const ApiCallButton = styled.button`
   color: #fff;
   font-size: 13px;
 `;
-
 
 const Table = styled.table`
   border: 1px solid black;
