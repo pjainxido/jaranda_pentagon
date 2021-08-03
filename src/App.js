@@ -1,11 +1,16 @@
-import React from 'react';
-import AdminRolePageView from 'components/AdminRolePageView';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "pages/Home/Home";
+import GlobalStyles from "styles/GlobalStyles";
 
 function App() {
   return (
-    <div className='App'>
-      <AdminRolePageView/>
-    </div>
+    <Router>
+      <GlobalStyles />
+      <Switch>
+        <Route path="/" exact component={Home} />
+      </Switch>
+    </Router>
   );
 }
 
