@@ -115,108 +115,95 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
   };
 
   return (
-    <>
-      <Overlay />
-      <Container>
-        <Wrapper>
-          <Table>
-            <thead>
-              <tr>
-                <th>신용카드 정보 입력</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  카드번호
-                  {cautions[0] && <Caution>{cautions[0]}</Caution>}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  {[0, 1, 2, 3].map((i) => (
-                    <React.Fragment key={i}>
-                      <StyledInput
-                        ref={(r) => (cardNumberRefs.current[i] = r)}
-                        type='text'
-                        name={`card${i + 1}`}
-                        value={inputs[`card${i + 1}`]}
-                        maxLength='4'
-                        onChange={onChange}
-                      />
-                      {i !== 3 && <span>-</span>}
-                    </React.Fragment>
-                  ))}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  유효기간
-                  {cautions[1] && <Caution>{cautions[1]}</Caution>}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <StyledInput
-                    type='text'
-                    name='month'
-                    value={month}
-                    placeholder='월'
-                    maxLength='2'
-                    onChange={onChange}
-                  />
-                  <span>/</span>
-                  <StyledInput
-                    type='text'
-                    name='year'
-                    value={year}
-                    placeholder='년'
-                    maxLength='2'
-                    onChange={onChange}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  CVC번호
-                  {cautions[2] && <Caution>{cautions[2]}</Caution>}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <StyledInput
-                    type='text'
-                    name='cvc'
-                    value={cvc}
-                    maxLength='3'
-                    onChange={onChange}
-                  />
-                  <Hint>카드 뒷면 마지막 3자리 숫자</Hint>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <StyledButton onClick={onConfirmClick}>확인</StyledButton>
-                  <StyledButton onClick={onClose}>취소</StyledButton>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </Wrapper>
-      </Container>
-    </>
+    <Container onClick={({ target }) => !target.closest("table") && onClose()}>
+      <Wrapper>
+        <Table>
+          <thead>
+            <tr>
+              <th>신용카드 정보 입력</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                카드번호
+                {cautions[0] && <Caution>{cautions[0]}</Caution>}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                {[0, 1, 2, 3].map((i) => (
+                  <React.Fragment key={i}>
+                    <StyledInput
+                      ref={(r) => (cardNumberRefs.current[i] = r)}
+                      type='text'
+                      name={`card${i + 1}`}
+                      value={inputs[`card${i + 1}`]}
+                      maxLength='4'
+                      onChange={onChange}
+                    />
+                    {i !== 3 && <span>-</span>}
+                  </React.Fragment>
+                ))}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                유효기간
+                {cautions[1] && <Caution>{cautions[1]}</Caution>}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <StyledInput
+                  type='text'
+                  name='month'
+                  value={month}
+                  placeholder='월'
+                  maxLength='2'
+                  onChange={onChange}
+                />
+                <span>/</span>
+                <StyledInput
+                  type='text'
+                  name='year'
+                  value={year}
+                  placeholder='년'
+                  maxLength='2'
+                  onChange={onChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                CVC번호
+                {cautions[2] && <Caution>{cautions[2]}</Caution>}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <StyledInput
+                  type='text'
+                  name='cvc'
+                  value={cvc}
+                  maxLength='3'
+                  onChange={onChange}
+                />
+                <Hint>카드 뒷면 마지막 3자리 숫자</Hint>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <StyledButton onClick={onConfirmClick}>확인</StyledButton>
+                <StyledButton onClick={onClose}>취소</StyledButton>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </Wrapper>
+    </Container>
   );
 };
-
-const Overlay = styled.div`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #808080;
-  opacity: 0.5;
-`;
 
 const Container = styled.div`
   position: fixed;
@@ -224,6 +211,7 @@ const Container = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
+  background-color: rgba(80, 80, 80, 0.5);
 `;
 
 const Wrapper = styled.div`
