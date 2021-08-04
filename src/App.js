@@ -20,7 +20,6 @@ function App() {
     <Router>
       <Nav />
       <Switch>
-        <Route path="/admin/menu-role" exact component={AdminRolePageView} />
         <Route path="/" exact component={Home} />
         <Route path="/parent/teachers" component={Teachers} />
         <Route path="/parent/request" component={Request} />
@@ -36,6 +35,7 @@ function App() {
         <Route path="/teacher/teacher_visit" component={TeacherVisit} />
         <Route path="/teacher/teacher_schedule" component={TeacherSchedule} />
         <Route path="/admin" component={Admin} />
+        <Route path="/admin/menu-role" exact component={AdminRolePageView} />
       </Switch>
     </Router>
   );

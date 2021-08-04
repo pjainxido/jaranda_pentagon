@@ -16,20 +16,21 @@ const AdminRolePageView = () => {
       const allMenu = await getAllMenus();
       const fetchRoleData = await getAllRoles();
 
-      console.log(allMenu);
-      console.log(fetchRoleData);
-
-      const roleNames = fetchRoleData.map((role) => role.name);
+      const roleNames = fetchRoleData.map((role) => role.id);
       const roles = new Object();
 
-      for (const name of roleNames) {
-        if (name !== "admin") {
-          roles[name] = fetchRoleData.find((item) => item.name === name).menus;
+      for (const id of roleNames) {
+        if (id !== "admin") {
+          roles[id] = fetchRoleData
+            .find((role) => role.id === id)
+            .menu.map((el) => el.name);
         }
       }
 
-      setPageViewList(allMenu.map((item) => item.name));
+      console.log(roles);
+
       setRoleData(roles);
+      setPageViewList(allMenu.map((menu) => menu.name));
     } catch (err) {
       console.error(err);
     }
@@ -80,13 +81,13 @@ const AdminRolePageView = () => {
           </tr>
         </Thead>
         <Tbody>
-          {pageViewList.map((item, index) => (
+          {pageViewList.map((name, index) => (
             <RoleSelectorItem
-              pageViewName={item}
+              key={index}
+              pageViewName={name}
               checkRole={checkRole}
               roleNameList={roleNameList()}
               checkItemChange={checkItemChange}
-              key={index}
             />
           ))}
         </Tbody>
