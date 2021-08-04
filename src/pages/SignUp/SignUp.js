@@ -6,6 +6,8 @@ import styled from "styled-components";
 import theme from "styles/theme";
 import loginTheme from "styles/LoginTheme";
 
+import PropTypes from "prop-types";
+
 const {
   Container,
   WiderContent,
@@ -31,24 +33,25 @@ const Alert = styled.div`
   padding-bottom: 15px;
 `;
 
-function SignUp() {
+function SignUp(props) {
   const [inputs, setInputs] = useState({
     id: "",
     idConfirm: false,
     pw: "",
     pwConfirm: "",
-    pwValid: false,
-    pwConfirmValid: false,
     name: "",
     age: "",
   });
 
   const pwAlert = useRef(null);
   const pwConfirmAlert = useRef(null);
+  const pwValidCheck = useRef(false);
+  const pwConfirmCheck = useRef(false);
 
   const onChange = (e) => {
     let { value, name } = e.target;
     pwValidation(e);
+
     setInputs({
       ...inputs,
       [name]: value,
@@ -57,7 +60,6 @@ function SignUp() {
 
   const pwValidation = (e) => {
     let { value, name } = e.target;
-    let { pw } = inputs;
 
     if (name == "pw") {
       var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
@@ -66,63 +68,93 @@ function SignUp() {
       if (pwValid) {
         pwAlert.current.innerHTML = "비밀번호 양식에 맞게 입력하였습니다";
         pwAlert.current.style.color = theme.colors.green;
+        pwValidCheck.current = true;
       } else {
         pwAlert.current.innerHTML = "영문 및 숫자 포함 8 ~ 10자 작성해주세요";
         pwAlert.current.style.color = theme.colors.red;
+        pwValidCheck.current = false;
       }
     }
 
     if (name == "pwConfirm") {
-      var pwConfirmValid = pw == value;
+      var pwConfirmValid = inputs.pw == value;
 
       if (pwConfirmValid) {
         pwConfirmAlert.current.innerHTML = "비밀번호가 일치합니다";
         pwConfirmAlert.current.style.color = theme.colors.green;
+        pwConfirmCheck.current = true;
       } else {
         pwConfirmAlert.current.innerHTML = "비밀번호가 일치하지 않습니다";
         pwConfirmAlert.current.style.color = theme.colors.red;
+        pwConfirmCheck.current = false;
       }
     }
   };
 
   const checkSameId = async () => {
-    const { id } = inputs;
-    // id 있는지 없는지 확인하는 로직, 있으면 idConfirm: true 로 바꿈
-    var checked = await checkUserByUserId(id);
-    if (checked) {
-      alert("없음");
+    if (inputs.id.trim() !== "") {
+      var checked = await checkUserByUserId(inputs.id);
+      if (checked) {
+        alert("아이디로 가입할 수 있습니다");
+        setInputs({
+          ...inputs,
+          idConfirm: true,
+        });
+      } else {
+        alert("중복된 아이디입니다");
+      }
     } else {
-      alert("있음");
+      alert("아이디를 입력하세요");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(inputs);
-    validation();
+    var valid = validation();
 
-    const newUser = {
-      userId: inputs.id,
-      role: "parent",
-      password: inputs.pw,
-      name: inputs.name,
-      age: Number(inputs.age),
-      address: "임시 생성",
-    };
+    if (valid) {
+      var newUser = {
+        userId: inputs.id,
+        role: "parent",
+        password: inputs.pw,
+        name: inputs.name,
+        age: Number(inputs.age),
+        address: "",
+        creditCard: {},
+      };
+      await createUser(newUser);
 
-    console.log(newUser);
-    await createUser(newUser);
+      props.history.push("/");
+      // if (result) {
+      //   history.push("/");
+      // } else {
+      //   alert("회원가입이 실패했습니다.");
+      // }
+    }
   };
 
   const validation = () => {
-    // if (inputs.id == "") {
-    //   alert("Id alert");
-    //   return;
-    // }
-    // if (inputs.idConfirm === false) {
-    //   alert("Id Confirm");
-    //   return;
-    // }
+    if (inputs.id == "") {
+      alert("Id를 입력하세요");
+      return false;
+    }
+    if (inputs.idConfirm === false) {
+      alert("아이디 중복확인을 해주세요");
+      return false;
+    }
+    if (inputs.pw == "" || inputs.pw == undefined) {
+      alert("비밀번호를 입력하세요");
+      return false;
+    }
+    if (!pwValidCheck.current) {
+      alert("비밀번호를 양식에 맞게 입력하세요");
+      return false;
+    }
+    if (!pwConfirmCheck.current) {
+      alert("비밀번호를 확인하세요");
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -190,5 +222,10 @@ function SignUp() {
     </Container>
   );
 }
+
+SignUp.propTypes = {
+  props: PropTypes.any,
+  history: PropTypes.any,
+};
 
 export default SignUp;
