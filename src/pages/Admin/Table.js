@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
-import Modal from "./Modal";
+import Modal2 from "./Modal2";
 
 const Container = styled.div`
   > table {
@@ -33,7 +33,7 @@ const Table = ({ data, loading, page, setPage }) => {
   const [perPage, setPerPage] = useState(10);
 
   const [isShown, setIsShown] = useState(false);
-  const handleModalOpen = () => setIsShown(true);
+  const handleModal2Open = () => setIsShown(true);
 
   if (loading) {
     return <div>loading...</div>;
@@ -46,8 +46,8 @@ const Table = ({ data, loading, page, setPage }) => {
 
   return (
     <Container>
-      <button onClick={handleModalOpen}>add user</button>
-      {isShown && <Modal setIsShown={setIsShown} />}
+      <button onClick={handleModal2Open}>add user</button>
+      {isShown && <Modal2 setIsShown={setIsShown} />}
       <table>
         <thead>
           <tr>

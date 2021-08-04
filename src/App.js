@@ -13,6 +13,7 @@ import TeacherVisit from "pages/Teacher/TeacherVisit";
 import TeacherSchedule from "pages/Teacher/TeacherSchedule";
 import Home from "pages/Home/Home";
 import Admin from "pages/Admin";
+import SignUp from 'pages/Login/SignUp';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
 
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/signup" exact component={SignUp} />
         <Route path="/parent/teachers" component={Teachers} />
         <Route path="/parent/request" component={Request} />
         <Route path="/parent/request_detail" component={RequestDetail} />
