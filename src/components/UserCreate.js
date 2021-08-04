@@ -30,7 +30,8 @@ const RoleSelect = styled.select`
   padding: 0 15px;
 `;
 
-function UserCreate() {
+// eslint-disable-next-line react/prop-types
+function UserCreate({ setIsShown }) {
   const [inputs, setInputs] = useState({
     id: "",
     idConfirm: false,
@@ -78,6 +79,7 @@ function UserCreate() {
     console.log(newUser);
     await createUser(newUser);
     // }
+    setIsShown(false);
   };
 
   const validation = () => {
@@ -96,7 +98,7 @@ function UserCreate() {
   };
 
   return (
-    <Container>
+    // <Container>
       <WiderContent>
         <NarrowContent>
           <Title>계정 임의생성</Title>
@@ -139,7 +141,7 @@ function UserCreate() {
           </form>
         </NarrowContent>
       </WiderContent>
-    </Container>
+    // </Container>
   );
 }
 
