@@ -51,8 +51,16 @@ const Login = (props) => {
 
   const login = async () => {
     var result = await findUserByIdAndPassword(inputs.id, inputs.pw);
-    if (result[0]) {
-      props.history.push("/");
+    var user = result[0];
+    if (user) {
+      props.history.push({
+        pathname: "/",
+        state: {
+          id: user.userId,
+          name: user.name,
+          role: user.role,
+        },
+      });
     } else {
       alert("아이디와 비밀번호를 다시 확인하세요");
     }
