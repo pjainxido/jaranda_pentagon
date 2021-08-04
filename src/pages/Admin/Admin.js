@@ -14,11 +14,6 @@ const Container = styled.div`
     text-align: center;
     table-layout: fixed;
   }
-  > h1 {
-    text-align: center;
-    font-weight: 700;
-    font-size: 30px;
-  }
   table,
   td,
   th {
@@ -31,7 +26,6 @@ const Container = styled.div`
 function Admin() {
   return (
     <Container>
-      <h1>유저 정보</h1>
       <Search />
     </Container>
   );
