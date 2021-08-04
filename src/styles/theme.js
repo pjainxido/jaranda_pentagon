@@ -20,7 +20,6 @@ const common = {
 };
 
 const theme = {
-  size,
   colors,
   common,
 };
