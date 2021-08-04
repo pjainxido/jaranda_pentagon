@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import theme from "styles/theme";
 
 const Container = styled.div`
   width: 100%;
@@ -17,7 +18,7 @@ const ButtonStyle = styled.button`
 `;
 
 const PageNextButton = styled(ButtonStyle)`
-  border: 1px solid black;
+  border: none;
   height: 30px;
   font-size: 1rem;
   opacity: ${(props) => (props.pageNumbers >= 10 ? 1 : 0.1)};
@@ -27,9 +28,11 @@ const PageNextButton = styled(ButtonStyle)`
 const PageButton = styled(ButtonStyle)`
   width: 50px;
   border: 1px solid
-    ${(props) => (props.clickButton ? "#A5D25F" : "rgba(0, 0, 0, 0.1)")};
-  color: ${(props) => (props.clickButton ? "#A5D25F" : "black")};
+    ${(props) =>
+      props.clickButton ? theme.colors.green : "rgba(0, 0, 0, 0.1)"};
+  color: ${(props) => (props.clickButton ? theme.colors.green : "black")};
   font-size: 1.5rem;
+  border-radius: 2px;
 `;
 
 const AlertMsg = styled.div`
@@ -81,7 +84,9 @@ function Pagination({ page, perPage, setPage, pageData }) {
   return (
     <Container>
       <div>
-        <PageNextButton onClick={handlePrevPage}>PREV</PageNextButton>
+        <PageNextButton onClick={handlePrevPage}>
+          <i className="fas fa-chevron-left fa-lg" />
+        </PageNextButton>
         {pageNumbers
           .slice(perPage * (pageCount - 1), perPage * pageCount)
           .map((item) => (
@@ -95,7 +100,9 @@ function Pagination({ page, perPage, setPage, pageData }) {
             </PageButton>
           ))}
 
-        <PageNextButton onClick={handleNextPage}>NEXT</PageNextButton>
+        <PageNextButton onClick={handleNextPage}>
+          <i className="fas fa-chevron-right fa-lg" />
+        </PageNextButton>
       </div>
       {alertMessage && <AlertMsg>{alertMessage}</AlertMsg>}
     </Container>

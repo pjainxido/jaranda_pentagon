@@ -23,8 +23,8 @@ const ModalInputBox = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  height: 95%;
   border-radius: 10px;
+  padding: 10px;
 `;
 
 const ModalInput = styled.div`
@@ -32,14 +32,11 @@ const ModalInput = styled.div`
   flex-direction: column;
 `;
 
-const ModalBtnBox = styled.div`
-`;
+const ModalBtnBox = styled.div``;
 
-const ModalBtn = styled.button`
-`;
+const ModalBtn = styled.button``;
 
 function Modal2({ setIsShown }) {
-
   const handleModalClose = () => setIsShown(false);
 
   return ReactDOM.createPortal(
@@ -49,7 +46,7 @@ function Modal2({ setIsShown }) {
           <ModalBtnBox>
             <ModalBtn onClick={handleModalClose}>X</ModalBtn>
           </ModalBtnBox>
-          <UserCreate setIsShown={setIsShown}/>
+          <UserCreate setIsShown={setIsShown} />
         </ModalInput>
       </ModalInputBox>
     </ModalStyle>,

@@ -3,27 +3,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
-import Modal2 from "./Modal2";
 
 const Container = styled.div`
-  > table {
-    border: 1px solid black;
-    color: black;
+  table {
     width: 100%;
-    height: 100%;
-    max-height: 240px;
     text-align: center;
     table-layout: fixed;
-  }
-  > h1 {
-    text-align: center;
-  }
-  table,
-  td,
-  th {
-    border: 1px solid black;
-    border-collapse: collapse;
-    padding: 10px 0;
   }
 `;
 
@@ -31,9 +16,6 @@ const ROLE = ["admin", "teacher", "parent"];
 
 const Table = ({ data, loading, page, setPage }) => {
   const [perPage, setPerPage] = useState(10);
-
-  const [isShown, setIsShown] = useState(false);
-  const handleModal2Open = () => setIsShown(true);
 
   if (loading) {
     return <div>loading...</div>;
@@ -46,8 +28,6 @@ const Table = ({ data, loading, page, setPage }) => {
 
   return (
     <Container>
-      <button onClick={handleModal2Open}>add user</button>
-      {isShown && <Modal2 setIsShown={setIsShown} />}
       <table>
         <thead>
           <tr>

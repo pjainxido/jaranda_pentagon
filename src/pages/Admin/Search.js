@@ -1,6 +1,8 @@
 import { getAllUsers } from "api/user";
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import theme from "styles/theme";
+import Modal2 from "./Modal2";
 import Table from "./Table";
 
 const Search = () => {
@@ -68,44 +70,51 @@ const Search = () => {
     }
   }, []);
 
+  const [isShown, setIsShown] = useState(false);
+  const handleModal2Open = () => setIsShown(true);
+
   return (
     <>
       <Container>
-        <Category onChange={handleCategoryChange} ref={selectItem}>
-          <option value="default">선택</option>
-          <option value="userId" ref={selectItem}>
-            ID
-          </option>
-          <option value="name" ref={selectItem}>
-            이름
-          </option>
-          <option value="role" ref={selectItem}>
-            역할
-          </option>
-          <option value="address" ref={selectItem}>
-            주소
-          </option>
-          <option value="age" ref={selectItem}>
-            나이
-          </option>
-          <option value="creditCard" ref={selectItem}>
-            카드번호
-          </option>
-        </Category>
-        <form onSubmit={onSubmit}>
-          <Input
-            type="search"
-            name="userInput"
-            value={userInput}
-            onChange={handleSearchChange}
-            placeholder="검색"
-            style={{ cursor: "text" }}
-          />
-          <Input type="submit" value="검색" />
-        </form>
-        <Back>
-          <Input type="reset" onClick={clearState} value="목록" />
-        </Back>
+        <SearchBox>
+          <Category onChange={handleCategoryChange} ref={selectItem}>
+            <option value="default">선택</option>
+            <option value="userId" ref={selectItem}>
+              ID
+            </option>
+            <option value="name" ref={selectItem}>
+              이름
+            </option>
+            <option value="role" ref={selectItem}>
+              역할
+            </option>
+            <option value="address" ref={selectItem}>
+              주소
+            </option>
+            <option value="age" ref={selectItem}>
+              나이
+            </option>
+            <option value="creditCard" ref={selectItem}>
+              카드번호
+            </option>
+          </Category>
+          <form onSubmit={onSubmit}>
+            <SearchInput
+              type="search"
+              name="userInput"
+              value={userInput}
+              onChange={handleSearchChange}
+              placeholder="&#xF002; 검색"
+            />
+          </form>
+        </SearchBox>
+
+        <OptionBtnBox>
+          <input type="reset" onClick={clearState} value="목록" />
+          <button onClick={handleModal2Open}>add user</button>
+        </OptionBtnBox>
+
+        {isShown && <Modal2 setIsShown={setIsShown} />}
       </Container>
       <div>
         {searchedItem.length > 0 ? (
@@ -132,23 +141,53 @@ const Search = () => {
   );
 };
 
-const Back = styled.div`
-  position: absolute;
-  right: 20px;
-`;
-
 const Container = styled.div`
-  display: flex;
   margin-bottom: 10px;
 `;
 
 const Category = styled.select`
   color: black;
+  outline: none;
 `;
 
-const Input = styled.input`
-  color: black;
-  cursor: pointer;
+const SearchBox = styled.div`
+  display: flex;
 `;
 
+const SearchInput = styled.input`
+  ::placeholder {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    text-align: center;
+    opacity: 0.5;
+  }
+  outline: none;
+  height: 30px;
+  width: 300px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-left: 10px;
+`;
+
+const OptionBtnBox = styled.div`
+  display: flex;
+  margin-top: 10px;
+  input {
+    margin-right: 10px;
+  }
+  input,
+  button {
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+    background-color: ${theme.colors.green};
+    border-radius: 3px;
+    border: none;
+    color: white;
+    box-shadow: 2px 1px 5px 1px rgba(0, 0, 0, 0.1);
+    &:active {
+      transform: translate3d(2px, 2px, 0px);
+    }
+  }
+`;
 export default Search;
