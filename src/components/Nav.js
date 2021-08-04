@@ -1,16 +1,25 @@
+import { getAllRoles } from "api/role";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Nav() {
   const [isHover, setIsHover] = useState(false);
+  const [menuData, setMenuData] = useState("");
   const Profile = useRef(null);
+  const userRole = JSON.parse(localStorage.getItem("user")).role;
+
+  useEffect(async () => {
+    const res = await getAllRoles();
+    setMenuData(...res.filter((data) => data[userRole]));
+  }, []);
 
   const handleOutside = ({ target }) => {
     if (Profile.current === null) return;
 
     if (isHover && !Profile.current.contains(target)) {
       return setIsHover(false);
+      s;
     }
   };
 
@@ -25,22 +34,23 @@ function Nav() {
   return (
     <div>
       <Banner>
-        <img alt="앱다운로드배너" src="./image/app-download-banner.png" />
+        <img alt="앱다운로드배너" src="/image/app-download-banner.png" />
         <AppStoreLink to="/#"></AppStoreLink>
         <GooglePlayLink to="/#"></GooglePlayLink>
       </Banner>
       <NavContainer>
         <div>
           <Link to="/#">
-            <img alt="자란다로고" src="./image/jaranda.log.png"></img>
+            <img alt="자란다로고" src="/image/jaranda.log.png"></img>
           </Link>
         </div>
         <MenuWarrper>
-          {TEACHERMENU.map((menu, idx) => (
-            <Menu key={idx}>
-              <Link to={menu.route}>{menu.menu}</Link>
-            </Menu>
-          ))}
+          {menuData[userRole] &&
+            menuData[userRole].map((menu, idx) => (
+              <Menu key={idx}>
+                <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
+              </Menu>
+            ))}
 
           <PersonalMenu
             ref={Profile}
