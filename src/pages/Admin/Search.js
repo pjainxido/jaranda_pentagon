@@ -87,6 +87,10 @@ const Search = () => {
   return (
     <>
       <Container>
+        <OptionBtnBox>
+          <input type="reset" onClick={clearState} value="목록" />
+          <button onClick={handleModal2Open}>계정 생성</button>
+        </OptionBtnBox>
         <SearchBox>
           <Category onChange={handleCategoryChange} ref={selectItem}>
             <option value="default">전체</option>
@@ -119,10 +123,7 @@ const Search = () => {
             />
           </form>
         </SearchBox>
-        <OptionBtnBox>
-          <input type="reset" onClick={clearState} value="목록" />
-          <button onClick={handleModal2Open}>계정 생성</button>
-        </OptionBtnBox>
+
         {isShown && <Modal2 setIsShown={setIsShown} />}
       </Container>
       <div>
@@ -152,6 +153,7 @@ const Search = () => {
 
 const Container = styled.div`
   margin-bottom: 10px;
+  display: flex;
 `;
 
 const Category = styled.select`
@@ -183,12 +185,9 @@ const SearchInput = styled.input`
 `;
 
 const OptionBtnBox = styled.div`
-  margin-top: 10px;
-  input {
-    margin-right: 10px;
-  }
   input,
   button {
+    margin-right: 10px;
     cursor: pointer;
     width: 100px;
     height: 30px;
