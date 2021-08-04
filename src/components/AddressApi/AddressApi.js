@@ -40,6 +40,7 @@ const AddressApi = ({ inputs, setInputs }) => {
   return (
     <ModalBox onClick={handleApiModal}>
       <DaumPostcode
+        onClick={(e) => e.stopPropagation()}
         onComplete={handleComplete}
         autoClose
         width={POST_WIDTH}
