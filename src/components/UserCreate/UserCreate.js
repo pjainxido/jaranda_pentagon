@@ -3,7 +3,7 @@ import { useState } from "react";
 import { createUser, checkUserByUserId } from "api/user/index";
 
 import styled from "styled-components";
-import loginTheme from "styles/LoginTheme";
+import loginTheme from "styles/loginTheme";
 
 const {
   Container,
@@ -50,7 +50,7 @@ function UserCreate() {
   };
 
   const checkSameId = async () => {
-    var checked = await checkUserByUserId(inputs.id);
+    let checked = await checkUserByUserId(inputs.id);
     if (checked) {
       alert("아이디로 가입할 수 있습니다");
       setInputs({
@@ -64,10 +64,10 @@ function UserCreate() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var valid = validation();
+    let valid = validation();
 
     if (valid) {
-      var newUser = {
+      let newUser = {
         userId: inputs.id,
         role: inputs.role,
         password: inputs.pw,
