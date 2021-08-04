@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useState, useImperativeHandle } from "react";
-import ReactDOM from "react-dom";
+import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Toast from "./Toast";
@@ -8,52 +8,52 @@ const ToastContainer = styled.div`
   gap: 10px;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 10px;
+  right: 10px;
 `;
 
 const ID = () => {
   return "_" + Math.random().toString(36).substr(2, 9);
 };
 
-const ToastPortal = forwardRef(({ autoClose = false, autoCloseTime = 2000 }, ref) => {
-  const [toasts, setToasts] = useState([{ id: "123", mode: "info", message: "hello world?" }]);
-  const [loaded, setLoaded] = useState(false);
-  const [portalId] = useState(`toast-portal-${ID()}`);
-
-  useEffect(() => {
-    const div = document.createElement("div");
-    div.id = portalId;
-    div.style = "position: fixed; top: 10px; right: 10px";
-    document.getElementsByTagName("body")[0].prepend(div); //body의 첫번째 element에 해당 div element 적용
-    setLoaded(true);
-    return () => document.getElementsByTagName("body")[0].removeChild(div);
-  }, [portalId]);
+const ToastPortal = forwardRef(({ autoClose = true, autoCloseTime = 2000 }, ref) => {
+  // toastObject  = { id: "123", mode: "info", message: "hello world?" };
+  const [toasts, setToasts] = useState([]);
+  // const [portalId] = useState(`toast-portal-${ID()}`);
 
   const removeToast = (id) => {
     setToasts(toasts.filter((item) => item.id !== id));
   };
 
+  useEffect(()=>{
+    if(autoClose && toasts.length){
+      const targetId = toasts[toasts.length-1].id;
+      setTimeout(()=>{
+        setToasts(toasts.filter(item=>item.id!==targetId));
+      },autoCloseTime);
+    }
+
+  },[toasts])
+
   useImperativeHandle(ref, () => ({
-    addMessage(toast) {
-      setToasts([...toasts, { ...toast, id: ID() }]);
+    addMessage(inputToast) {
+      setToasts([...toasts, { ...inputToast, id: ID() }]);
     },
   }));
 
-  return loaded ? (
-    ReactDOM.createPortal(
-      <ToastContainer>
-        {toasts.map((item) => (
-          <Toast
-            key={item.id}
-            mode={item.mode}
-            message={item.message}
-            onClose={() => removeToast(item.id)}
-          />
-        ))}
-      </ToastContainer>,
-      document.getElementById(portalId)
-    )
-  ) : (
-    <></>
+  return createPortal(
+    <ToastContainer>
+      {toasts.map((item) => (
+        <Toast
+          key={item.id}
+          mode={item.mode}
+          message={item.message}
+          onClose={() => removeToast(item.id)}
+        />
+      ))}
+    </ToastContainer>,
+    document.getElementById("modal-root")
   );
 });
 
