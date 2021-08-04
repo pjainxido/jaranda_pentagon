@@ -4,7 +4,7 @@ import { createUser, checkUserByUserId } from "api/user/index";
 import AddressApi from "components/AddressApi/AddressApi";
 import styled from "styled-components";
 import theme from "styles/theme";
-import loginTheme from "styles/LoginTheme";
+import loginTheme from "styles/loginTheme";
 import { CreditCardPopup } from "components/CreditCardPopup";
 
 import PropTypes from "prop-types";
