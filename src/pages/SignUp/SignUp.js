@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
-import { createPortal } from "react-dom";
-import { createUser, checkUserByUserId } from "api/user/index";
-import AddressApi from "components/AddressApi/AddressApi";
-import styled from "styled-components";
-import theme from "styles/theme";
-import loginTheme from "styles/loginTheme";
-import { CreditCardPopup } from "components/CreditCardPopup";
-
+import React, { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { createUser, checkUserByUserId } from 'api/user/index';
+import AddressApi from 'components/AddressApi/AddressApi';
+import styled from 'styled-components';
+import theme from 'styles/theme';
+import loginTheme from 'styles/loginTheme';
+import { CreditCardPopup } from 'components/CreditCardPopup';
+import ToastPortal from 'components/common/ToastPortal';
 import PropTypes from 'prop-types';
 
 const { Container, WiderContent, NarrowContent, ButtonWrap, Title, StyledButton, BasicInput } = loginTheme;
@@ -27,6 +27,7 @@ const Alert = styled.div`
 `;
 
 function SignUp(props) {
+	const toastRef = useRef();
 	const [inputs, setInputs] = useState({
 		id: '',
 		idConfirm: false,
@@ -47,6 +48,10 @@ function SignUp(props) {
 	const pwConfirmAlert = useRef(null);
 	const pwValidCheck = useRef(false);
 	const pwConfirmCheck = useRef(false);
+
+	const addToast = (mode, message) => {
+		toastRef.current.addMessage({ mode, message });
+	};
 
 	const onChange = (e) => {
 		let { value, name } = e.target;
@@ -124,15 +129,14 @@ function SignUp(props) {
 			};
 			await createUser(newUser)
 				.then(() => {
-					// TODO : 추후 toast로 대체 필요
-					alert('회원 가입을 축하드립니다!!🥳');
+					addToast('success', '성공적으로 회원 가입하셨습니다!! 🎊');
 					props.history.replace('/');
 				})
 				.catch((error) => {
 					console.error('creating user Error: ', error);
 
-					// TODO : 추후 toast로 대체 필요
-					alert('회원 가입 시 에러가 발생하였습니다!');
+					addToast('error', '회원 가입 시 에러가 발생하였습니다 😥');
+
 					window.location.reload();
 				});
 		}
@@ -230,6 +234,7 @@ function SignUp(props) {
 					<CreditCardPopup onClose={() => setIsCreditClick(false)} saveCardInfo={setInputs} />,
 					document.getElementById('modal-root')
 				)}
+			<ToastPortal ref={toastRef} position='top-center' />
 		</Container>
 	);
 }
