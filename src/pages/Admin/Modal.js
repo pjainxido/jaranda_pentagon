@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import UserCreate from "components/UserCreate";
-import theme from "styles/theme";
 
 const ModalStyle = styled.div`
   position: fixed;
@@ -46,9 +45,7 @@ const ModalBtn = styled.button`
   background: none;
 `;
 
-function Modal2({ setIsShown }) {
-  const handleModalClose = () => setIsShown(false);
-
+function Modal({ setIsShown, handleModalClose }) {
   return ReactDOM.createPortal(
     <ModalStyle>
       <ModalInputBox>
@@ -64,8 +61,8 @@ function Modal2({ setIsShown }) {
   );
 }
 
-Modal2.propTypes = {
+Modal.propTypes = {
   setIsShown: PropTypes.func,
 };
 
-export default Modal2;
+export default Modal;

@@ -56,12 +56,12 @@ const Table = ({ data, loading, page, setPage }) => {
   }
 
   const postChange = (e) => {
-    //서버에 id, value POST
     changeUserRole(e.target.id, e.target.value);
   };
 
   return (
     <Container>
+      {console.log(data, "data")}
       <table>
         <thead>
           <tr>

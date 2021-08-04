@@ -70,6 +70,10 @@ const Search = () => {
     selectItem.current.value = "default";
   };
 
+  const [isShown, setIsShown] = useState(false);
+  const handleModalOpen = () => setIsShown(true);
+  const handleModalClose = () => setIsShown(false);
+
   useEffect(async () => {
     try {
       const data = await getAllUsers();
@@ -79,10 +83,7 @@ const Search = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
-
-  const [isShown, setIsShown] = useState(false);
-  const handleModalOpen = () => setIsShown(true);
+  }, [isShown]);
 
   return (
     <>
@@ -123,7 +124,9 @@ const Search = () => {
           <input type="reset" onClick={clearState} value="목록" />
           <button onClick={handleModalOpen}>계정 생성</button>
         </OptionBtnBox>
-        {isShown && <Modal setIsShown={setIsShown} />}
+        {isShown && (
+          <Modal handleModalClose={handleModalClose} setIsShown={setIsShown} />
+        )}
       </Container>
       <div>
         {searchedItem.length > 0 ? (
@@ -163,7 +166,7 @@ const Category = styled.select`
   opacity: 0.4;
   border-radius: 3px;
   outline: none;
-`
+`;
 
 const SearchBox = styled.div`
   display: flex;
@@ -187,7 +190,7 @@ const SearchInput = styled.input`
 const OptionBtnBox = styled.div`
   input,
   button {
-    margin-right: 10px;
+    margin-left: 10px;
     cursor: pointer;
     width: 100px;
     height: 30px;
