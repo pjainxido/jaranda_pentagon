@@ -50,11 +50,13 @@ function UserCreate() {
   };
 
   const checkSameId = async () => {
-    const { id } = inputs;
-    var checked = await checkUserByUserId(id);
+    var checked = await checkUserByUserId(inputs.id);
     if (checked) {
       alert("아이디로 가입할 수 있습니다");
-      setInputs({ idConfirm: true });
+      setInputs({
+        ...inputs,
+        idConfirm: true,
+      });
     } else {
       alert("중복된 아이디입니다");
     }
@@ -62,22 +64,20 @@ function UserCreate() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // var valid = validation();
+    var valid = validation();
 
-    // console.log(inputs);
-    // if (valid) {
-    const newUser = {
-      userId: inputs.id,
-      role: inputs.role,
-      password: inputs.pw,
-      name: inputs.name,
-      age: Number(inputs.age),
-      address: inputs.address,
-      creditCard: {},
-    };
-    console.log(newUser);
-    await createUser(newUser);
-    // }
+    if (valid) {
+      var newUser = {
+        userId: inputs.id,
+        role: inputs.role,
+        password: inputs.pw,
+        name: inputs.name,
+        age: Number(inputs.age),
+        address: inputs.address,
+        creditCard: {},
+      };
+      await createUser(newUser);
+    }
   };
 
   const validation = () => {
@@ -93,6 +93,7 @@ function UserCreate() {
       alert("비밀번호를 입력하세요");
       return false;
     }
+    return true;
   };
 
   return (
