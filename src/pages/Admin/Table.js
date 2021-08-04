@@ -7,7 +7,7 @@ import theme from "styles/theme";
 
 const Container = styled.div`
   font-family: "Font Awesome 5 Free";
-  font-weight: 600;
+  /* font-weight: 600; */
   table {
     width: 100%;
     text-align: center;
@@ -67,7 +67,7 @@ const Table = ({ data, loading, page, setPage }) => {
           <tr>
             <th>아이디</th>
             <th>이름</th>
-            <th>역할</th>
+            <th>권한</th>
             <th>주소</th>
             <th>나이</th>
             <th>카드번호</th>

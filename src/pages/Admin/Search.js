@@ -2,7 +2,7 @@ import { getAllUsers } from "api/user";
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import theme from "styles/theme";
-import Modal2 from "./Modal2";
+import Modal from "./Modal";
 import Table from "./Table";
 
 const Search = () => {
@@ -82,15 +82,11 @@ const Search = () => {
   }, []);
 
   const [isShown, setIsShown] = useState(false);
-  const handleModal2Open = () => setIsShown(true);
+  const handleModalOpen = () => setIsShown(true);
 
   return (
     <>
       <Container>
-        <OptionBtnBox>
-          <input type="reset" onClick={clearState} value="목록" />
-          <button onClick={handleModal2Open}>계정 생성</button>
-        </OptionBtnBox>
         <SearchBox>
           <Category onChange={handleCategoryChange} ref={selectItem}>
             <option value="default">전체</option>
@@ -101,7 +97,7 @@ const Search = () => {
               이름
             </option>
             <option value="role" ref={selectItem}>
-              역할
+              권한
             </option>
             <option value="address" ref={selectItem}>
               주소
@@ -123,8 +119,11 @@ const Search = () => {
             />
           </form>
         </SearchBox>
-
-        {isShown && <Modal2 setIsShown={setIsShown} />}
+        <OptionBtnBox>
+          <input type="reset" onClick={clearState} value="목록" />
+          <button onClick={handleModalOpen}>계정 생성</button>
+        </OptionBtnBox>
+        {isShown && <Modal setIsShown={setIsShown} />}
       </Container>
       <div>
         {searchedItem.length > 0 ? (
@@ -154,6 +153,7 @@ const Search = () => {
 const Container = styled.div`
   margin-bottom: 10px;
   display: flex;
+  justify-content: space-between;
 `;
 
 const Category = styled.select`

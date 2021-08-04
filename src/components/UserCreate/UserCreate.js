@@ -78,6 +78,7 @@ function UserCreate({ setIsShown }) {
         creditCard: {},
       };
       await createUser(newUser);
+      setIsShown(false);
     }
   };
 

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { createUser } from "api/user";
+import UserCreate from "components/UserCreate";
+import theme from "styles/theme";
 
 const ModalStyle = styled.div`
   position: fixed;
@@ -19,128 +20,52 @@ const ModalStyle = styled.div`
 `;
 
 const ModalInputBox = styled.div`
-  width: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border-radius: 10px;
-  padding: 10px 20px;
-  > form {
-    margin: 0 auto;
-    width: 80%;
-  }
+  padding: 10px;
 `;
 
 const ModalInput = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  input {
-    height: 30px;
-  }
+  flex-direction: column;
 `;
 
 const ModalBtnBox = styled.div`
-  padding: 0 30px;
+  text-align: right;
 `;
 
 const ModalBtn = styled.button`
-  width: 80px;
+  width: 60px;
   height: 40px;
-  margin: 0 10px;
+  color: rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 3px;
+  background: none;
 `;
 
-function Modal({ setIsShown }) {
-  const [inputs, setInputs] = useState({
-    userId: "",
-    name: "",
-    role: "",
-    address: "",
-    age: "",
-    creditCard: "",
-    password: "",
-  });
-
-  const { userId, name, role, address, age, creditCard, password } = inputs;
-
+function Modal2({ setIsShown }) {
   const handleModalClose = () => setIsShown(false);
-
-  const handleAdduser = () => {
-    createUser({ ...inputs });
-    setIsShown(false);
-    return;
-  };
-
-  const handleSearchChange = (e) => {
-    const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-
-  const handleAddUserSubmit = (e) => {
-    e.preventDefault();
-    console.log("hi");
-  };
 
   return ReactDOM.createPortal(
     <ModalStyle>
       <ModalInputBox>
-        <form onSubmit={handleAddUserSubmit}>
-          <ModalInput>
-            user_id:
-            <input name="userId" value={userId} onChange={handleSearchChange} />
-          </ModalInput>
-          <ModalInput>
-            password:
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={handleSearchChange}
-            />
-          </ModalInput>
-          <ModalInput>
-            name:
-            <input name="name" value={name} onChange={handleSearchChange} />
-          </ModalInput>
-          <ModalInput>
-            role:
-            <input name="role" value={role} onChange={handleSearchChange} />
-          </ModalInput>
-          <ModalInput>
-            address:
-            <input
-              name="address"
-              value={address}
-              onChange={handleSearchChange}
-            />
-          </ModalInput>
-          <ModalInput>
-            age:
-            <input name="age" value={age} onChange={handleSearchChange} />
-          </ModalInput>
-          <ModalInput>
-            credit_card:
-            <input
-              name="creditCard"
-              value={creditCard}
-              onChange={handleSearchChange}
-            />
-          </ModalInput>
+        <ModalInput>
           <ModalBtnBox>
-            <ModalBtn onClick={handleAdduser}>Add User</ModalBtn>
-            <ModalBtn onClick={handleModalClose}>Close</ModalBtn>
+            <ModalBtn onClick={handleModalClose}>X</ModalBtn>
           </ModalBtnBox>
-        </form>
+          <UserCreate setIsShown={setIsShown} />
+        </ModalInput>
       </ModalInputBox>
     </ModalStyle>,
     document.getElementById("modal-root")
   );
 }
 
-Modal.propTypes = {
+Modal2.propTypes = {
   setIsShown: PropTypes.func,
 };
 
-export default Modal;
+export default Modal2;
