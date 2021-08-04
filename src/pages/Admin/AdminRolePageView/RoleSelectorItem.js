@@ -3,23 +3,22 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const RoleSelectorItem = ({
-  pageViewName,
-  pageViewRoute,
-  roleNameList,
-  checkRole,
-  checkItemChange,
+  pageView,
+  getRoleNameList,
+  getCheckedRole,
+  handleRoleData,
 }) => {
   return (
     <Tr>
-      <PageName>{pageViewName}</PageName>
-      <PageName>{pageViewRoute}</PageName>
-      {roleNameList.map((role, index) => (
+      <PageName>{pageView.name}</PageName>
+      <PageName>{pageView.route}</PageName>
+      {getRoleNameList.map((role, index) => (
         <CheckBoxContainer key={index}>
           <CheckBox
             type="checkbox"
-            name={pageViewName}
-            checked={checkRole(role, pageViewName)}
-            onChange={(e) => checkItemChange(e, role)}
+            name={pageView.name}
+            checked={getCheckedRole(role, pageView)}
+            onChange={() => handleRoleData(role, pageView)}
           />
         </CheckBoxContainer>
       ))}
@@ -28,11 +27,10 @@ const RoleSelectorItem = ({
 };
 
 RoleSelectorItem.propTypes = {
-  pageViewName: PropTypes.string,
-  pageViewRoute: PropTypes.string,
-  roleNameList: PropTypes.array,
-  checkRole: PropTypes.func,
-  checkItemChange: PropTypes.func,
+  pageView: PropTypes.object,
+  getRoleNameList: PropTypes.array,
+  getCheckedRole: PropTypes.func,
+  handleRoleData: PropTypes.func,
 };
 
 export default RoleSelectorItem;

@@ -1,7 +1,3 @@
-const size = {
-  login: "500px",
-};
-
 const colors = {
   green: "#87bf44",
   lightgreen: "#dcf2b5",
@@ -25,7 +21,6 @@ const common = {
 };
 
 const theme = {
-  size,
   colors,
   common,
 };

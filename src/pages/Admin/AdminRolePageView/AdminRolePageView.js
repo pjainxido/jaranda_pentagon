@@ -19,47 +19,32 @@ const AdminRolePageView = () => {
       const roleNames = fetchRoleData.map((role) => role.id);
       const roles = new Object();
 
-      console.log("all -- ", allMenu);
-      console.log("fetch -- ", fetchRoleData);
-
       for (const id of roleNames) {
         if (id !== "admin") {
-          roles[id] = fetchRoleData
-            .find((role) => role.id === id)
-            .menu.map((el) => el.name);
+          roles[id] = fetchRoleData.find((role) => role.id === id).menu;
         }
       }
 
       setRoleData(roles);
       setPageViewList(allMenu);
-      // setPageViewList(allMenu.map((menu) => menu.name));
     } catch (err) {
       console.error(err);
     }
   }, []);
 
-  const handleRoleData = (role, isRemove, pageViewName) => {
-    if (isRemove) {
-      setRoleData((prev) => ({
-        ...prev,
-        [role]: prev[role].filter((item) => item !== pageViewName),
-      }));
-    } else {
-      setRoleData((prev) => ({
-        ...prev,
-        [role]: [...prev[role], pageViewName],
-      }));
-    }
+  const handleRoleData = (role, pageView) => {
+    const isExistAndRemove = checkRole(role, pageView);
+
+    setRoleData((prev) => ({
+      ...prev,
+      [role]: isExistAndRemove
+        ? prev[role].filter((el) => el.id !== pageView.id)
+        : [...prev[role], pageView],
+    }));
   };
 
-  const checkRole = (role, pageViewName) => {
-    return roleData[role].includes(pageViewName);
-  };
-
-  const checkItemChange = (e, role) => {
-    const pageViewName = e.target.name;
-    const isExistAndRemove = roleData[role].includes(pageViewName);
-    handleRoleData(role, isExistAndRemove, pageViewName);
+  const getCheckedRole = (role, pageView) => {
+    return roleData[role].map((el) => el.id).includes(pageView.id);
   };
 
   const submitRoleData = () => {
@@ -67,7 +52,7 @@ const AdminRolePageView = () => {
     // roleData api로 보냄
   };
 
-  const roleNameList = () => {
+  const getRoleNameList = () => {
     return Object.keys(roleData);
   };
 
@@ -78,7 +63,7 @@ const AdminRolePageView = () => {
           <tr>
             <th>메뉴명 \ 권한명</th>
             <th>경로</th>
-            {roleNameList().map((role, index) => (
+            {getRoleNameList().map((role, index) => (
               <th key={index}>{role}</th>
             ))}
           </tr>
@@ -87,11 +72,10 @@ const AdminRolePageView = () => {
           {pageViewList.map((page, index) => (
             <RoleSelectorItem
               key={index}
-              pageViewName={page.name}
-              pageViewRoute={page.route}
-              checkRole={checkRole}
-              roleNameList={roleNameList()}
-              checkItemChange={checkItemChange}
+              pageView={page}
+              getCheckedRole={getCheckedRole}
+              getRoleNameList={getRoleNameList()}
+              handleRoleData={handleRoleData}
             />
           ))}
         </Tbody>
@@ -102,7 +86,7 @@ const AdminRolePageView = () => {
           <h3>{el}</h3>
           <div>
             {roleData[el].map((role, index) => (
-              <div key={index}>{role}</div>
+              <div key={index}>{role.name}</div>
             ))}
           </div>
         </Preview>
