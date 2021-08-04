@@ -34,7 +34,7 @@ function App() {
         <Route path="/teacher/class_schedule" component={ClassSchedule} />
         <Route path="/teacher/teacher_visit" component={TeacherVisit} />
         <Route path="/teacher/teacher_schedule" component={TeacherSchedule} />
-        <Route path="/admin" component={Admin} />
+        <Route path="/admin" exact component={Admin} />
         <Route path="/admin/menu-role" exact component={AdminRolePageView} />
       </Switch>
     </Router>

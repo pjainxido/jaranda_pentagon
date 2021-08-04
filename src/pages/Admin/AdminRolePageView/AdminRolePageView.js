@@ -19,6 +19,9 @@ const AdminRolePageView = () => {
       const roleNames = fetchRoleData.map((role) => role.id);
       const roles = new Object();
 
+      console.log("all -- ", allMenu);
+      console.log("fetch -- ", fetchRoleData);
+
       for (const id of roleNames) {
         if (id !== "admin") {
           roles[id] = fetchRoleData
@@ -27,18 +30,13 @@ const AdminRolePageView = () => {
         }
       }
 
-      console.log(roles);
-
       setRoleData(roles);
-      setPageViewList(allMenu.map((menu) => menu.name));
+      setPageViewList(allMenu);
+      // setPageViewList(allMenu.map((menu) => menu.name));
     } catch (err) {
       console.error(err);
     }
   }, []);
-
-  const checkRole = (role, pageViewName) => {
-    return roleData[role].includes(pageViewName);
-  };
 
   const handleRoleData = (role, isRemove, pageViewName) => {
     if (isRemove) {
@@ -52,6 +50,10 @@ const AdminRolePageView = () => {
         [role]: [...prev[role], pageViewName],
       }));
     }
+  };
+
+  const checkRole = (role, pageViewName) => {
+    return roleData[role].includes(pageViewName);
   };
 
   const checkItemChange = (e, role) => {
@@ -75,16 +77,18 @@ const AdminRolePageView = () => {
         <Thead>
           <tr>
             <th>메뉴명 \ 권한명</th>
+            <th>경로</th>
             {roleNameList().map((role, index) => (
               <th key={index}>{role}</th>
             ))}
           </tr>
         </Thead>
         <Tbody>
-          {pageViewList.map((name, index) => (
+          {pageViewList.map((page, index) => (
             <RoleSelectorItem
               key={index}
-              pageViewName={name}
+              pageViewName={page.name}
+              pageViewRoute={page.route}
               checkRole={checkRole}
               roleNameList={roleNameList()}
               checkItemChange={checkItemChange}
@@ -92,10 +96,17 @@ const AdminRolePageView = () => {
           ))}
         </Tbody>
       </Table>
-      teacher pageview list
-      <div>{roleData?.teacher}</div>
-      parent pageview list
-      <div>{roleData?.parent}</div>
+
+      {Object.keys(roleData).map((el, index) => (
+        <Preview key={index}>
+          <h3>{el}</h3>
+          <div>
+            {roleData[el].map((role, index) => (
+              <div key={index}>{role}</div>
+            ))}
+          </div>
+        </Preview>
+      ))}
       <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
     </Container>
   );
@@ -117,27 +128,39 @@ const ApiCallButton = styled.button`
 `;
 
 const Table = styled.table`
-  border: 1px solid black;
-  color: black;
   width: 100%;
   height: 100%;
   max-height: 240px;
   text-align: center;
   table-layout: fixed;
+  border-collapse: collapse;
+  line-height: 1.5;
+  color: black;
 `;
 const Thead = styled.thead`
   th,
   td {
-    border: 1px solid black;
-    border-collapse: collapse;
+    background-color: ${({ theme }) => theme.colors.green};
+    color: white;
     padding: 10px 0;
   }
 `;
 const Tbody = styled.tbody`
   th,
   td {
-    border: 1px solid black;
-    border-collapse: collapse;
     padding: 10px;
+  }
+  tr:nth-child(even) {
+    background: #dcf2b5;
+    background: ${({ theme }) => theme.colors.lightgreen};
+  }
+`;
+
+const Preview = styled.div`
+  display: flex;
+  margin: 10px;
+
+  h3 {
+    margin-right: 10px;
   }
 `;
