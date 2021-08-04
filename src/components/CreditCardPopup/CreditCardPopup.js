@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
+import theme from "styles/theme";
+
 const CreditCardPopup = ({ onClose, saveCardInfo }) => {
   const [inputs, setInputs] = useState({
     card1: "",
@@ -134,7 +136,7 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
                 <td>
                   {[0, 1, 2, 3].map((i) => (
                     <React.Fragment key={i}>
-                      <Input
+                      <StyledInput
                         ref={(r) => (cardNumberRefs.current[i] = r)}
                         type='text'
                         name={`card${i + 1}`}
@@ -155,7 +157,7 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
               </tr>
               <tr>
                 <td>
-                  <Input
+                  <StyledInput
                     type='text'
                     name='month'
                     value={month}
@@ -164,7 +166,7 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
                     onChange={onChange}
                   />
                   <span>/</span>
-                  <Input
+                  <StyledInput
                     type='text'
                     name='year'
                     value={year}
@@ -182,7 +184,7 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
               </tr>
               <tr>
                 <td>
-                  <Input
+                  <StyledInput
                     type='text'
                     name='cvc'
                     value={cvc}
@@ -194,8 +196,8 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
               </tr>
               <tr>
                 <td>
-                  <button onClick={onConfirmClick}>확인</button>
-                  <button onClick={onClose}>취소</button>
+                  <StyledButton onClick={onConfirmClick}>확인</StyledButton>
+                  <StyledButton onClick={onClose}>취소</StyledButton>
                 </td>
               </tr>
             </tbody>
@@ -238,7 +240,7 @@ const Table = styled.table`
   & > :first-child > tr > th {
     font-size: 18px;
     font-weight: 600;
-    padding: 30px 0;
+    padding: 30px;
     text-align: center;
   }
 
@@ -256,7 +258,9 @@ const Table = styled.table`
   }
 
   & > tbody > :last-child > td :first-child {
-    margin-right: 30px;
+    margin-right: 20px;
+    background-color: ${theme.colors.blue};
+    color: #fff;
   }
 `;
 
@@ -270,8 +274,21 @@ const Caution = styled.span`
   color: red;
 `;
 
-const Input = styled.input`
+const StyledInput = styled.input`
+  ${theme.common.input}
   width: 70px;
+  padding: 10px 0 10px 10px;
+
+  :focus {
+    color: ${({ theme }) => theme.colors.blue};
+    background-color: rgba(0, 133, 253, 0.1);
+    border: 0.5px solid ${({ theme }) => theme.colors.blue};
+  }
+`;
+
+const StyledButton = styled.button`
+  ${theme.common.button}
+  padding: 10px 30px;
 `;
 
 CreditCardPopup.propTypes = {
