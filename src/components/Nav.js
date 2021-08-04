@@ -6,10 +6,13 @@ import styled from "styled-components";
 function Nav() {
   const [isHover, setIsHover] = useState(false);
   const [menuData, setMenuData] = useState("");
+  const [userRole, setUserRole] = useState("");
   const Profile = useRef(null);
-  const userRole = JSON.parse(localStorage.getItem("user")).role;
 
   useEffect(async () => {
+    if (JSON.parse(localStorage.getItem("user"))) {
+      setUserRole(JSON.parse(localStorage.getItem("user")).role);
+    }
     const res = await getAllRoles();
     setMenuData(...res.filter((data) => data[userRole]));
   }, []);
@@ -45,7 +48,7 @@ function Nav() {
           </Link>
         </div>
         <MenuWarrper>
-          {menuData[userRole] &&
+          {userRole &&
             menuData[userRole].map((menu, idx) => (
               <Menu key={idx}>
                 <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
