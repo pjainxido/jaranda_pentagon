@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useRef } from "react";
 import { createUser, checkUserByUserId } from "api/user/index";
-
+import AddressApi from "components/AddressApi/AddressApi";
 import styled from "styled-components";
 import theme from "styles/theme";
 import loginTheme from "styles/LoginTheme";
@@ -42,6 +42,7 @@ function SignUp() {
     name: "",
     age: "",
     address: "",
+    isDaumPost: false,
   });
 
   const pwAlert = useRef(null);
@@ -126,6 +127,28 @@ function SignUp() {
     // }
   };
 
+  const handlePostModal = () => {
+    setInputs({ ...inputs, isDaumPost: true });
+  };
+
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    console.log(fullAddress);
+  };
+
   return (
     <Container>
       <WiderContent>
@@ -174,7 +197,8 @@ function SignUp() {
           ></StyledInput>
           <ButtonWrap>
             <StyledInput readOnly placeholder="주소"></StyledInput>
-            <StyledButton>주소 검색</StyledButton>
+            <StyledButton onClick={handlePostModal}>주소 검색</StyledButton>
+            {inputs.isDaumPost && <AddressApi />}
           </ButtonWrap>
           <StyledInput readOnly placeholder="상세 주소"></StyledInput>
           <ButtonWrap style={{ marginBottom: 30 }}>

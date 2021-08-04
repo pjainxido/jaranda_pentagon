@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Nav from "components/Nav";
+import Nav from "components/Nav/Nav";
 import Teachers from "pages/Parent/Teachers";
 import Request from "pages/Parent/Request";
 import RequestDetail from "pages/Parent/RequestDetail";
