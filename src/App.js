@@ -4,10 +4,10 @@ import Nav from "components/Nav";
 import Teachers from "pages/Parent/Teachers";
 import Request from "pages/Parent/Request";
 import RequestDetail from "pages/Parent/RequestDetail";
-import VisitSchedule from "pages/Parent/ VisitSchedule";
+import VisitSchedule from "pages/Parent/VisitSchedule";
 import VisitLog from "pages/Parent/VisitLog";
 import ClassRecommendation from "pages/Teacher/ClassRecommendation";
-import ClassSupport from "pages/Teacher/ ClassSupport";
+import ClassSupport from "pages/Teacher/ClassSupport";
 import ClassSchedule from "pages/Teacher/ClassSchedule";
 import TeacherVisit from "pages/Teacher/TeacherVisit";
 import TeacherSchedule from "pages/Teacher/TeacherSchedule";
@@ -34,6 +34,7 @@ function App() {
         <Route path="/teacher/class_schedule" component={ClassSchedule} />
         <Route path="/teacher/teacher_visit" component={TeacherVisit} />
         <Route path="/teacher/teacher_schedule" component={TeacherSchedule} />
+        <Route path="/admin" component={Admin} />
       </Switch>
     </Router>
   );
