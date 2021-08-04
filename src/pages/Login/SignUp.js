@@ -41,6 +41,7 @@ function SignUp() {
     pwConfirmValid: false,
     name: "",
     age: "",
+    address: "",
   });
 
   const pwAlert = useRef(null);
