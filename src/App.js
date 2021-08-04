@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from "components/Nav";
 import Home from "pages/Home/Home";
-import AdminRolePageView from "components/AdminRolePageView";
+import AdminRolePageView from "pages/Admin/AdminRolePageView";
 
 function App() {
   return (

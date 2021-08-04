@@ -16,6 +16,9 @@ const AdminRolePageView = () => {
       const allMenu = await getAllMenus();
       const fetchRoleData = await getAllRoles();
 
+      console.log(allMenu);
+      console.log(fetchRoleData);
+
       const roleNames = fetchRoleData.map((role) => role.name);
       const roles = new Object();
 
