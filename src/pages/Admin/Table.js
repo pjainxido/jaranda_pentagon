@@ -6,6 +6,8 @@ import Pagination from "./Pagination";
 import theme from "styles/theme";
 
 const Container = styled.div`
+  font-family: "Font Awesome 5 Free";
+  /* font-weight: 600; */
   table {
     width: 100%;
     text-align: center;
@@ -34,6 +36,14 @@ const Container = styled.div`
       background-color: ${theme.colors.lightgreen};
     }
   }
+  select {
+    text-align: center;
+    padding: 2px;
+    border-radius: 3px;
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.2);
+    /* opacity: 0.4; */
+  }
 `;
 
 const ROLE = ["admin", "teacher", "parent"];
@@ -57,7 +67,7 @@ const Table = ({ data, loading, page, setPage }) => {
           <tr>
             <th>아이디</th>
             <th>이름</th>
-            <th>역할</th>
+            <th>권한</th>
             <th>주소</th>
             <th>나이</th>
             <th>카드번호</th>
