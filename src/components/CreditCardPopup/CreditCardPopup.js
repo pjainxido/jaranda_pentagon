@@ -13,12 +13,20 @@ const CreditCardPopup = ({ onClose }) => {
     cvc: "",
   });
 
+  const [cautions, setCautions] = useState({
+    0: "",
+    1: "",
+    2: "",
+  });
+
   const cardNumberRefs = useRef([]);
 
   const { month, year, cvc } = inputs;
 
   const onChange = (e) => {
-    const { value, name } = e.target;
+    let { value, name } = e.target;
+    value = value.replace(/[^0-9]/g, "");
+
     const idx = cardNumberRefs.current.findIndex((ref) => ref === e.target);
 
     if (idx !== -1 && idx !== 3 && value.length === 4) {
@@ -27,13 +35,77 @@ const CreditCardPopup = ({ onClose }) => {
 
     setInputs({
       ...inputs,
-      [name]: value.replace(/[^0-9]/g, ""),
+      [name]: value,
     });
   };
 
-  // 월 00 및 12 이상 검사, 빈칸 검사
+  const cardNumberValidation = () => {
+    if (
+      cardNumberRefs.current.findIndex(({ value }) => value.length !== 4) !== -1
+    ) {
+      setCautions((prev) => {
+        return { ...prev, 0: "카드번호를 확인하세요" };
+      });
+      return false;
+    }
+
+    setCautions((prev) => {
+      return { ...prev, 0: "" };
+    });
+
+    return true;
+  };
+
+  const effectiveDateValidation = () => {
+    if (month.length === 0 || year.length === 0) {
+      setCautions((prev) => {
+        return { ...prev, 1: "유효기간을 확인하세요" };
+      });
+      return false;
+    }
+
+    if (month <= 0 || month > 12) {
+      setCautions((prev) => {
+        return { ...prev, 1: "월은 1 ~ 12 사이의 값만 가능합니다" };
+      });
+      return false;
+    }
+
+    setCautions((prev) => {
+      return { ...prev, 1: "" };
+    });
+
+    return true;
+  };
+
+  const CVCValidation = () => {
+    if (cvc.length !== 3) {
+      setCautions((prev) => {
+        return { ...prev, 2: "CVC번호를 확인하세요" };
+      });
+      return false;
+    }
+
+    setCautions((prev) => {
+      return { ...prev, 2: "" };
+    });
+
+    return true;
+  };
+
+  const format = (n) => (n.length === 1 ? `0${n}` : n);
+
   const onConfirmClick = () => {
-    // .current.focus();
+    let result = cardNumberValidation();
+    result &= effectiveDateValidation();
+    result &= CVCValidation();
+
+    if (result) {
+      console.log(format(month));
+      console.log(format(year));
+      console.log(cvc);
+      onClose();
+    }
   };
 
   return (
@@ -49,7 +121,10 @@ const CreditCardPopup = ({ onClose }) => {
             </thead>
             <tbody>
               <tr>
-                <td>카드번호</td>
+                <td>
+                  카드번호
+                  {cautions[0] && <Caution>{cautions[0]}</Caution>}
+                </td>
               </tr>
               <tr>
                 <td>
@@ -69,7 +144,10 @@ const CreditCardPopup = ({ onClose }) => {
                 </td>
               </tr>
               <tr>
-                <td>유효기간</td>
+                <td>
+                  유효기간
+                  {cautions[1] && <Caution>{cautions[1]}</Caution>}
+                </td>
               </tr>
               <tr>
                 <td>
@@ -93,7 +171,10 @@ const CreditCardPopup = ({ onClose }) => {
                 </td>
               </tr>
               <tr>
-                <td>CVC 번호</td>
+                <td>
+                  CVC번호
+                  {cautions[2] && <Caution>{cautions[2]}</Caution>}
+                </td>
               </tr>
               <tr>
                 <td>
@@ -178,6 +259,11 @@ const Table = styled.table`
 const Hint = styled.span`
   font-size: 13px;
   color: #808080;
+`;
+
+const Caution = styled.span`
+  font-size: 14px;
+  color: red;
 `;
 
 const Input = styled.input`
