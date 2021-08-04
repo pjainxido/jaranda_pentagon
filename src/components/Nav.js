@@ -34,21 +34,21 @@ function Nav() {
   return (
     <div>
       <Banner>
-        <img alt="앱다운로드배너" src="./image/app-download-banner.png" />
+        <img alt="앱다운로드배너" src="/image/app-download-banner.png" />
         <AppStoreLink to="/#"></AppStoreLink>
         <GooglePlayLink to="/#"></GooglePlayLink>
       </Banner>
       <NavContainer>
         <div>
           <Link to="/#">
-            <img alt="자란다로고" src="./image/jaranda.log.png"></img>
+            <img alt="자란다로고" src="/image/jaranda.log.png"></img>
           </Link>
         </div>
         <MenuWarrper>
           {menuData[userRole] &&
             menuData[userRole].map((menu, idx) => (
               <Menu key={idx}>
-                <Link to={menu.route}>{menu.name}</Link>
+                <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
               </Menu>
             ))}
 
