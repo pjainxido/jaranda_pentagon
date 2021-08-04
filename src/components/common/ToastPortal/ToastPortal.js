@@ -9,32 +9,38 @@ const ToastContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 10px;
-  right: 10px;
+  top: ${(props)=> props.top}px;
+  right: ${(props)=> props.right}px;
 `;
 
 const ID = () => {
   return "_" + Math.random().toString(36).substr(2, 9);
 };
 
-const ToastPortal = forwardRef(({ autoClose = true, autoCloseTime = 2000 }, ref) => {
+const ToastPortal = forwardRef(({ autoClose = true, autoCloseTime = 2000, top = 10, right = 10 }, ref) => {
   // toastObject  = { id: "123", mode: "info", message: "hello world?" };
   const [toasts, setToasts] = useState([]);
+  const [removing, setRemoving] = useState("");
   // const [portalId] = useState(`toast-portal-${ID()}`);
 
   const removeToast = (id) => {
     setToasts(toasts.filter((item) => item.id !== id));
   };
 
-  useEffect(()=>{
-    if(autoClose && toasts.length){
-      const targetId = toasts[toasts.length-1].id;
-      setTimeout(()=>{
-        setToasts(toasts.filter(item=>item.id!==targetId));
-      },autoCloseTime);
+  useEffect(() => {
+    if (removing) {
+      setToasts((item) => item.filter((toast) => toast.id !== removing));
     }
+  }, [removing]);
 
-  },[toasts])
+  useEffect(() => {
+    if (autoClose && toasts.length) {
+      const targetId = toasts[toasts.length - 1].id;
+      setTimeout(() => {
+        setRemoving(targetId);
+      }, autoCloseTime);
+    }
+  }, [toasts]);
 
   useImperativeHandle(ref, () => ({
     addMessage(inputToast) {
@@ -43,7 +49,7 @@ const ToastPortal = forwardRef(({ autoClose = true, autoCloseTime = 2000 }, ref)
   }));
 
   return createPortal(
-    <ToastContainer>
+    <ToastContainer top={top} right={right}>
       {toasts.map((item) => (
         <Toast
           key={item.id}
@@ -60,6 +66,8 @@ const ToastPortal = forwardRef(({ autoClose = true, autoCloseTime = 2000 }, ref)
 ToastPortal.propTypes = {
   autoClose: PropTypes.bool,
   autoCloseTime: PropTypes.number,
+  top: PropTypes.number,
+  right: PropTypes.number
 };
 
 ToastPortal.displayName = "ToastPortal"; //  Component definition is missing display name lint error 때문에 추가
