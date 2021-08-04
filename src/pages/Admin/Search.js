@@ -80,7 +80,7 @@ const Search = () => {
           <Category onChange={handleCategoryChange} ref={selectItem}>
             <option value="default">선택</option>
             <option value="userId" ref={selectItem}>
-              ID
+              아이디
             </option>
             <option value="name" ref={selectItem}>
               이름
@@ -111,7 +111,7 @@ const Search = () => {
 
         <OptionBtnBox>
           <input type="reset" onClick={clearState} value="목록" />
-          <button onClick={handleModal2Open}>add user</button>
+          <button onClick={handleModal2Open}>계정 생성</button>
         </OptionBtnBox>
 
         {isShown && <Modal2 setIsShown={setIsShown} />}

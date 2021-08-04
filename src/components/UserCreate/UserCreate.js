@@ -51,11 +51,13 @@ function UserCreate({ setIsShown }) {
   };
 
   const checkSameId = async () => {
-    const { id } = inputs;
-    var checked = await checkUserByUserId(id);
+    var checked = await checkUserByUserId(inputs.id);
     if (checked) {
       alert("아이디로 가입할 수 있습니다");
-      setInputs({ idConfirm: true });
+      setInputs({
+        ...inputs,
+        idConfirm: true,
+      });
     } else {
       alert("중복된 아이디입니다");
     }
@@ -63,23 +65,20 @@ function UserCreate({ setIsShown }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // var valid = validation();
+    var valid = validation();
 
-    // console.log(inputs);
-    // if (valid) {
-    const newUser = {
-      userId: inputs.id,
-      role: inputs.role,
-      password: inputs.pw,
-      name: inputs.name,
-      age: Number(inputs.age),
-      address: inputs.address,
-      creditCard: {},
-    };
-    console.log(newUser);
-    await createUser(newUser);
-    // }
-    setIsShown(false);
+    if (valid) {
+      var newUser = {
+        userId: inputs.id,
+        role: inputs.role,
+        password: inputs.pw,
+        name: inputs.name,
+        age: Number(inputs.age),
+        address: inputs.address,
+        creditCard: {},
+      };
+      await createUser(newUser);
+    }
   };
 
   const validation = () => {
@@ -95,52 +94,53 @@ function UserCreate({ setIsShown }) {
       alert("비밀번호를 입력하세요");
       return false;
     }
+    return true;
   };
 
   return (
     // <Container>
-      <WiderContent>
-        <NarrowContent>
-          <Title>계정 임의생성</Title>
-          <ButtonWrap>
-            <StyledInput
-              placeholder="아이디"
-              name="id"
-              value={inputs.id}
-              onChange={onChange}
-            ></StyledInput>
-            <StyledButton onClick={checkSameId}>아이디 중복확인</StyledButton>
-          </ButtonWrap>
+    <WiderContent>
+      <NarrowContent>
+        <Title>계정 임의생성</Title>
+        <ButtonWrap>
           <StyledInput
-            placeholder="비밀번호"
-            name="pw"
-            value={inputs.pw}
+            placeholder="아이디"
+            name="id"
+            value={inputs.id}
             onChange={onChange}
           ></StyledInput>
-          <StyledInput
-            placeholder="이름"
-            name="name"
-            value={inputs.name}
-            onChange={onChange}
-          ></StyledInput>
-          <StyledInput
-            placeholder="나이"
-            name="age"
-            value={inputs.age}
-            onChange={onChange}
-          ></StyledInput>
-          <RoleSelect name="role" onChange={onChange} value={inputs.role}>
-            <option value="parent">부모님</option>
-            <option value="teacher">선생님</option>
-          </RoleSelect>
-          <StyledInput placeholder="주소"></StyledInput>
-          <form onSubmit={handleSubmit}>
-            <StyledButton type="submit" style={{ width: "100%" }}>
-              계정생성
-            </StyledButton>
-          </form>
-        </NarrowContent>
-      </WiderContent>
+          <StyledButton onClick={checkSameId}>아이디 중복확인</StyledButton>
+        </ButtonWrap>
+        <StyledInput
+          placeholder="비밀번호"
+          name="pw"
+          value={inputs.pw}
+          onChange={onChange}
+        ></StyledInput>
+        <StyledInput
+          placeholder="이름"
+          name="name"
+          value={inputs.name}
+          onChange={onChange}
+        ></StyledInput>
+        <StyledInput
+          placeholder="나이"
+          name="age"
+          value={inputs.age}
+          onChange={onChange}
+        ></StyledInput>
+        <RoleSelect name="role" onChange={onChange} value={inputs.role}>
+          <option value="parent">부모님</option>
+          <option value="teacher">선생님</option>
+        </RoleSelect>
+        <StyledInput placeholder="주소"></StyledInput>
+        <form onSubmit={handleSubmit}>
+          <StyledButton type="submit" style={{ width: "100%" }}>
+            계정생성
+          </StyledButton>
+        </form>
+      </NarrowContent>
+    </WiderContent>
     // </Container>
   );
 }

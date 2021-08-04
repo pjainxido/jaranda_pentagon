@@ -3,12 +3,33 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
+import theme from "styles/theme";
 
 const Container = styled.div`
   table {
     width: 100%;
     text-align: center;
     table-layout: fixed;
+    border: 1px solid white;
+  }
+  thead {
+    tr {
+      background-color: ${theme.colors.green};
+      color: white;
+      th {
+        border: none;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        border: none;
+      }
+    }
+    tr:nth-child(2n) {
+      background-color: ${theme.colors.lightgreen};
+    }
   }
 `;
 
@@ -31,12 +52,12 @@ const Table = ({ data, loading, page, setPage }) => {
       <table>
         <thead>
           <tr>
-            <th>user_id</th>
-            <th>name</th>
-            <th>role</th>
-            <th>address</th>
-            <th>age</th>
-            <th>credit_card</th>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>역할</th>
+            <th>주소</th>
+            <th>나이</th>
+            <th>카드번호</th>
           </tr>
         </thead>
         <tbody>
