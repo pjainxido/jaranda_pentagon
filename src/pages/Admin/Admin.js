@@ -16,6 +16,8 @@ const Container = styled.div`
   }
   > h1 {
     text-align: center;
+    font-weight: 700;
+    font-size: 30px;
   }
   table,
   td,

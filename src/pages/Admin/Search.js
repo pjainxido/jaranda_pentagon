@@ -16,11 +16,9 @@ const Search = () => {
     if (category === undefined) {
       let tmpArr = new Array();
       for (let i = 0; i < pageData.length; i++) {
-        Object.values(pageData[i]).includes(searchInput) ? tmpArr.push(i) : '';
+        Object.values(pageData[i]).includes(searchInput) ? tmpArr.push(i) : "";
       }
-      filteredData = pageData.filter(
-        (item, index) => tmpArr.includes(index)
-      );
+      filteredData = pageData.filter((item, index) => tmpArr.includes(index));
     } else {
       filteredData = pageData.filter(
         (item) => item[`${category}`] === searchInput
@@ -32,7 +30,6 @@ const Search = () => {
     }
     setPage(1);
     return filteredData;
-
   };
 
   const [category, setCategory] = useState();
@@ -122,12 +119,10 @@ const Search = () => {
             />
           </form>
         </SearchBox>
-
         <OptionBtnBox>
           <input type="reset" onClick={clearState} value="목록" />
           <button onClick={handleModal2Open}>계정 생성</button>
         </OptionBtnBox>
-
         {isShown && <Modal2 setIsShown={setIsShown} />}
       </Container>
       <div>
@@ -162,6 +157,7 @@ const Container = styled.div`
 const Category = styled.select`
   color: black;
   outline: none;
+  border-radius: 3px;
 `;
 
 const SearchBox = styled.div`
@@ -184,7 +180,6 @@ const SearchInput = styled.input`
 `;
 
 const OptionBtnBox = styled.div`
-  display: flex;
   margin-top: 10px;
   input {
     margin-right: 10px;

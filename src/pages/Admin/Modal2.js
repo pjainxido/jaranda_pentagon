@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import UserCreate from "components/UserCreate";
+import theme from "styles/theme";
 
 const ModalStyle = styled.div`
   position: fixed;
@@ -32,9 +33,18 @@ const ModalInput = styled.div`
   flex-direction: column;
 `;
 
-const ModalBtnBox = styled.div``;
+const ModalBtnBox = styled.div`
+  text-align: right;
+`;
 
-const ModalBtn = styled.button``;
+const ModalBtn = styled.button`
+  width: 60px;
+  height: 40px;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  background-color: ${theme.colors.red};
+`;
 
 function Modal2({ setIsShown }) {
   const handleModalClose = () => setIsShown(false);
@@ -44,7 +54,7 @@ function Modal2({ setIsShown }) {
       <ModalInputBox>
         <ModalInput>
           <ModalBtnBox>
-            <ModalBtn onClick={handleModalClose}>X</ModalBtn>
+            <ModalBtn onClick={handleModalClose}>닫기</ModalBtn>
           </ModalBtnBox>
           <UserCreate setIsShown={setIsShown} />
         </ModalInput>

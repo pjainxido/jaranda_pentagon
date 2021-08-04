@@ -22,7 +22,6 @@ function Nav() {
 
     if (isHover && !Profile.current.contains(target)) {
       return setIsHover(false);
-      s;
     }
   };
 

@@ -29,8 +29,9 @@ const PageButton = styled(ButtonStyle)`
   width: 50px;
   border: 1px solid
     ${(props) =>
-      props.clickButton ? theme.colors.green : "rgba(0, 0, 0, 0.1)"};
-  color: ${(props) => (props.clickButton ? theme.colors.green : "black")};
+      props.clickButton ? theme.colors.green : "rgba(0, 0, 0, 0.2)"};
+  color: ${(props) =>
+    props.clickButton ? theme.colors.green : "rgba(0, 0, 0, 0.2)"};
   font-size: 1.5rem;
   border-radius: 2px;
 `;

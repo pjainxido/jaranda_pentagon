@@ -10,7 +10,10 @@ const Container = styled.div`
     width: 100%;
     text-align: center;
     table-layout: fixed;
-    border: 1px solid white;
+    border-collapse: initial !important;
+    border-radius: 3px;
+    padding: 0 !important;
+    border: 1px solid ${theme.colors.green} !important;
   }
   thead {
     tr {
