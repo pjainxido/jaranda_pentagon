@@ -91,7 +91,7 @@ const AdminRolePageView = () => {
       teacher pageview list
       <div>{roleData?.teacher}</div>
       parent pageview list
-      <div>{roleData?.parents}</div>
+      <div>{roleData?.parent}</div>
       <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
     </Container>
   );
