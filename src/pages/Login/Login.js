@@ -1,43 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import loginTheme from "styles/LoginTheme";
+import { findUserByIdAndPassword } from "api/user";
 
-const Container = styled.div`
-  padding: 130px 0;
-`;
+const {
+  Container,
+  WiderContent,
+  NarrowContent,
+  Title,
+  StyledButton,
+  BasicInput,
+} = loginTheme;
 
-const WiderContent = styled.div`
-  margin: 96px 0 128px 0;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin: 0 auto;
-`;
-
-const NarrowContent = styled.div`
-  width: 500px;
-  margin: 48px 0;
-  padding: 0 15px;
-  text-align: center;
-  > input {
-    width: 100%;
-  }
-  > button {
-    width: 100%;
-  }
-`;
-
-const Title = styled.div`
-  font-size: 24px;
-  margin-bottom: 48px;
-`;
-
-const StyledInput = styled.input`
-  ${({ theme }) => theme.common.input}
-  box-sizing: border-box;
-  background-color: #fff;
-  padding: 0 15px;
-  height: 52px;
-  margin-bottom: 16px;
+const StyledInput = styled(BasicInput)`
   outline-color: #87bf44;
 
   :focus,
@@ -46,15 +22,6 @@ const StyledInput = styled.input`
     background-color: rgba(165, 210, 95, 0.1);
     border: solid 1px #a5d25f;
   }
-`;
-
-const StyledButton = styled.button`
-  ${({ theme }) => theme.common.button}
-  height: 52px;
-  background-color: ${({ theme }) => theme.colors.blue};
-  color: #fff;
-  font-size: 13px;
-  line-height: 48px;
 `;
 
 const GreenButton = styled(StyledButton)`
@@ -68,21 +35,73 @@ const Divider = styled.div`
   width: 100%;
 `;
 
-const Login = () => {
+const Login = (props) => {
+  const [inputs, setInputs] = useState({
+    id: "",
+    pw: "",
+  });
+
+  const onChange = (e) => {
+    let { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const login = async () => {
+    var result = await findUserByIdAndPassword(inputs.id, inputs.pw);
+    var user = result[0];
+    if (user) {
+      props.history.push({
+        pathname: "/",
+        state: {
+          id: user.userId,
+          name: user.name,
+          role: user.role,
+        },
+      });
+    } else {
+      alert("아이디와 비밀번호를 다시 확인하세요");
+    }
+  };
+
   return (
     <Container>
       <WiderContent>
         <NarrowContent>
           <Title>자란다 로그인</Title>
-          <StyledInput placeholder='아이디' style={{ marginBottom: 15 }} />
-          <StyledInput placeholder='비밀번호' style={{ marginBottom: 15 }} />
-          <GreenButton>로그인</GreenButton>
+          <StyledInput
+            placeholder="아이디"
+            name="id"
+            onChange={onChange}
+            value={inputs.id}
+          />
+          <StyledInput
+            placeholder="비밀번호"
+            type="password"
+            name="pw"
+            onChange={onChange}
+            value={inputs.pw}
+          />
+          <GreenButton onClick={login}>로그인</GreenButton>
           <Divider />
-          <StyledButton>회원가입</StyledButton>
+          <StyledButton
+            onClick={() => {
+              props.history.push("/signup");
+            }}
+          >
+            회원가입
+          </StyledButton>
         </NarrowContent>
       </WiderContent>
     </Container>
   );
+};
+
+Login.propTypes = {
+  props: PropTypes.any,
+  history: PropTypes.any,
 };
 
 export default Login;
