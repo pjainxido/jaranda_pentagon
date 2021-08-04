@@ -11,14 +11,28 @@ const Search = () => {
   const [page, setPage] = useState(1);
 
   const Searching = (category, searchInput) => {
-    let filterdData = pageData.filter(
-      (item) => item[`${category}`] === searchInput
-    );
-    if (filterdData.length === 0) {
-      filterdData = "noresult";
+    let filteredData = "";
+
+    if (category === undefined) {
+      let tmpArr = new Array();
+      for (let i = 0; i < pageData.length; i++) {
+        Object.values(pageData[i]).includes(searchInput) ? tmpArr.push(i) : '';
+      }
+      filteredData = pageData.filter(
+        (item, index) => tmpArr.includes(index)
+      );
+    } else {
+      filteredData = pageData.filter(
+        (item) => item[`${category}`] === searchInput
+      );
+    }
+
+    if (filteredData.length === 0) {
+      filteredData = "noresult";
     }
     setPage(1);
-    return filterdData;
+    return filteredData;
+
   };
 
   const [category, setCategory] = useState();
@@ -78,7 +92,7 @@ const Search = () => {
       <Container>
         <SearchBox>
           <Category onChange={handleCategoryChange} ref={selectItem}>
-            <option value="default">선택</option>
+            <option value="default">전체</option>
             <option value="userId" ref={selectItem}>
               ID
             </option>
