@@ -2,6 +2,7 @@ import { getAllRoles } from "api/role";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import reset from "styled-reset";
 
 function Nav() {
   const [isHover, setIsHover] = useState(false);
@@ -14,15 +15,15 @@ function Nav() {
       setUserRole(JSON.parse(localStorage.getItem("user")).role);
     }
     const res = await getAllRoles();
-    setMenuData(...res.filter((data) => data[userRole]));
+
+    setMenuData(...res.filter((data) => data.id === userRole));
   }, []);
 
   const handleOutside = ({ target }) => {
     if (Profile.current === null) return;
 
-    if (isHover && !Profile.current.contains(target)) {
+    if (isHover && Profile.current.contains(target)) {
       return setIsHover(false);
-      s;
     }
   };
 
@@ -48,8 +49,8 @@ function Nav() {
           </Link>
         </div>
         <MenuWarrper>
-          {userRole &&
-            menuData[userRole].map((menu, idx) => (
+          {menuData &&
+            menuData.menu.map((menu, idx) => (
               <Menu key={idx}>
                 <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
               </Menu>
@@ -57,8 +58,8 @@ function Nav() {
 
           <PersonalMenu
             ref={Profile}
-            onMouseOver={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
+            // onMouseOver={() => setIsHover(true)}
+            // onMouseLeave={() => setIsHover(false)}
           >
             <i className="far fa-user-circle" />
             <FakeElement></FakeElement>
@@ -196,19 +197,4 @@ const Divider = styled.div`
   background-color: #e5e5e5;
 `;
 
-const PARENTSMENU = [
-  { menu: "선생님 보기", route: "/teachers" },
-  { menu: "신청서작성하기", route: "/request" },
-  { menu: "신청내역", route: "/request_detail" },
-  { menu: "방문일정", route: "/visit_schedule" },
-  { menu: "방문일지", route: "/visit_log" },
-];
-
-const TEACHERMENU = [
-  { menu: "수업추천", route: "/class_recommendation" },
-  { menu: "수업지원", route: "/class_support" },
-  { menu: "수업일정", route: "/class_schedule" },
-  { menu: "방문일지", route: "/teacher_visit" },
-  { menu: "스케줄/주소", route: "/teacher_schedule" },
-];
 export default Nav;
