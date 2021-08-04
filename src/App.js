@@ -12,6 +12,7 @@ import ClassSchedule from "pages/Teacher/ClassSchedule";
 import TeacherVisit from "pages/Teacher/TeacherVisit";
 import TeacherSchedule from "pages/Teacher/TeacherSchedule";
 import Home from "pages/Home/Home";
+import Admin from "pages/Admin";
 
 function App() {
   return (
