@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import RoleSelectorItem from "./RoleSelectorItem";
 import styled from "styled-components";
 import { getAllMenus } from "api/menu";
-import { getAllRoles } from "api/role";
+import { getAllRoles, adjustRoleForMenu } from "api/role";
 
 const AdminRolePageView = () => {
   const [pageViewList, setPageViewList] = useState([]);
@@ -33,7 +33,7 @@ const AdminRolePageView = () => {
   }, []);
 
   const handleRoleData = (role, pageView) => {
-    const isExistAndRemove = checkRole(role, pageView);
+    const isExistAndRemove = getCheckedRole(role, pageView);
 
     setRoleData((prev) => ({
       ...prev,
@@ -48,8 +48,10 @@ const AdminRolePageView = () => {
   };
 
   const submitRoleData = () => {
-    console.log(roleData);
-    // roleData api로 보냄
+    for (const role of Object.keys(roleData)) {
+      console.log(role, roleData[role]);
+      // adjustRoleForMenu(role, roleData[role]);
+    }
   };
 
   const getRoleNameList = () => {
