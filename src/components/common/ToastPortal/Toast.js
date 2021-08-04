@@ -32,6 +32,7 @@ const ToastItem = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1rem;
 
   opacity: 1;
   padding: 15px;
