@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState, useRef } from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
 
-const CreditCardPopup = () => {
+const CreditCardPopup = ({ onClose }) => {
   const [inputs, setInputs] = useState({
-    card1: '',
-    card2: '',
-    card3: '',
-    card4: '',
-    month: '',
-    year: '',
-    cvc: '',
+    card1: "",
+    card2: "",
+    card3: "",
+    card4: "",
+    month: "",
+    year: "",
+    cvc: "",
   });
 
-  const { card1, card2, card3, card4, month, year, cvc } = inputs;
+  const cardNumberRefs = useRef([]);
+
+  const { month, year, cvc } = inputs;
 
   const onChange = (e) => {
     const { value, name } = e.target;
+    const idx = cardNumberRefs.current.findIndex((ref) => ref === e.target);
+
+    if (idx !== -1 && idx !== 3 && value.length === 4) {
+      cardNumberRefs.current[idx + 1].focus();
+    }
 
     setInputs({
       ...inputs,
-      [name]: value.replace(/[^0-9]/g, ''),
+      [name]: value.replace(/[^0-9]/g, ""),
     });
   };
 
-  // 월 00 및 12 이상 검사
-  const onConfirmClick = () => {};
-
-  const onCancelClick = () => {};
+  // 월 00 및 12 이상 검사, 빈칸 검사
+  const onConfirmClick = () => {
+    // .current.focus();
+  };
 
   return (
     <>
@@ -34,92 +42,78 @@ const CreditCardPopup = () => {
       <Container>
         <Wrapper>
           <Table>
-            <tr>
-              <th>신용카드 정보 입력</th>
-            </tr>
-            <tr>
-              <td>카드번호</td>
-            </tr>
-            <tr>
-              <td>
-                <Input
-                  type='text'
-                  name='card1'
-                  value={card1}
-                  maxLength='4'
-                  onChange={onChange}
-                />
-                <span>-</span>
-                <Input
-                  type='text'
-                  name='card2'
-                  value={card2}
-                  maxLength='4'
-                  onChange={onChange}
-                />
-                <span>-</span>
-                <Input
-                  type='text'
-                  name='card3'
-                  value={card3}
-                  maxLength='4'
-                  onChange={onChange}
-                />
-                <span>-</span>
-                <Input
-                  type='text'
-                  name='card4'
-                  value={card4}
-                  maxLength='4'
-                  onChange={onChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>유효기간</td>
-            </tr>
-            <tr>
-              <td>
-                <Input
-                  type='text'
-                  name='month'
-                  value={month}
-                  placeholder='월'
-                  maxLength='2'
-                  onChange={onChange}
-                />
-                <span>/</span>
-                <Input
-                  type='text'
-                  name='year'
-                  value={year}
-                  placeholder='년'
-                  maxLength='2'
-                  onChange={onChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>CVC 번호</td>
-            </tr>
-            <tr>
-              <td>
-                <Input
-                  type='text'
-                  name='cvc'
-                  value={cvc}
-                  maxLength='3'
-                  onChange={onChange}
-                />
-                <Hint>카드 뒷면 마지막 3자리 숫자</Hint>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button onClick={onConfirmClick}>확인</button>
-                <button onClick={onCancelClick}>취소</button>
-              </td>
-            </tr>
+            <thead>
+              <tr>
+                <th>신용카드 정보 입력</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>카드번호</td>
+              </tr>
+              <tr>
+                <td>
+                  {[0, 1, 2, 3].map((i) => (
+                    <React.Fragment key={i}>
+                      <Input
+                        ref={(r) => (cardNumberRefs.current[i] = r)}
+                        type='text'
+                        name={`card${i + 1}`}
+                        value={inputs[`card${i + 1}`]}
+                        maxLength='4'
+                        onChange={onChange}
+                      />
+                      {i !== 3 && <span>-</span>}
+                    </React.Fragment>
+                  ))}
+                </td>
+              </tr>
+              <tr>
+                <td>유효기간</td>
+              </tr>
+              <tr>
+                <td>
+                  <Input
+                    type='text'
+                    name='month'
+                    value={month}
+                    placeholder='월'
+                    maxLength='2'
+                    onChange={onChange}
+                  />
+                  <span>/</span>
+                  <Input
+                    type='text'
+                    name='year'
+                    value={year}
+                    placeholder='년'
+                    maxLength='2'
+                    onChange={onChange}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>CVC 번호</td>
+              </tr>
+              <tr>
+                <td>
+                  <Input
+                    type='text'
+                    name='cvc'
+                    value={cvc}
+                    maxLength='3'
+                    onChange={onChange}
+                  />
+                  <Hint>카드 뒷면 마지막 3자리 숫자</Hint>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button onClick={onConfirmClick}>확인</button>
+                  <button onClick={onClose}>취소</button>
+                </td>
+              </tr>
+            </tbody>
           </Table>
         </Wrapper>
       </Container>
@@ -156,27 +150,27 @@ const Table = styled.table`
   background-color: #fff;
   border-radius: 10px;
 
-  & > :first-child > th {
+  & > :first-child > tr > th {
     font-size: 18px;
     font-weight: 600;
     padding: 30px 0;
     text-align: center;
   }
 
-  & > tr > td {
+  & > tbody > tr > td {
     padding: 10px 50px;
   }
 
-  & > tr > td > span {
+  & > tbody > tr > td > span {
     padding: 0 10px;
   }
 
-  & > :last-child > td {
+  & > tbody > :last-child > td {
     text-align: right;
     padding-bottom: 30px;
   }
 
-  & > :last-child > td :first-child {
+  & > tbody > :last-child > td :first-child {
     margin-right: 30px;
   }
 `;
@@ -189,5 +183,9 @@ const Hint = styled.span`
 const Input = styled.input`
   width: 70px;
 `;
+
+CreditCardPopup.propTypes = {
+  onClose: PropTypes.func,
+};
 
 export default CreditCardPopup;
