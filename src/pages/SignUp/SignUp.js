@@ -42,6 +42,7 @@ function SignUp() {
     name: "",
     age: "",
     address: "",
+    addressDetail: "",
     isDaumPost: false,
   });
 
@@ -131,24 +132,6 @@ function SignUp() {
     setInputs({ ...inputs, isDaumPost: true });
   };
 
-  const handleComplete = (data) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-
-    console.log(fullAddress);
-  };
-
   return (
     <Container>
       <WiderContent>
@@ -196,11 +179,22 @@ function SignUp() {
             onChange={onChange}
           ></StyledInput>
           <ButtonWrap>
-            <StyledInput readOnly placeholder="주소"></StyledInput>
+            <StyledInput
+              readOnly
+              placeholder="주소"
+              value={inputs.address}
+            ></StyledInput>
             <StyledButton onClick={handlePostModal}>주소 검색</StyledButton>
-            {inputs.isDaumPost && <AddressApi />}
+            {inputs.isDaumPost && (
+              <AddressApi inputs={inputs} setInputs={setInputs} />
+            )}
           </ButtonWrap>
-          <StyledInput readOnly placeholder="상세 주소"></StyledInput>
+          <StyledInput
+            placeholder="상세 주소"
+            name="addressDetail"
+            value={inputs.addressDetail}
+            onChange={onChange}
+          ></StyledInput>
           <ButtonWrap style={{ marginBottom: 30 }}>
             <StyledInput readOnly placeholder="신용카드 정보"></StyledInput>
             <StyledButton>신용카드 입력</StyledButton>
