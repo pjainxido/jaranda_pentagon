@@ -1,16 +1,21 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Nav from "components/Nav";
-import Teachers from "pages/Parent/Teachers";
-import Request from "pages/Parent/Request";
-import RequestDetail from "pages/Parent/RequestDetail";
-import VisitSchedule from "pages/Parent/VisitSchedule";
-import VisitLog from "pages/Parent/VisitLog";
-import ClassRecommendation from "pages/Teacher/ClassRecommendation";
-import ClassSupport from "pages/Teacher/ClassSupport";
-import ClassSchedule from "pages/Teacher/ClassSchedule";
-import TeacherVisit from "pages/Teacher/TeacherVisit";
-import TeacherSchedule from "pages/Teacher/TeacherSchedule";
+import {
+  Teachers,
+  Request,
+  RequestDetail,
+  VisitSchedule,
+  VisitLog,
+} from "pages/Parent";
+import {
+  ClassRecommendation,
+  ClassSupport,
+  ClassSchedule,
+  TeacherVisit,
+  TeacherSchedule,
+} from "pages/Teacher";
+
 import Home from "pages/Home/Home";
 import Admin from "pages/Admin";
 import SignUp from "pages/SignUp";
