@@ -14,6 +14,7 @@ import TeacherSchedule from "pages/Teacher/TeacherSchedule";
 import Home from "pages/Home/Home";
 import Admin from "pages/Admin";
 import SignUp from "pages/SignUp";
+import Login from "pages/Login";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/teacher/teacher_schedule" component={TeacherSchedule} />
         <Route path="/admin" component={Admin} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/login" component={Login} />
       </Switch>
     </Router>
   );
