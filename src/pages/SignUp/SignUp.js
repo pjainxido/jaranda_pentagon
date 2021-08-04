@@ -1,10 +1,11 @@
-import React from "react";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import { createUser, checkUserByUserId } from "api/user/index";
 
 import styled from "styled-components";
 import theme from "styles/theme";
 import loginTheme from "styles/LoginTheme";
+import { CreditCardPopup } from "components/CreditCardPopup";
 
 const {
   Container,
@@ -41,7 +42,11 @@ function SignUp() {
     pwConfirmValid: false,
     name: "",
     age: "",
+    cardNumber: "",
+    effectiveDate: "",
+    cvc: "",
   });
+  const [isCreditClick, setIsCreditClick] = useState(false);
 
   const pwAlert = useRef(null);
   const pwConfirmAlert = useRef(null);
@@ -134,59 +139,89 @@ function SignUp() {
           </Title>
           <ButtonWrap>
             <StyledInput
-              placeholder="아이디"
-              name="id"
+              placeholder='아이디'
+              name='id'
               value={inputs.id}
               onChange={onChange}
             ></StyledInput>
             <StyledButton onClick={checkSameId}>아이디 중복확인</StyledButton>
           </ButtonWrap>
           <StyledInput
-            placeholder="비밀번호"
-            name="pw"
-            type="password"
+            placeholder='비밀번호'
+            name='pw'
+            type='password'
             value={inputs.pw}
             onChange={onChange}
             style={{ marginBottom: 5 }}
           ></StyledInput>
           <Alert ref={pwAlert}>영문 및 숫자 포함 8 ~ 10자 작성해주세요</Alert>
           <StyledInput
-            placeholder="비밀번호 확인"
-            name="pwConfirm"
-            type="password"
+            placeholder='비밀번호 확인'
+            name='pwConfirm'
+            type='password'
             value={inputs.pwConfirm}
             style={{ marginBottom: 5 }}
             onChange={onChange}
           ></StyledInput>
           <Alert ref={pwConfirmAlert}>비밀번호가 일치하지 않습니다</Alert>
           <StyledInput
-            placeholder="이름"
-            name="name"
+            placeholder='이름'
+            name='name'
             value={inputs.name}
             onChange={onChange}
           ></StyledInput>
           <StyledInput
-            placeholder="나이"
-            name="age"
+            placeholder='나이'
+            name='age'
             value={inputs.age}
             onChange={onChange}
           ></StyledInput>
           <ButtonWrap>
-            <StyledInput readOnly placeholder="주소"></StyledInput>
+            <StyledInput readOnly placeholder='주소'></StyledInput>
             <StyledButton>주소 검색</StyledButton>
           </ButtonWrap>
-          <StyledInput readOnly placeholder="상세 주소"></StyledInput>
+          <StyledInput readOnly placeholder='상세 주소'></StyledInput>
+          <ButtonWrap>
+            <StyledInput
+              readOnly
+              placeholder='카드 번호'
+              name='cardNumber'
+              value={inputs.cardNumber}
+            ></StyledInput>
+            <StyledButton onClick={() => setIsCreditClick(true)}>
+              신용카드 입력
+            </StyledButton>
+          </ButtonWrap>
           <ButtonWrap style={{ marginBottom: 30 }}>
-            <StyledInput readOnly placeholder="신용카드 정보"></StyledInput>
-            <StyledButton>신용카드 입력</StyledButton>
+            <StyledInput
+              readOnly
+              placeholder='유효 기간'
+              name='effectiveDate'
+              value={inputs.effectiveDate}
+              style={{ marginRight: 10 }}
+            ></StyledInput>
+            <StyledInput
+              readOnly
+              placeholder='CVC 번호'
+              name='cvc'
+              value={inputs.cvc}
+            ></StyledInput>
           </ButtonWrap>
           <form onSubmit={handleSubmit}>
-            <StyledButton type="submit" style={{ width: "100%" }}>
+            <StyledButton type='submit' style={{ width: "100%" }}>
               회원가입
             </StyledButton>
           </form>
         </NarrowContent>
       </WiderContent>
+      {isCreditClick &&
+        createPortal(
+          <CreditCardPopup
+            onClose={() => setIsCreditClick(false)}
+            saveCardInfo={setInputs}
+          />,
+          document.getElementById("modal-root"),
+        )}
     </Container>
   );
 }

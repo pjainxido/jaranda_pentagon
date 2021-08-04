@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const CreditCardPopup = ({ onClose }) => {
+const CreditCardPopup = ({ onClose, saveCardInfo }) => {
   const [inputs, setInputs] = useState({
     card1: "",
     card2: "",
@@ -21,7 +21,7 @@ const CreditCardPopup = ({ onClose }) => {
 
   const cardNumberRefs = useRef([]);
 
-  const { month, year, cvc } = inputs;
+  const { card1, card2, card3, card4, month, year, cvc } = inputs;
 
   const onChange = (e) => {
     let { value, name } = e.target;
@@ -101,9 +101,13 @@ const CreditCardPopup = ({ onClose }) => {
     result &= CVCValidation();
 
     if (result) {
-      console.log(format(month));
-      console.log(format(year));
-      console.log(cvc);
+      saveCardInfo((prev) => ({
+        ...prev,
+        ["cardNumber"]: `${card1} - ${card2} - ${card3} - ${card4}`,
+        ["effectiveDate"]: `${format(month)} / ${format(year)}`,
+        ["cvc"]: cvc,
+      }));
+
       onClose();
     }
   };
@@ -272,6 +276,7 @@ const Input = styled.input`
 
 CreditCardPopup.propTypes = {
   onClose: PropTypes.func,
+  saveCardInfo: PropTypes.func,
 };
 
 export default CreditCardPopup;
