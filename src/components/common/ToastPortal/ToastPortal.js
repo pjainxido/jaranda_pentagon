@@ -14,7 +14,7 @@ const handleContainerPosition = (position) => {
     case "top-left":
       return "top: 1em;left: 1em;";
     case "top-center":
-      return "top: 1em;left: 50%; tarnsform: translateX(-50%);";
+      return "top: 1em;left: 50%; transform: translateX(-50%);";
     case "top-right":
       return "top: 1em;right: 1em;";
     case "bottom-left":
