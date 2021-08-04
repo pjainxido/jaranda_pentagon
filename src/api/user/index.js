@@ -17,23 +17,16 @@
 import { db, firebaseInstance } from 'firebase.js';
 
 export const createUser = ({ userId, password, role = 'parent', name, age, address, creditCard }) => {
-	db.collection('user')
-		.add({
-			userId,
-			role,
-			name,
-			password,
-			age,
-			address,
-			creditCard,
-			createdAt: firebaseInstance.firestore.Timestamp.now(),
-		})
-		.then((docRef) => {
-			console.log('Document written with ID: ', docRef.id);
-		})
-		.catch((error) => {
-			console.error('Error adding document: ', error);
-		});
+	return db.collection('user').add({
+		userId,
+		role,
+		name,
+		password,
+		age,
+		address,
+		creditCard,
+		createdAt: firebaseInstance.firestore.Timestamp.now(),
+	});
 };
 
 export const getAllUsers = () => {
