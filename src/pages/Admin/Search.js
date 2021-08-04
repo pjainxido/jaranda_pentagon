@@ -99,6 +99,7 @@ const Search = () => {
             value={userInput}
             onChange={handleSearchChange}
             placeholder="검색"
+            style={{ cursor: "text" }}
           />
           <Input type="submit" value="검색" />
         </form>
