@@ -31,7 +31,6 @@ const Container = styled.div`
 function Admin() {
   return (
     <Container>
-      <h1>유저 정보</h1>
       <Search />
     </Container>
   );

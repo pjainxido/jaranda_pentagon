@@ -6,6 +6,8 @@ import Pagination from "./Pagination";
 import theme from "styles/theme";
 
 const Container = styled.div`
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
   table {
     width: 100%;
     text-align: center;
@@ -33,6 +35,14 @@ const Container = styled.div`
     tr:nth-child(2n) {
       background-color: ${theme.colors.lightgreen};
     }
+  }
+  select {
+    text-align: center;
+    padding: 2px;
+    border-radius: 3px;
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.2);
+    /* opacity: 0.4; */
   }
 `;
 

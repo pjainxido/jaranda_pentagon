@@ -155,10 +155,13 @@ const Container = styled.div`
 `;
 
 const Category = styled.select`
-  color: black;
-  outline: none;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.4;
   border-radius: 3px;
-`;
+  outline: none;
+`
 
 const SearchBox = styled.div`
   display: flex;
