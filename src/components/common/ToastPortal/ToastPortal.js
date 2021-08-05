@@ -57,6 +57,7 @@ const ToastPortal = forwardRef(
 );
 
 const ToastContainer = styled.div`
+  z-index: 20;
   position: fixed;
   ${({ position }) => handleContainerPosition(position)}
 `;
@@ -64,11 +65,11 @@ const ToastContainer = styled.div`
 const handleContainerPosition = (position) => {
   switch (position) {
     case TOAST.POSITION.TOP_LEFT:
-      return "top: 1em;left: 1em;";
+      return "top: 3em;left: 1em;";
     case TOAST.POSITION.TOP_CENTER:
-      return "top: 1em;left: 50%; transform: translateX(-50%);";
+      return "top: 3em;left: 50%; transform: translateX(-50%);";
     case TOAST.POSITION.TOP_RIGHT:
-      return "top: 1em;right: 1em;";
+      return "top: 3em;right: 1em;";
     case TOAST.POSITION.BOT_LEFT:
       return "bottom: 1em;left: 1em;";
     case TOAST.POSITION.BOT_CENTER:
