@@ -20,9 +20,14 @@ const common = {
   }`,
 };
 
+const size = {
+  tablet: "1023px",
+};
+
 const theme = {
   colors,
   common,
+  tablet: `(max-width: ${size.tablet})`,
 };
 
 export default theme;

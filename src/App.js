@@ -5,7 +5,7 @@ import Nav from "components/Nav";
 import Login from "pages/Login";
 import SignUp from "pages/SignUp";
 import Admin from "pages/Admin";
-import AdminRolePageView from "pages/Admin";
+import AdminRolePageView from "pages/Admin/AdminRolePageView";
 import { Teachers, Parent } from "pages/Parent";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
       <Switch>
         <PublicRoute path="/" component={Login} restricted exact />
         <PublicRoute path="/signup" component={SignUp} restricted />
-        <PrivateRoute path="/admin" component={Admin} />
+        <PrivateRoute path="/admin" exact component={Admin} />
         <PrivateRoute
           path="/admin/manage_role"
           exact

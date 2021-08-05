@@ -9,22 +9,22 @@
  *  ]
  */
 
-import { db } from 'firebase.js';
+import { db } from "firebase.js";
 
 export const getAllRoles = () => {
-	return db
-		.collection('role')
-		.get()
-		.then((querySnapshot) => {
-			const result = [];
-			querySnapshot.forEach((doc) => {
-				result.push({ ...doc.data(), id: doc.id });
-			});
-			return result;
-		})
-		.catch((error) => {
-			console.error(error);
-		});
+  return db
+    .collection("role")
+    .get()
+    .then((querySnapshot) => {
+      const result = [];
+      querySnapshot.forEach((doc) => {
+        result.push({ ...doc.data(), id: doc.id });
+      });
+      return result;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 /**
@@ -33,11 +33,11 @@ export const getAllRoles = () => {
  * @param {*} menu(object, 예시 형식은 파일 최상단에서 확인 가능)
  */
 export const adjustRoleForMenu = (id, menu) => {
-	return db.collection('role_test').doc(id).set(menu);
-	// .then(() => {
-	// 	console.log('Document successfully written!');
-	// })
-	// .catch((error) => {
-	// 	console.error('Error writing document: ', error);
-	// });
+  return db.collection("role").doc(id).set(menu);
+  // .then(() => {
+  // 	console.log('Document successfully written!');
+  // })
+  // .catch((error) => {
+  // 	console.error('Error writing document: ', error);
+  // });
 };
