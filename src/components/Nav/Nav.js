@@ -2,6 +2,7 @@ import { getAllRoles } from "api/role";
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import ToastPortal from "components/common/ToastPortal";
+import TOAST from "constants/toast";
 import styled from "styled-components";
 import storage from "utils/storage";
 
@@ -38,7 +39,7 @@ function Nav() {
   };
 
   const deleteStorage = () => {
-    addToast("info", "로그아웃 성공");
+    addToast(TOAST.MODE.INFO, "로그아웃 성공");
     setUserRole("");
     storage.remove("userInfo");
     history.push("/");
@@ -108,7 +109,7 @@ function Nav() {
           )}
         </MenuWarrper>
       </NavBox>
-      <ToastPortal ref={toastRef} position="bottom-right" />
+      <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
     </Container>
   );
 }
