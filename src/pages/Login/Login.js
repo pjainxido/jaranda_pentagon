@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import loginTheme from "styles/LoginTheme";
+import loginTheme from "styles/loginTheme";
 import { findUserByIdAndPassword } from "api/user";
 
 const {
@@ -50,8 +50,8 @@ const Login = (props) => {
   };
 
   const login = async () => {
-    var result = await findUserByIdAndPassword(inputs.id, inputs.pw);
-    var user = result[0];
+    let result = await findUserByIdAndPassword(inputs.id, inputs.pw);
+    let user = result[0];
     if (user) {
       props.history.push({
         pathname: "/",

@@ -44,7 +44,7 @@ const ToastItem = styled.div`
 
   transition: 0.2s;
   animation: ${fadeIn} 0.75s;
-  &: hover {
+  &:hover {
     transition: 0.2;
     transform: scale(0.95);
     box-shadow: 0px 0px 3px gray;
