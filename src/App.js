@@ -17,6 +17,7 @@ import {
 } from "pages/Teacher";
 
 import Home from "pages/Home/Home";
+import AdminRolePageView from "pages/Admin/AdminRolePageView";
 import Admin from "pages/Admin";
 import SignUp from "pages/SignUp";
 import Login from "pages/Login";
@@ -25,7 +26,6 @@ function App() {
   return (
     <Router>
       <Nav />
-
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/signup" exact component={SignUp} />
@@ -42,7 +42,8 @@ function App() {
         <Route path="/teacher/class_schedule" component={ClassSchedule} />
         <Route path="/teacher/teacher_visit" component={TeacherVisit} />
         <Route path="/teacher/teacher_schedule" component={TeacherSchedule} />
-        <Route path="/admin" component={Admin} />
+        <Route path="/admin" exact component={Admin} />
+        <Route path="/admin/menu-role" exact component={AdminRolePageView} />
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
       </Switch>
