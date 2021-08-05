@@ -3,6 +3,8 @@ import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Toast from "./Toast";
+import MODALROOT from "constants/modalRoot";
+import TOAST from "constants/toast";
 
 const ToastContainer = styled.div`
   position: fixed;
@@ -11,17 +13,17 @@ const ToastContainer = styled.div`
 
 const handleContainerPosition = (position) => {
   switch (position) {
-    case "top-left":
+    case TOAST.POSITION.TOP_LEFT:
       return "top: 1em;left: 1em;";
-    case "top-center":
+    case TOAST.POSITION.TOP_CENTER:
       return "top: 1em;left: 50%; transform: translateX(-50%);";
-    case "top-right":
+    case TOAST.POSITION.TOP_RIGHT:
       return "top: 1em;right: 1em;";
-    case "bottom-left":
+    case TOAST.POSITION.BOT_LEFT:
       return "bottom: 1em;left: 1em;";
-    case "bottom-center":
+    case TOAST.POSITION.BOT_CENTER:
       return "bottom: 1em;left: 50%; transform: translateX(-50%)";
-    case "bottom-right":
+    case TOAST.POSITION.BOT_RIGHT:
       return "bottom: 1em;right: 1em;";
   }
 };
@@ -72,7 +74,7 @@ const ToastPortal = forwardRef(
           />
         ))}
       </ToastContainer>,
-      document.getElementById("modal-root")
+      document.getElementById(MODALROOT)
     );
   }
 );

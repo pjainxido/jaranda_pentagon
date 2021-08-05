@@ -1,16 +1,17 @@
 import React from "react";
 import PropType from "prop-types";
 import styled, { keyframes } from "styled-components";
+import TOAST from "constants/toast";
 
 const handleColorType = (color) => {
   switch (color) {
-    case "success":
+    case TOAST.MODE.SUCCESS:
       return "#83bd92";
-    case "info":
+    case TOAST.MODE.INFO:
       return "#8398bd";
-    case "warning":
+    case TOAST.MODE.WARNING:
       return "#bda883";
-    case "error":
+    case TOAST.MODE.ERROR:
       return "#bd8383";
   }
 };
@@ -21,7 +22,6 @@ const fadeIn = keyframes`
   } to {
     opacity: 1;
   }
-
 `;
 
 const ToastItem = styled.div`
