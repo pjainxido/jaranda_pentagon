@@ -43,7 +43,7 @@ function App() {
         <Route path="/teacher/teacher_visit" component={TeacherVisit} />
         <Route path="/teacher/teacher_schedule" component={TeacherSchedule} />
         <Route path="/admin" exact component={Admin} />
-        <Route path="/admin/menu-role" exact component={AdminRolePageView} />
+        <Route path="/admin/manage_role" exact component={AdminRolePageView} />
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
       </Switch>
