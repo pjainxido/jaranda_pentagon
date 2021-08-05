@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
+import ToastPortal from "components/common/ToastPortal";
+
+let message = "마지막 페이지 입니다";
+const toast = { mode: "error", message };
 
 const Pagination = ({ page, perPage, setPage, pageData }) => {
   const [pageCount, setPageCount] = useState(1);
-  const [alertMessage, setAlertMessage] = useState("");
+  const toastRef = useRef();
+
   const handlePageClick = (e) => {
     const { innerText } = e.target;
     setPage(Number(innerText));
@@ -22,12 +27,11 @@ const Pagination = ({ page, perPage, setPage, pageData }) => {
       return;
     }
     if (pageCount === 1) {
-      setAlertMessage("마지막 페이지 입니다");
+      toastRef.current.addMessage(toast);
       return;
     }
     setPage(5 * (pageCount - 2) + 1);
     setPageCount((pageCount) => pageCount - 1);
-    setAlertMessage("");
     return;
   };
 
@@ -37,12 +41,11 @@ const Pagination = ({ page, perPage, setPage, pageData }) => {
       return;
     }
     if (pageCount > pages) {
-      setAlertMessage("마지막 페이지 입니다");
+      toastRef.current.addMessage(toast);
       return;
     }
     setPage(5 * pageCount + 1);
     setPageCount((pageCount) => pageCount + 1);
-    setAlertMessage("");
     return;
   };
 
@@ -92,7 +95,12 @@ const Pagination = ({ page, perPage, setPage, pageData }) => {
           <i className="fas fa-angle-double-right" />
         </PageNextButton>
       </div>
-      {alertMessage && <AlertMsg>{alertMessage}</AlertMsg>}
+      <ToastPortal
+        ref={toastRef}
+        autoCloseTime={3000}
+        autoClose={true}
+        position={"bottom-center"}
+      />
     </Container>
   );
 };
@@ -124,11 +132,6 @@ const PageButton = styled(ButtonStyle)`
   color: ${(props) => (props.clickButton ? theme.colors.green : "black")};
   font-size: 1.5rem;
   border-radius: 2px;
-`;
-
-const AlertMsg = styled.div`
-  margin-top: 10px;
-  color: red;
 `;
 
 Pagination.propTypes = {
