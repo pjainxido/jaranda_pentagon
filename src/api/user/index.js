@@ -103,13 +103,11 @@ export const checkUserByUserId = (inputId) => {
 export const changeUserRole = (id, newRole) => {
 	const userRef = db.collection('user');
 
-	userRef
-		.doc(id)
-		.set({ role: newRole }, { merge: true })
-		.then(() => {
-			console.log('Document successfully written!');
-		})
-		.catch((error) => {
-			console.error('Error writing document: ', error);
-		});
+	return userRef.doc(id).set({ role: newRole }, { merge: true });
+	// .then(() => {
+	// 	console.log('Document successfully written!');
+	// })
+	// .catch((error) => {
+	// 	console.error('Error writing document: ', error);
+	// });
 };
