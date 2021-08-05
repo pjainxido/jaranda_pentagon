@@ -1,13 +1,13 @@
 import { changeUserRole } from "api/user";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
 import theme from "styles/theme";
+import ToastPortal from "components/common/ToastPortal";
 
 const Container = styled.div`
   font-family: "Font Awesome 5 Free";
-  /* font-weight: 600; */
   table {
     width: 100%;
     text-align: center;
@@ -42,7 +42,6 @@ const Container = styled.div`
     border-radius: 3px;
     outline: none;
     border-color: rgba(0, 0, 0, 0.2);
-    /* opacity: 0.4; */
   }
 `;
 
@@ -50,18 +49,29 @@ const ROLE = ["admin", "teacher", "parent"];
 
 const Table = ({ data, loading, page, setPage }) => {
   const [perPage, setPerPage] = useState(10);
+  const toastRef = useRef();
 
   if (loading) {
     return <div>loading...</div>;
   }
 
   const postChange = (e) => {
-    changeUserRole(e.target.id, e.target.value);
+    let message = "권한이 성공적으로 변경되었습니다."
+    let mode = "info";
+
+    try {
+      changeUserRole(e.target.id, e.target.value);
+    } catch (err) {
+      mode = "error";
+      message = "권한 변경에 실패했습니다."
+    }
+
+    const toast = { mode, message };
+    toastRef.current.addMessage(toast);
   };
 
   return (
     <Container>
-      {console.log(data, "data")}
       <table>
         <thead>
           <tr>
@@ -83,7 +93,7 @@ const Table = ({ data, loading, page, setPage }) => {
                   <option>{item.role}</option>
                   {ROLE.filter((i) => i !== item.role).map((i) => (
                     <option key={i}>{i}</option>
-                  ))}
+                    ))}
                 </select>
               </td>
               <td>{item.address}</td>
@@ -99,6 +109,7 @@ const Table = ({ data, loading, page, setPage }) => {
         setPage={setPage}
         pageData={data}
       />
+      <ToastPortal ref={toastRef} autoCloseTime={3000} autoClose={true} position={"top-right"}/>
     </Container>
   );
 };
