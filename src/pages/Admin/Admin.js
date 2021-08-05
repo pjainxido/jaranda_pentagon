@@ -11,7 +11,7 @@ const Admin = () => {
 };
 
 const Container = styled.div`
-  margin-top: 60px;
+  margin: 170px auto 0;
   padding: 0 20px;
   > table {
     border: 1px solid black;
