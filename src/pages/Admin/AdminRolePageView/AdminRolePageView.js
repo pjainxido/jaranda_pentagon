@@ -72,6 +72,11 @@ const AdminRolePageView = () => {
 
   return (
     <Container>
+      <Warrper>
+        <ApiCallButton onClick={submitRoleData}>
+          페이지 뷰 업데이트
+        </ApiCallButton>
+      </Warrper>
       <Table>
         <Thead>
           <tr>
@@ -100,7 +105,6 @@ const AdminRolePageView = () => {
         autoClose={true}
         position={"top-center"}
       />
-      <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
     </Container>
   );
 };
@@ -115,12 +119,18 @@ const Container = styled.div`
 const ApiCallButton = styled.button`
   ${({ theme }) => theme.common.button}
   height: 30px;
-  background-color: ${({ theme }) => theme.colors.blue};
+  background-color: ${({ theme }) => theme.colors.green};
   color: #fff;
   font-size: 13px;
 `;
 
+const Warrper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const Table = styled.table`
+  margin-top: 20px;
   width: 100%;
   height: 100%;
   max-height: 240px;
