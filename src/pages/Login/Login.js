@@ -79,15 +79,15 @@ const Login = (props) => {
         <NarrowContent>
           <Title>자란다 로그인</Title>
           <StyledInput
-            placeholder='아이디'
-            name='id'
+            placeholder="아이디"
+            name="id"
             onChange={onChange}
             value={inputs.id}
           />
           <StyledInput
-            placeholder='비밀번호'
-            type='password'
-            name='pw'
+            placeholder="비밀번호"
+            type="password"
+            name="pw"
             onChange={onChange}
             value={inputs.pw}
           />

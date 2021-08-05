@@ -1,0 +1,77 @@
+[
+  {
+    "role": "admin",
+    "menu": [
+      {
+        "id": 1,
+        "name": "계정 관리",
+        "route": "/manage_account"
+      },
+      {
+        "id": 2,
+        "name": "권한 관리",
+        "route": "/manage_role"
+      }
+    ]
+  },
+  {
+    "role": "parent",
+    "menu": [
+      {
+        "id": 1,
+        "name": "신청서 작성하기",
+        "route": "/request"
+      },
+      {
+        "id": 2,
+        "name": "신청서 내역",
+        "route": "/request_detail"
+      },
+      {
+        "id": 3,
+        "name": "선생님 보기",
+        "route": "/teachers"
+      },
+      {
+        "id": 4,
+        "name": "방문일지",
+        "route": "/visit_log"
+      },
+      {
+        "id": 5,
+        "name": "방문일정",
+        "route": "/visit_schedule"
+      }
+    ]
+  },
+  {
+    "role": "teacher",
+    "menu": [
+      {
+        "id": 1,
+        "name": "수업추천",
+        "route": "/class_recommendation"
+      },
+      {
+        "id": 2,
+        "name": "수업지원",
+        "route": "/class_support"
+      },
+      {
+        "id": 3,
+        "name": "수업일정",
+        "route": "/class_schedule"
+      },
+      {
+        "id": 4,
+        "name": "방문일지",
+        "route": "/teacher_visit"
+      },
+      {
+        "id": 5,
+        "name": "스케줄/주소",
+        "route": "/teacher_schedule"
+      }
+    ]
+  }
+]

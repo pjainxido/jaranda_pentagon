@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "userId": "jaranda",
+    "password": "jaranda",
+    "role": "admin",
+    "name": "자란다",
+    "age": "23",
+    "address": "경기 성남시 분당구 판교역로 지하 160(백현동, 판교역)345",
+    "creditCard": {
+      "cardNumber": 1234123412341234,
+      "expiryDate": 1232,
+      "cvc": 123
+    },
+    "createdAt": "2021년 8월 5일 오후 1시 15분 8초 UTC+9"
+  },
+  {
+    "id": 2,
+    "userId": "parent",
+    "password": "parent",
+    "role": "parent",
+    "name": "부모",
+    "age": "23",
+    "address": "경기 성남시 분당구 판교역로 지하 160(백현동, 판교역)345",
+    "creditCard": {
+      "cardNumber": 1234123412341234,
+      "expiryDate": 1232,
+      "cvc": 123
+    },
+    "createdAt": "2021년 8월 5일 오후 1시 15분 8초 UTC+9"
+  },
+  {
+    "id": 3,
+    "userId": "teacher",
+    "password": "teacher",
+    "role": "teacher",
+    "name": "선생님",
+    "age": "23",
+    "address": "경기 성남시 분당구 판교역로 지하 160(백현동, 판교역)345",
+    "creditCard": {
+      "cardNumber": 1234123412341234,
+      "expiryDate": 1232,
+      "cvc": 123
+    },
+    "createdAt": "2021년 8월 5일 오후 1시 15분 8초 UTC+9"
+  }
+]
