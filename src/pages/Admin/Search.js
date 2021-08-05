@@ -4,6 +4,7 @@ import styled from "styled-components";
 import theme from "styles/theme";
 import Modal from "./Modal";
 import Table from "./Table";
+import ResultNotFound from "./ResultNotFound"
 
 const Search = () => {
   const [pageData, setPageData] = useState([]);
@@ -121,7 +122,7 @@ const Search = () => {
           </form>
         </SearchBox>
         <OptionBtnBox>
-          <input type="reset" onClick={clearState} value="목록" />
+          <input type="reset" onClick={clearState} value="전체 목록 보기" />
           <button onClick={handleModalOpen}>계정 생성</button>
         </OptionBtnBox>
         {isShown && (
@@ -131,7 +132,7 @@ const Search = () => {
       <div>
         {searchedItem.length > 0 ? (
           searchedItem === "noresult" ? (
-            <div>검색결과가 없습니다.</div>
+            <ResultNotFound />
           ) : (
             <Table
               data={searchedItem}
