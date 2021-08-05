@@ -77,8 +77,8 @@ const Search = () => {
 
   useEffect(async () => {
     try {
-      const data = await getAllUsers();
-      setPageData(data);
+      const res = await getAllUsers();
+      setPageData(res.data()?.list);
     } catch (e) {
       console.error(e);
     } finally {
@@ -155,9 +155,9 @@ const Search = () => {
 };
 
 const Container = styled.div`
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: space-between;
 `;
 
 const Category = styled.select`
@@ -170,22 +170,22 @@ const Category = styled.select`
 `;
 
 const SearchBox = styled.div`
-  display: flex;
+	display: flex;
 `;
 
 const SearchInput = styled.input`
-  ::placeholder {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 600;
-    text-align: center;
-    opacity: 0.5;
-  }
-  outline: none;
-  height: 30px;
-  width: 300px;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  margin-left: 10px;
+	::placeholder {
+		font-family: 'Font Awesome 5 Free';
+		font-weight: 600;
+		text-align: center;
+		opacity: 0.5;
+	}
+	outline: none;
+	height: 30px;
+	width: 300px;
+	border-radius: 3px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	margin-left: 10px;
 `;
 
 const OptionBtnBox = styled.div`

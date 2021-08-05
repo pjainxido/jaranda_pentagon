@@ -47,11 +47,11 @@ const Table = ({ data, loading, page, setPage }) => {
         </thead>
         <tbody>
           {data.slice(perPage * page - perPage, perPage * page).map((item) => (
-            <tr key={item.id}>
+            <tr key={item.userId}>
               <td>{item.userId}</td>
               <td>{item.name}</td>
               <td>
-                <select id={item.id} onChange={postChange}>
+                <select id={item.userId} onChange={postChange}>
                   <option>{item.role}</option>
                   {ROLE.filter((i) => i !== item.role).map((i) => (
                     <option key={i}>{i}</option>
