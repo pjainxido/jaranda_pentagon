@@ -3,11 +3,10 @@ import RoleSelectorItem from "./RoleSelectorItem";
 import styled from "styled-components";
 import { getAllMenus } from "api/menu";
 import { getAllRoles, adjustRoleForMenu } from "api/role";
-// import ToastPotal from "components/ToastPotal";
+import ToastPotal from "components/common/ToastPortal";
 
 const AdminRolePageView = () => {
-  // const toastRef = useRef();
-
+  const toastRef = useRef();
   const [pageViewList, setPageViewList] = useState([]);
   const [roleData, setRoleData] = useState({
     teacher: [],
@@ -51,15 +50,20 @@ const AdminRolePageView = () => {
   };
 
   const submitRoleData = async () => {
-    for (const role of Object.keys(roleData)) {
-      const result = await adjustRoleForMenu(role, { menu: roleData[role] });
-      // console.log(result);
-      // const toast = {
-      //   mode: "info",
-      //   message: result,
-      // };
-      // toastRef.current.addMessage(toast);
+    let message = "성공했습니다.";
+    let mode = "success";
+
+    try {
+      for (const role of Object.keys(roleData)) {
+        adjustRoleForMenu(role, { menu: roleData[role] });
+      }
+    } catch (err) {
+      mode = "error";
+      message = "실패했습니다.";
     }
+
+    const toast = { mode, message };
+    toastRef.current.addMessage(toast);
   };
 
   const getRoleNameList = () => {
@@ -101,12 +105,12 @@ const AdminRolePageView = () => {
           </div>
         </Preview>
       ))}
-      {/* <ToastPortal
+      <ToastPotal
         ref={toastRef}
-        autoCloseTime={5500}
+        autoCloseTime={3000}
         autoClose={true}
-        position={"bottom-center"}
-      /> */}
+        position={"top-center"}
+      />
       <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
     </Container>
   );
