@@ -56,9 +56,15 @@ const Table = ({ data, loading, page, setPage }) => {
   }
 
   const postChange = (e) => {
-    //서버에 id, value POST
-    changeUserRole(e.target.id, e.target.value);
-  };
+		//서버에 id, value POST
+		/**
+		 * TODO
+     * changeUserRole을 async await으로 사용해주세요
+     * 그리고 try catch 문으로 에러 핸들링해주세요
+     * 마지막으로 토스트를 멋지게 top ????? 에 사용해주세요
+		 */
+		changeUserRole(e.target.id, e.target.value);
+	};
 
   return (
     <Container>
@@ -75,11 +81,11 @@ const Table = ({ data, loading, page, setPage }) => {
         </thead>
         <tbody>
           {data.slice(perPage * page - perPage, perPage * page).map((item) => (
-            <tr key={item.id}>
+            <tr key={item.userId}>
               <td>{item.userId}</td>
               <td>{item.name}</td>
               <td>
-                <select id={item.id} onChange={postChange}>
+                <select id={item.userId} onChange={postChange}>
                   <option>{item.role}</option>
                   {ROLE.filter((i) => i !== item.role).map((i) => (
                     <option key={i}>{i}</option>
