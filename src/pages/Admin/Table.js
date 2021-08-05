@@ -61,7 +61,6 @@ const Table = ({ data, loading, page, setPage }) => {
 
   return (
     <Container>
-      {console.log(data, "data")}
       <table>
         <thead>
           <tr>
