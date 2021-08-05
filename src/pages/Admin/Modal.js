@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import UserCreate from "components/UserCreate";
-import MODALROOT from "constants/modalRoot"
+import MODALROOT from "constants/modalRoot";
 
 const Modal = ({ setIsShown, handleModalClose }) => {
   return ReactDOM.createPortal(
@@ -13,7 +13,7 @@ const Modal = ({ setIsShown, handleModalClose }) => {
           <ModalBtnBox>
             <ModalBtn onClick={handleModalClose}>X</ModalBtn>
           </ModalBtnBox>
-          <UserCreate setIsShown={setIsShown} />
+          <UserCreate setIsShown={setIsShown} isAdmin={true} />
         </ModalInput>
       </ModalInputBox>
     </ModalStyle>,
