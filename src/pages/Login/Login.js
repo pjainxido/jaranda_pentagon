@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import loginTheme from "styles/loginTheme";
 import { findUserByIdAndPassword } from "api/user";
+import storage from "utils/storage";
 
 const {
   Container,
@@ -50,20 +51,26 @@ const Login = (props) => {
   };
 
   const login = async () => {
-    let result = await findUserByIdAndPassword(inputs.id, inputs.pw);
-    let user = result[0];
-    if (user) {
-      props.history.push({
-        pathname: "/",
-        state: {
-          id: user.userId,
-          name: user.name,
-          role: user.role,
-        },
-      });
-    } else {
+    const result = await findUserByIdAndPassword(inputs.id, inputs.pw);
+    const user = result[0];
+
+    if (!user) {
       alert("아이디와 비밀번호를 다시 확인하세요");
+      return;
     }
+
+    storage.set("userInfo", {
+      name: user.name,
+      role: user.role,
+    });
+
+    props.history.push({
+      pathname: `/${user.role}`,
+      state: {
+        name: user.name,
+        role: user.role,
+      },
+    });
   };
 
   return (
@@ -72,15 +79,15 @@ const Login = (props) => {
         <NarrowContent>
           <Title>자란다 로그인</Title>
           <StyledInput
-            placeholder="아이디"
-            name="id"
+            placeholder='아이디'
+            name='id'
             onChange={onChange}
             value={inputs.id}
           />
           <StyledInput
-            placeholder="비밀번호"
-            type="password"
-            name="pw"
+            placeholder='비밀번호'
+            type='password'
+            name='pw'
             onChange={onChange}
             value={inputs.pw}
           />

@@ -30,6 +30,7 @@ const AddressApi = ({ inputs, setInputs }) => {
     setInputs({
       ...inputs,
       address: fullAddress,
+      isDaumPost: false,
     });
   };
 
