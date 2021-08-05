@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import RoleSelectorItem from "./RoleSelectorItem";
 import styled from "styled-components";
 import { getAllMenus } from "api/menu";
 import { getAllRoles, adjustRoleForMenu } from "api/role";
+// import ToastPotal from "components/ToastPotal";
 
 const AdminRolePageView = () => {
+  // const toastRef = useRef();
+
   const [pageViewList, setPageViewList] = useState([]);
   const [roleData, setRoleData] = useState({
     teacher: [],
@@ -47,10 +50,15 @@ const AdminRolePageView = () => {
     return roleData[role].map((el) => el.id).includes(pageView.id);
   };
 
-  const submitRoleData = () => {
+  const submitRoleData = async () => {
     for (const role of Object.keys(roleData)) {
-      console.log(role, roleData[role]);
-      // adjustRoleForMenu(role, roleData[role]);
+      const result = await adjustRoleForMenu(role, { menu: roleData[role] });
+      // console.log(result);
+      // const toast = {
+      //   mode: "info",
+      //   message: result,
+      // };
+      // toastRef.current.addMessage(toast);
     }
   };
 
@@ -93,6 +101,12 @@ const AdminRolePageView = () => {
           </div>
         </Preview>
       ))}
+      {/* <ToastPortal
+        ref={toastRef}
+        autoCloseTime={5500}
+        autoClose={true}
+        position={"bottom-center"}
+      /> */}
       <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
     </Container>
   );
