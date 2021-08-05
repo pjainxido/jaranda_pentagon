@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "수업일정",
+    "route": "class_schedule"
+  },
+  {
+    "id": 2,
+    "name": "수업추천",
+    "route": "class_recommendation"
+  },
+  {
+    "id": 3,
+    "name": "선생님보기",
+    "route": "teachers"
+  },
+  {
+    "id": 4,
+    "name": "신청서 작성하기",
+    "route": "request"
+  },
+  {
+    "id": 5,
+    "name": "신청내역",
+    "route": "request_detail"
+  },
+  {
+    "id": 6,
+    "name": "스케줄/주소",
+    "route": "teacher_schedule"
+  },
+  {
+    "id": 7,
+    "name": "방문일정",
+    "route": "visit_schedule"
+  },
+  {
+    "id": 8,
+    "name": "방문일지",
+    "route": "class_schedule"
+  },
+  {
+    "id": 9,
+    "name": "수업지원",
+    "route": "class_support"
+  },
+  {
+    "id": 10,
+    "name": "방문일지",
+    "route": "teacher_visit"
+  }
+]
