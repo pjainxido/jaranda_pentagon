@@ -1,6 +1,8 @@
 import { getAllRoles } from "api/role";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
+import ToastPortal from "components/common/ToastPortal";
+import TOAST from "constants/toast";
 import styled from "styled-components";
 import storage from "utils/storage";
 
@@ -15,6 +17,7 @@ function Nav() {
   const [isHover, setIsHover] = useState(false);
   const [menuData, setMenuData] = useState("");
   const [userRole, setUserRole] = useState("");
+  const toastRef = useRef();
   const location = useLocation();
   const history = useHistory();
 
@@ -31,7 +34,12 @@ function Nav() {
     }
   }, [userRole]);
 
+  const addToast = (mode, message) => {
+    toastRef.current.addMessage({ mode, message });
+  };
+
   const deleteStorage = () => {
+    addToast(TOAST.MODE.INFO, "로그아웃 성공");
     setUserRole("");
     storage.remove("userInfo");
     history.push("/");
@@ -101,6 +109,7 @@ function Nav() {
           )}
         </MenuWarrper>
       </NavBox>
+      <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
     </Container>
   );
 }
@@ -226,7 +235,7 @@ const UserRole = styled.span`
 const FakeElement = styled.div`
   position: absolute;
   top: 20px;
-  left: ${(props) => (props.isAdmin ? "0" : "76px")};
+  left: ${(props) => (props.isAdmin ? "76px" : "-76px")};
   height: 50px;
   min-width: 120px;
   z-index: 1;
