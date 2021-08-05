@@ -5,7 +5,7 @@ import Nav from "components/Nav";
 import Login from "pages/Login";
 import SignUp from "pages/SignUp";
 import Admin from "pages/Admin";
-import AdminRolePageView from "pages/Admin";
+import AdminRolePageView from "pages/Admin/AdminRolePageView";
 import { Teachers, Parent } from "pages/Parent";
 
 function App() {
@@ -13,16 +13,16 @@ function App() {
     <Router>
       <Nav />
       <Switch>
-        <PublicRoute path='/' component={Login} restricted exact />
-        <PublicRoute path='/signup' component={SignUp} restricted />
-        <PrivateRoute path='/admin' component={Admin} />
+        <PublicRoute path="/" component={Login} restricted exact />
+        <PublicRoute path="/signup" component={SignUp} restricted />
+        <PrivateRoute path="/admin" exact component={Admin} />
         <PrivateRoute
-          path='/admin/manage_role'
+          path="/admin/manage_role"
           exact
           component={AdminRolePageView}
         />
-        <PrivateRoute path='/parent' component={Parent} />
-        <PrivateRoute path='/teacher' component={Teachers} />
+        <PrivateRoute path="/parent" component={Parent} />
+        <PrivateRoute path="/teacher" component={Teachers} />
       </Switch>
     </Router>
   );
