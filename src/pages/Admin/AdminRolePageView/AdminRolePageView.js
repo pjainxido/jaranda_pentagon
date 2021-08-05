@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { getAllMenus } from "api/menu";
 import { getAllRoles, adjustRoleForMenu } from "api/role";
 import ToastPotal from "components/common/ToastPortal";
+import TOAST from "constants/toast";
 
 const AdminRolePageView = () => {
   const toastRef = useRef();
@@ -51,14 +52,14 @@ const AdminRolePageView = () => {
 
   const submitRoleData = async () => {
     let message = "성공했습니다.";
-    let mode = "success";
+    let mode = TOAST.MODE.SUCCESS;
 
     try {
       for (const role of Object.keys(roleData)) {
         adjustRoleForMenu(role, { menu: roleData[role] });
       }
     } catch (err) {
-      mode = "error";
+      mode = TOAST.MODE.ERROR;
       message = "실패했습니다.";
     }
 
@@ -103,7 +104,7 @@ const AdminRolePageView = () => {
         ref={toastRef}
         autoCloseTime={3000}
         autoClose={true}
-        position={"top-center"}
+        position={TOAST.POSITION.TOP_CENTER}
       />
     </Container>
   );
@@ -112,7 +113,7 @@ const AdminRolePageView = () => {
 export default AdminRolePageView;
 
 const Container = styled.div`
-  margin: 100px auto;
+  margin: 150px auto 0;
   max-width: 1000px;
 `;
 
