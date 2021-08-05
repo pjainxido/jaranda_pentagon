@@ -4,6 +4,22 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import UserCreate from "components/UserCreate";
 
+const Modal = ({ setIsShown, handleModalClose }) => {
+  return ReactDOM.createPortal(
+    <ModalStyle>
+      <ModalInputBox>
+        <ModalInput>
+          <ModalBtnBox>
+            <ModalBtn onClick={handleModalClose}>X</ModalBtn>
+          </ModalBtnBox>
+          <UserCreate setIsShown={setIsShown} />
+        </ModalInput>
+      </ModalInputBox>
+    </ModalStyle>,
+    document.getElementById("modal-root")
+  );
+};
+
 const ModalStyle = styled.div`
   position: fixed;
   z-index: 999;
@@ -44,22 +60,6 @@ const ModalBtn = styled.button`
   border-radius: 3px;
   background: none;
 `;
-
-function Modal({ setIsShown, handleModalClose }) {
-  return ReactDOM.createPortal(
-    <ModalStyle>
-      <ModalInputBox>
-        <ModalInput>
-          <ModalBtnBox>
-            <ModalBtn onClick={handleModalClose}>X</ModalBtn>
-          </ModalBtnBox>
-          <UserCreate setIsShown={setIsShown} />
-        </ModalInput>
-      </ModalInputBox>
-    </ModalStyle>,
-    document.getElementById("modal-root")
-  );
-}
 
 Modal.propTypes = {
   setIsShown: PropTypes.func,
