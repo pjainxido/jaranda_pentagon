@@ -1,38 +1,40 @@
 import { getAllRoles } from "api/role";
-import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
+
+const NOTMEMBER = [
+  { name: "자란다선생님 보기", route: "/#" },
+  { name: "선생님 지원하기", route: "/#" },
+  { name: "이용안내", route: "/#" },
+  { name: "로그인/회원가입", route: "/login" },
+];
 
 function Nav() {
   const [isHover, setIsHover] = useState(false);
   const [menuData, setMenuData] = useState("");
   const [userRole, setUserRole] = useState("");
-  const Profile = useRef(null);
-
-  useEffect(async () => {
-    if (JSON.parse(localStorage.getItem("user"))) {
-      setUserRole(JSON.parse(localStorage.getItem("user")).role);
-    }
-    const res = await getAllRoles();
-
-    setMenuData(...res.filter((data) => data.id === userRole));
-  }, []);
-
-  const handleOutside = ({ target }) => {
-    if (Profile.current === null) return;
-
-    if (isHover && Profile.current.contains(target)) {
-      return setIsHover(false);
-    }
-  };
+  const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
-    window.addEventListener("mouseover", handleOutside);
+    if (JSON.parse(localStorage.getItem("userInfo"))) {
+      setUserRole(JSON.parse(localStorage.getItem("userInfo")).role);
+    }
+  }, [location.pathname]);
 
-    return () => {
-      window.removeEventListener("mouseover", handleOutside);
-    };
-  }, []);
+  useEffect(async () => {
+    const res = await getAllRoles();
+    if (res) {
+      setMenuData(...res.filter((data) => data.id === userRole));
+    }
+  }, [userRole]);
+
+  const deleteStorage = () => {
+    setUserRole("");
+    localStorage.removeItem("userInfo");
+    history.push("/login");
+  };
 
   return (
     <div>
@@ -43,39 +45,45 @@ function Nav() {
       </Banner>
       <NavContainer>
         <div>
-          <Link to="/#">
+          <Link to="/">
             <img alt="자란다로고" src="/image/jaranda.log.png"></img>
           </Link>
         </div>
         <MenuWarrper>
-          {menuData &&
-            menuData.menu.map((menu, idx) => (
-              <Menu key={idx}>
-                <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
-              </Menu>
-            ))}
-
-          <PersonalMenu
-            ref={Profile}
-            // onMouseOver={() => setIsHover(true)}
-            // onMouseLeave={() => setIsHover(false)}
-          >
-            <i className="far fa-user-circle" />
-            <FakeElement></FakeElement>
-            <DropList isHover={isHover}>
-              <DropItem>
-                <Link to="/#">마이페이지</Link>
-              </DropItem>
-              <Divider />
-              <DropItem>
-                <Link to="/#">이용안내</Link>
-              </DropItem>
-              <Divider />
-              <DropItem>
-                <Link to="/#">로그아웃</Link>
-              </DropItem>
-            </DropList>
-          </PersonalMenu>
+          {menuData
+            ? menuData.menu.map((menu, idx) => (
+                <Menu key={idx}>
+                  <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
+                </Menu>
+              ))
+            : NOTMEMBER.map((menu, idx) => (
+                <Menu key={idx}>
+                  <Link to={menu.route}>{menu.name}</Link>
+                </Menu>
+              ))}
+          {userRole && (
+            <PersonalMenu
+              onClick={() => setIsHover(false)}
+              onMouseLeave={() => setIsHover(false)}
+              onMouseOver={() => setIsHover(true)}
+            >
+              <i className="far fa-user-circle" />
+              {isHover && <FakeElement></FakeElement>}
+              <DropList isHover={isHover}>
+                <DropItem>
+                  <Link to="/#">마이페이지</Link>
+                </DropItem>
+                <Divider />
+                <DropItem>
+                  <Link to="/#">이용안내</Link>
+                </DropItem>
+                <Divider />
+                <DropItem>
+                  <LogOut onClick={deleteStorage}>로그아웃</LogOut>
+                </DropItem>
+              </DropList>
+            </PersonalMenu>
+          )}
         </MenuWarrper>
       </NavContainer>
     </div>
@@ -194,6 +202,18 @@ const Divider = styled.div`
   margin: 9px 0;
   overflow: hidden;
   background-color: #e5e5e5;
+`;
+
+const LogOut = styled.button`
+  width: 100%;
+  padding: 4px 20px;
+  border: none;
+  background-color: inherit;
+  text-align: start;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #4a4a4a;
 `;
 
 export default Nav;
