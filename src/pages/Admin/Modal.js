@@ -20,6 +20,10 @@ const Modal = ({ setIsShown, handleModalClose }) => {
   );
 };
 
+Modal.propTypes = {
+  setIsShown: PropTypes.func,
+};
+
 const ModalStyle = styled.div`
   position: fixed;
   z-index: 999;
@@ -60,9 +64,5 @@ const ModalBtn = styled.button`
   border-radius: 3px;
   background: none;
 `;
-
-Modal.propTypes = {
-  setIsShown: PropTypes.func,
-};
 
 export default Modal;

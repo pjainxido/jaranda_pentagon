@@ -2,6 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import Search from "./Search";
 
+const Admin = () => {
+  return (
+    <Container>
+      <Search />
+    </Container>
+  );
+};
+
 const Container = styled.div`
   margin-top: 200px;
   padding: 0 20px;
@@ -22,13 +30,5 @@ const Container = styled.div`
     padding: 10px 0;
   }
 `;
-
-function Admin() {
-  return (
-    <Container>
-      <Search />
-    </Container>
-  );
-}
 
 export default Admin;
