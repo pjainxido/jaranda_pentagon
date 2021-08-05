@@ -3,7 +3,7 @@ import { useState } from "react";
 import { createUser, checkUserByUserId } from "api/user/index";
 
 import styled from "styled-components";
-import loginTheme from "styles/LoginTheme";
+import loginTheme from "styles/loginTheme";
 
 const {
   Container,
@@ -30,7 +30,8 @@ const RoleSelect = styled.select`
   padding: 0 15px;
 `;
 
-function UserCreate() {
+// eslint-disable-next-line react/prop-types
+function UserCreate({ setIsShown }) {
   const [inputs, setInputs] = useState({
     id: "",
     idConfirm: false,
@@ -50,7 +51,7 @@ function UserCreate() {
   };
 
   const checkSameId = async () => {
-    var checked = await checkUserByUserId(inputs.id);
+    let checked = await checkUserByUserId(inputs.id);
     if (checked) {
       alert("아이디로 가입할 수 있습니다");
       setInputs({
@@ -64,10 +65,10 @@ function UserCreate() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    var valid = validation();
+    let valid = validation();
 
     if (valid) {
-      var newUser = {
+      let newUser = {
         userId: inputs.id,
         role: inputs.role,
         password: inputs.pw,
@@ -77,6 +78,7 @@ function UserCreate() {
         creditCard: {},
       };
       await createUser(newUser);
+      setIsShown(false);
     }
   };
 
@@ -97,50 +99,50 @@ function UserCreate() {
   };
 
   return (
-    <Container>
-      <WiderContent>
-        <NarrowContent>
-          <Title>계정 임의생성</Title>
-          <ButtonWrap>
-            <StyledInput
-              placeholder="아이디"
-              name="id"
-              value={inputs.id}
-              onChange={onChange}
-            ></StyledInput>
-            <StyledButton onClick={checkSameId}>아이디 중복확인</StyledButton>
-          </ButtonWrap>
+    // <Container>
+    <WiderContent>
+      <NarrowContent>
+        <Title>계정 임의생성</Title>
+        <ButtonWrap>
           <StyledInput
-            placeholder="비밀번호"
-            name="pw"
-            value={inputs.pw}
+            placeholder="아이디"
+            name="id"
+            value={inputs.id}
             onChange={onChange}
           ></StyledInput>
-          <StyledInput
-            placeholder="이름"
-            name="name"
-            value={inputs.name}
-            onChange={onChange}
-          ></StyledInput>
-          <StyledInput
-            placeholder="나이"
-            name="age"
-            value={inputs.age}
-            onChange={onChange}
-          ></StyledInput>
-          <RoleSelect name="role" onChange={onChange} value={inputs.role}>
-            <option value="parent">부모님</option>
-            <option value="teacher">선생님</option>
-          </RoleSelect>
-          <StyledInput placeholder="주소"></StyledInput>
-          <form onSubmit={handleSubmit}>
-            <StyledButton type="submit" style={{ width: "100%" }}>
-              계정생성
-            </StyledButton>
-          </form>
-        </NarrowContent>
-      </WiderContent>
-    </Container>
+          <StyledButton onClick={checkSameId}>아이디 중복확인</StyledButton>
+        </ButtonWrap>
+        <StyledInput
+          placeholder="비밀번호"
+          name="pw"
+          value={inputs.pw}
+          onChange={onChange}
+        ></StyledInput>
+        <StyledInput
+          placeholder="이름"
+          name="name"
+          value={inputs.name}
+          onChange={onChange}
+        ></StyledInput>
+        <StyledInput
+          placeholder="나이"
+          name="age"
+          value={inputs.age}
+          onChange={onChange}
+        ></StyledInput>
+        <RoleSelect name="role" onChange={onChange} value={inputs.role}>
+          <option value="parent">부모님</option>
+          <option value="teacher">선생님</option>
+        </RoleSelect>
+        <StyledInput placeholder="주소"></StyledInput>
+        <form onSubmit={handleSubmit}>
+          <StyledButton type="submit" style={{ width: "100%" }}>
+            계정생성
+          </StyledButton>
+        </form>
+      </NarrowContent>
+    </WiderContent>
+    // </Container>
   );
 }
 
