@@ -94,17 +94,6 @@ const AdminRolePageView = () => {
           ))}
         </Tbody>
       </Table>
-
-      {Object.keys(roleData).map((el, index) => (
-        <Preview key={index}>
-          <h3>{el}</h3>
-          <div>
-            {roleData[el].map((role, index) => (
-              <div key={index}>{role.name}</div>
-            ))}
-          </div>
-        </Preview>
-      ))}
       <ToastPotal
         ref={toastRef}
         autoCloseTime={3000}
@@ -157,14 +146,5 @@ const Tbody = styled.tbody`
   tr:nth-child(even) {
     background: #dcf2b5;
     background: ${({ theme }) => theme.colors.lightgreen};
-  }
-`;
-
-const Preview = styled.div`
-  display: flex;
-  margin: 10px;
-
-  h3 {
-    margin-right: 10px;
   }
 `;
