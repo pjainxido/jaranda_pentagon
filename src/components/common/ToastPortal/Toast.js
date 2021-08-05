@@ -1,17 +1,26 @@
 import React from "react";
 import PropType from "prop-types";
 import styled, { keyframes } from "styled-components";
+import TOAST from "constants/toast";
+
+const Toast = ({ mode, onClose, message }) => {
+  return (
+    <ToastItem mode={mode} onClick={onClose}>
+      {message}
+    </ToastItem>
+  );
+};
 
 const handleColorType = (color) => {
   switch (color) {
-    case "success":
-      return "#83bd92";
-    case "info":
-      return "#8398bd";
-    case "warning":
-      return "#bda883";
-    case "error":
-      return "#bd8383";
+    case TOAST.MODE.SUCCESS:
+      return "#a5d25f";
+    case TOAST.MODE.INFO:
+      return "#1f85fd";
+    case TOAST.MODE.WARNING:
+      return "#fde349";
+    case TOAST.MODE.ERROR:
+      return "#f6666a";
   }
 };
 
@@ -21,12 +30,11 @@ const fadeIn = keyframes`
   } to {
     opacity: 1;
   }
-
 `;
 
 const ToastItem = styled.div`
   background-color: ${({ mode }) => handleColorType(mode)};
-  width: 350px;
+  width: 200px;
   display: flex;
   min-height: 75px;
   position: relative;
@@ -50,16 +58,6 @@ const ToastItem = styled.div`
     box-shadow: 0px 0px 3px gray;
   }
 `;
-
-const Message = styled.div``;
-
-const Toast = ({ mode, onClose, message }) => {
-  return (
-    <ToastItem mode={mode} onClick={onClose}>
-      <Message>{message}</Message>
-    </ToastItem>
-  );
-};
 
 Toast.propTypes = {
   mode: PropType.string.isRequired,

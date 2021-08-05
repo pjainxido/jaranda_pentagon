@@ -1,70 +1,36 @@
 import { changeUserRole } from "api/user";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
 import theme from "styles/theme";
-
-const Container = styled.div`
-  font-family: "Font Awesome 5 Free";
-  /* font-weight: 600; */
-  table {
-    width: 100%;
-    text-align: center;
-    table-layout: fixed;
-    border-collapse: initial !important;
-    border-radius: 3px;
-    padding: 0 !important;
-    border: 1px solid ${theme.colors.green} !important;
-  }
-  thead {
-    tr {
-      background-color: ${theme.colors.green};
-      color: white;
-      th {
-        border: none;
-      }
-    }
-  }
-  tbody {
-    tr {
-      td {
-        border: none;
-      }
-    }
-    tr:nth-child(2n) {
-      background-color: ${theme.colors.lightgreen};
-    }
-  }
-  select {
-    text-align: center;
-    padding: 2px;
-    border-radius: 3px;
-    outline: none;
-    border-color: rgba(0, 0, 0, 0.2);
-    /* opacity: 0.4; */
-  }
-`;
+import ToastPortal from "components/common/ToastPortal";
+import Loading from "./Loading";
 
 const ROLE = ["admin", "teacher", "parent"];
 
 const Table = ({ data, loading, page, setPage }) => {
   const [perPage, setPerPage] = useState(10);
+  const toastRef = useRef();
 
   if (loading) {
-    return <div>loading...</div>;
+    return <Loading />;
   }
 
   const postChange = (e) => {
-		//서버에 id, value POST
-		/**
-		 * TODO
-     * changeUserRole을 async await으로 사용해주세요
-     * 그리고 try catch 문으로 에러 핸들링해주세요
-     * 마지막으로 토스트를 멋지게 top ????? 에 사용해주세요
-		 */
-		changeUserRole(e.target.id, e.target.value);
-	};
+    let message = "권한이 성공적으로 변경되었습니다.";
+    let mode = "info";
+
+    try {
+      changeUserRole(e.target.id, e.target.value);
+    } catch (err) {
+      mode = "error";
+      message = "권한 변경에 실패했습니다.";
+    }
+
+    const toast = { mode, message };
+    toastRef.current.addMessage(toast);
+  };
 
   return (
     <Container>
@@ -105,9 +71,60 @@ const Table = ({ data, loading, page, setPage }) => {
         setPage={setPage}
         pageData={data}
       />
+      <ToastPortal
+        ref={toastRef}
+        autoCloseTime={3000}
+        autoClose={true}
+        position={"top-right"}
+      />
     </Container>
   );
 };
+
+const Container = styled.div`
+  font-family: "Font Awesome 5 Free";
+  table {
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+    border-collapse: initial !important;
+    border-radius: 3px;
+    padding: 0 !important;
+    border: 1px solid ${theme.colors.green} !important;
+  }
+  thead {
+    tr {
+      background-color: ${theme.colors.green};
+      color: white;
+      th {
+        border: none;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td:nth-child(4) {
+        width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      td {
+        border: none;
+      }
+    }
+    tr:nth-child(2n) {
+      background-color: ${theme.colors.lightgreen};
+    }
+  }
+  select {
+    text-align: center;
+    padding: 2px;
+    border-radius: 3px;
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+`;
 
 Table.propTypes = {
   data: PropTypes.array,

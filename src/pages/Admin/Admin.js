@@ -2,8 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import Search from "./Search";
 
+const Admin = () => {
+  return (
+    <Container>
+      <Search />
+    </Container>
+  );
+};
+
 const Container = styled.div`
-  margin-top: 60px;
+  margin-top: 200px;
   padding: 0 20px;
   > table {
     border: 1px solid black;
@@ -22,13 +30,5 @@ const Container = styled.div`
     padding: 10px 0;
   }
 `;
-
-function Admin() {
-  return (
-    <Container>
-      <Search />
-    </Container>
-  );
-}
 
 export default Admin;

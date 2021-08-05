@@ -1,7 +1,109 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
+import ToastPortal from "components/common/ToastPortal";
+
+let message = "마지막 페이지 입니다";
+const toast = { mode: "error", message };
+
+const Pagination = ({ page, perPage, setPage, pageData }) => {
+  const [pageCount, setPageCount] = useState(1);
+  const toastRef = useRef();
+
+  const handlePageClick = (e) => {
+    const { innerText } = e.target;
+    setPage(Number(innerText));
+    return;
+  };
+
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(pageData.length / perPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const handleDoublePrevPage = () => {
+    if (pageNumbers.length < 5) {
+      return;
+    }
+    if (pageCount === 1) {
+      toastRef.current.addMessage(toast);
+      return;
+    }
+    setPage(5 * (pageCount - 2) + 1);
+    setPageCount((pageCount) => pageCount - 1);
+    return;
+  };
+
+  const handleDobleNextPage = () => {
+    const pages = Math.floor(Math.ceil(pageData.length / perPage) / 5);
+    if (pageNumbers.length < 5) {
+      return;
+    }
+    if (pageCount > pages) {
+      toastRef.current.addMessage(toast);
+      return;
+    }
+    setPage(5 * pageCount + 1);
+    setPageCount((pageCount) => pageCount + 1);
+    return;
+  };
+
+  const handlePrevPage = () => {
+    if (page === 1) {
+      return;
+    }
+    if (page === 5 * (pageCount - 1) + 1) {
+      setPageCount((pageCount) => pageCount - 1);
+    }
+    setPage((page) => page - 1);
+  };
+
+  const handleNextPage = () => {
+    const pages = Math.ceil(pageData.length / perPage);
+    if (page >= pages) {
+      return;
+    }
+    if (page === 5 * pageCount) {
+      setPageCount((pageCount) => pageCount + 1);
+    }
+    setPage((page) => page + 1);
+  };
+
+  return (
+    <Container>
+      <div>
+        <PageNextButton onClick={handleDoublePrevPage}>
+          <i className="fas fa-angle-double-left" />
+        </PageNextButton>
+        <PageNextButton onClick={handlePrevPage}>
+          <i className="fas fa-chevron-left" />
+        </PageNextButton>
+        {pageNumbers.slice(5 * (pageCount - 1), 5 * pageCount).map((item) => (
+          <PageButton
+            key={item}
+            onClick={handlePageClick}
+            clickButton={page === item}
+          >
+            {item}
+          </PageButton>
+        ))}
+        <PageNextButton onClick={handleNextPage}>
+          <i className="fas fa-chevron-right" />
+        </PageNextButton>
+        <PageNextButton onClick={handleDobleNextPage}>
+          <i className="fas fa-angle-double-right" />
+        </PageNextButton>
+      </div>
+      <ToastPortal
+        ref={toastRef}
+        autoCloseTime={3000}
+        autoClose={true}
+        position={"bottom-center"}
+      />
+    </Container>
+  );
+};
 
 const Container = styled.div`
   width: 100%;
@@ -21,94 +123,16 @@ const PageNextButton = styled(ButtonStyle)`
   border: none;
   height: 30px;
   font-size: 1rem;
-  opacity: ${(props) => (props.pageNumbers >= 10 ? 1 : 0.1)};
-  cursor: ${(props) => (props.pageNumbers >= 10 ? "pointer" : "default")};
 `;
 
 const PageButton = styled(ButtonStyle)`
   width: 50px;
   border: 1px solid
-    ${(props) =>
-      props.clickButton ? theme.colors.green : "rgba(0, 0, 0, 0.2)"};
-  color: ${(props) =>
-    props.clickButton ? theme.colors.green : "rgba(0, 0, 0, 0.2)"};
+    ${(props) => (props.clickButton ? theme.colors.green : "black")};
+  color: ${(props) => (props.clickButton ? theme.colors.green : "black")};
   font-size: 1.5rem;
   border-radius: 2px;
 `;
-
-const AlertMsg = styled.div`
-  margin-top: 10px;
-  color: red;
-`;
-
-function Pagination({ page, perPage, setPage, pageData }) {
-  const [pageCount, setPageCount] = useState(1);
-  const [alertMessage, setAlertMessage] = useState("");
-  const handlePageClick = (e) => {
-    const { innerText } = e.target;
-    setPage(Number(innerText));
-    return;
-  };
-
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(pageData.length / perPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  const handlePrevPage = () => {
-    if (pageNumbers.length < perPage) {
-      return;
-    }
-    if (pageCount === 1) {
-      setAlertMessage("마지막 페이지 입니다");
-      return;
-    }
-    setPageCount((pageCount) => pageCount - 1);
-    setAlertMessage("");
-    return;
-  };
-
-  const handleNextPage = () => {
-    const pages = Math.round(Math.floor(pageData.length / perPage) / perPage);
-    if (pageNumbers.length < perPage) {
-      return;
-    }
-    if (pageCount + 1 > pages) {
-      setAlertMessage("마지막 페이지 입니다");
-      return;
-    }
-    setPageCount((pageCount) => pageCount + 1);
-    setAlertMessage("");
-    return;
-  };
-
-  return (
-    <Container>
-      <div>
-        <PageNextButton onClick={handlePrevPage}>
-          <i className="fas fa-chevron-left fa-lg" />
-        </PageNextButton>
-        {pageNumbers
-          .slice(perPage * (pageCount - 1), perPage * pageCount)
-          .map((item) => (
-            <PageButton
-              key={item}
-              onClick={handlePageClick}
-              pageNumbers={pageNumbers.length}
-              clickButton={page === item}
-            >
-              {item}
-            </PageButton>
-          ))}
-
-        <PageNextButton onClick={handleNextPage}>
-          <i className="fas fa-chevron-right fa-lg" />
-        </PageNextButton>
-      </div>
-      {alertMessage && <AlertMsg>{alertMessage}</AlertMsg>}
-    </Container>
-  );
-}
 
 Pagination.propTypes = {
   page: PropTypes.number,

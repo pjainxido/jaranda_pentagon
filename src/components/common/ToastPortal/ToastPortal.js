@@ -3,28 +3,8 @@ import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Toast from "./Toast";
-
-const ToastContainer = styled.div`
-  position: fixed;
-  ${({ position }) => handleContainerPosition(position)}
-`;
-
-const handleContainerPosition = (position) => {
-  switch (position) {
-    case "top-left":
-      return "top: 1em;left: 1em;";
-    case "top-center":
-      return "top: 1em;left: 50%; transform: translateX(-50%);";
-    case "top-right":
-      return "top: 1em;right: 1em;";
-    case "bottom-left":
-      return "bottom: 1em;left: 1em;";
-    case "bottom-center":
-      return "bottom: 1em;left: 50%; transform: translateX(-50%)";
-    case "bottom-right":
-      return "bottom: 1em;right: 1em;";
-  }
-};
+import MODALROOT from "constants/modalRoot";
+import TOAST from "constants/toast";
 
 const ID = () => {
   return "_" + Math.random().toString(36).substr(2, 9);
@@ -32,7 +12,6 @@ const ID = () => {
 
 const ToastPortal = forwardRef(
   ({ autoClose = true, autoCloseTime = 2000, position = "top-left" }, ref) => {
-    // toastObject  = { id: "123", mode: "info", message: "hello world?" };
     const [toasts, setToasts] = useState([]);
     const [removing, setRemoving] = useState("");
 
@@ -72,10 +51,33 @@ const ToastPortal = forwardRef(
           />
         ))}
       </ToastContainer>,
-      document.getElementById("modal-root")
+      document.getElementById(MODALROOT)
     );
   }
 );
+
+const ToastContainer = styled.div`
+  z-index: 20;
+  position: fixed;
+  ${({ position }) => handleContainerPosition(position)}
+`;
+
+const handleContainerPosition = (position) => {
+  switch (position) {
+    case TOAST.POSITION.TOP_LEFT:
+      return "top: 3em;left: 1em;";
+    case TOAST.POSITION.TOP_CENTER:
+      return "top: 3em;left: 50%; transform: translateX(-50%);";
+    case TOAST.POSITION.TOP_RIGHT:
+      return "top: 3em;right: 1em;";
+    case TOAST.POSITION.BOT_LEFT:
+      return "bottom: 1em;left: 1em;";
+    case TOAST.POSITION.BOT_CENTER:
+      return "bottom: 1em;left: 50%; transform: translateX(-50%)";
+    case TOAST.POSITION.BOT_RIGHT:
+      return "bottom: 1em;right: 1em;";
+  }
+};
 
 ToastPortal.propTypes = {
   autoClose: PropTypes.bool,
@@ -83,6 +85,6 @@ ToastPortal.propTypes = {
   position: PropTypes.string,
 };
 
-ToastPortal.displayName = "ToastPortal"; //  Component definition is missing display name lint error 때문에 추가
+ToastPortal.displayName = "ToastPortal";
 
 export default ToastPortal;
