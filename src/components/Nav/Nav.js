@@ -2,6 +2,7 @@ import { getAllRoles } from "api/role";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import storage from "utils/storage";
 
 const NOTMEMBER = [
   { name: "자란다선생님 보기", route: "/#" },
@@ -18,8 +19,8 @@ function Nav() {
   const history = useHistory();
 
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("userInfo"))) {
-      setUserRole(JSON.parse(localStorage.getItem("userInfo")).role);
+    if (storage.get("userInfo")) {
+      setUserRole(storage.get("userInfo").role);
     }
   }, [location.pathname]);
 
@@ -32,23 +33,24 @@ function Nav() {
 
   const deleteStorage = () => {
     setUserRole("");
-    localStorage.removeItem("userInfo");
-    history.push("/login");
+    storage.remove("userInfo");
+    history.push("/");
   };
 
   return (
-    <div>
+    <Container>
       <Banner>
         <img alt="앱다운로드배너" src="/image/app-download-banner.png" />
         <AppStoreLink to="/#"></AppStoreLink>
         <GooglePlayLink to="/#"></GooglePlayLink>
       </Banner>
-      <NavContainer>
-        <div>
+
+      <NavBox>
+        <Logo>
           <Link to="/">
             <img alt="자란다로고" src="/image/jaranda.log.png"></img>
           </Link>
-        </div>
+        </Logo>
         <MenuWarrper>
           {menuData
             ? menuData.menu.map((menu, idx) => (
@@ -67,17 +69,30 @@ function Nav() {
               onMouseLeave={() => setIsHover(false)}
               onMouseOver={() => setIsHover(true)}
             >
-              <i className="far fa-user-circle" />
-              {isHover && <FakeElement></FakeElement>}
-              <DropList isHover={isHover}>
-                <DropItem>
-                  <Link to="/#">마이페이지</Link>
-                </DropItem>
-                <Divider />
-                <DropItem>
-                  <Link to="/#">이용안내</Link>
-                </DropItem>
-                <Divider />
+              {userRole === "admin" ? (
+                <AdminMode>
+                  <UserRole>관리자모드</UserRole>
+                  <i className="fas fa-users-cog"></i>
+                </AdminMode>
+              ) : (
+                <i className="far fa-user-circle" />
+              )}
+              {isHover && (
+                <FakeElement isAdmin={userRole === "admin"}></FakeElement>
+              )}
+              <DropList isHover={isHover} isAdmin={userRole === "admin"}>
+                {userRole !== "admin" && (
+                  <>
+                    <DropItem>
+                      <Link to="/#">마이페이지</Link>
+                    </DropItem>
+                    <Divider />
+                    <DropItem>
+                      <Link to="/#">이용안내</Link>
+                    </DropItem>
+                    <Divider />
+                  </>
+                )}
                 <DropItem>
                   <LogOut onClick={deleteStorage}>로그아웃</LogOut>
                 </DropItem>
@@ -85,10 +100,21 @@ function Nav() {
             </PersonalMenu>
           )}
         </MenuWarrper>
-      </NavContainer>
-    </div>
+      </NavBox>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+
+  @media ${(props) => props.theme.tablet} {
+    position: relative;
+  }
+`;
 
 const Banner = styled.div`
   width: 100%;
@@ -96,6 +122,10 @@ const Banner = styled.div`
 
   img {
     width: 100%;
+  }
+
+  @media ${(props) => props.theme.tablet} {
+    display: none;
   }
 `;
 
@@ -113,24 +143,43 @@ const GooglePlayLink = styled(AppStoreLink)`
   top: 22%;
 `;
 
-const NavContainer = styled.div`
+const NavBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  min-width: 320px;
-  max-width: 960px;
   height: 63px;
-  margin: 0 416px;
+  margin: 0 auto;
+
+  @media ${(props) => props.theme.tablet} {
+    flex-direction: column;
+  }
 `;
 
 const MenuWarrper = styled.ul`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  min-width: 960px;
+
+  @media ${(props) => props.theme.tablet} {
+    justify-content: center;
+    width: 100%;
+    margin-top: 40px;
+  }
+`;
+
+const Logo = styled.div`
+  @media ${(props) => props.theme.tablet} {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+  }
 `;
 
 const Menu = styled.li`
+  display: flex;
+  align-items: center;
   height: 100%;
   padding: 0 15px;
   font-size: 15px;
@@ -144,6 +193,8 @@ const Menu = styled.li`
 
 const PersonalMenu = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
   margin-left: 20px;
 
   i {
@@ -156,10 +207,26 @@ const PersonalMenu = styled.div`
   }
 `;
 
+const AdminMode = styled.div`
+  padding-bottom: 8px;
+  font-size: 15px;
+
+  @media ${(props) => props.theme.tablet} {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0px;
+  }
+`;
+
+const UserRole = styled.span`
+  margin-right: 8px;
+  color: #4a4a4a;
+`;
+
 const FakeElement = styled.div`
   position: absolute;
   top: 20px;
-  left: -76px;
+  left: ${(props) => (props.isAdmin ? "0" : "76px")};
   height: 50px;
   min-width: 120px;
   z-index: 1;
@@ -169,7 +236,7 @@ const DropList = styled.ul`
   display: ${(props) => (props.isHover ? "block" : "none")};
   position: absolute;
   top: 41px;
-  left: -136px;
+  left: ${(props) => (props.isAdmin ? "-56px" : "-136px")};
   min-width: 160px;
   padding: 10px 0;
   margin: 2px 0 0;
