@@ -9,7 +9,7 @@ import {
   VisitLog,
   ClassSupport,
   TeacherVisit,
-} from "pages/Menu";
+} from 'pages/Menu';
 
 const menuRouteMapping = {
   class_schedule: ClassSchedule,

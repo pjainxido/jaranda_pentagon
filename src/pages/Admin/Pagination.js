@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import theme from "styles/theme";
-import ToastPortal from "components/common/ToastPortal";
+import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import theme from 'styles/theme';
+import ToastPortal from 'components/ToastPortal';
 
-let message = "마지막 페이지 입니다";
-const toast = { mode: "error", message };
+let message = '마지막 페이지 입니다';
+const toast = { mode: 'error', message };
 
 const Pagination = ({ page, perPage, setPage, pageData }) => {
   const [pageCount, setPageCount] = useState(1);
@@ -74,33 +74,24 @@ const Pagination = ({ page, perPage, setPage, pageData }) => {
     <Container>
       <div>
         <PageNextButton onClick={handleDoublePrevPage}>
-          <i className="fas fa-angle-double-left" />
+          <i className='fas fa-angle-double-left' />
         </PageNextButton>
         <PageNextButton onClick={handlePrevPage}>
-          <i className="fas fa-chevron-left" />
+          <i className='fas fa-chevron-left' />
         </PageNextButton>
         {pageNumbers.slice(5 * (pageCount - 1), 5 * pageCount).map((item) => (
-          <PageButton
-            key={item}
-            onClick={handlePageClick}
-            clickButton={page === item}
-          >
+          <PageButton key={item} onClick={handlePageClick} clickButton={page === item}>
             {item}
           </PageButton>
         ))}
         <PageNextButton onClick={handleNextPage}>
-          <i className="fas fa-chevron-right" />
+          <i className='fas fa-chevron-right' />
         </PageNextButton>
         <PageNextButton onClick={handleDobleNextPage}>
-          <i className="fas fa-angle-double-right" />
+          <i className='fas fa-angle-double-right' />
         </PageNextButton>
       </div>
-      <ToastPortal
-        ref={toastRef}
-        autoCloseTime={3000}
-        autoClose={true}
-        position={"bottom-center"}
-      />
+      <ToastPortal ref={toastRef} autoCloseTime={3000} autoClose={true} position={'bottom-center'} />
     </Container>
   );
 };
@@ -127,9 +118,8 @@ const PageNextButton = styled(ButtonStyle)`
 
 const PageButton = styled(ButtonStyle)`
   width: 50px;
-  border: 1px solid
-    ${(props) => (props.clickButton ? theme.colors.green : "black")};
-  color: ${(props) => (props.clickButton ? theme.colors.green : "black")};
+  border: 1px solid ${(props) => (props.clickButton ? theme.colors.green : 'black')};
+  color: ${(props) => (props.clickButton ? theme.colors.green : 'black')};
   font-size: 1.5rem;
   border-radius: 2px;
 `;

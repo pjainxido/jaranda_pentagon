@@ -1,7 +1,8 @@
-import styled from "styled-components";
-import theme from "styles/theme";
+import styled from 'styled-components';
+import theme from 'styles/theme';
 
 const Container = styled.div`
+  margin-top: ${({ theme }) => theme.height.component};
   padding: 130px 0;
 `;
 
@@ -44,11 +45,10 @@ const Title = styled.div`
 
 const StyledButton = styled.button`
   ${theme.common.button}
-  height: 52px;
+  height: 45px;
   background-color: ${theme.colors.blue};
   color: #fff;
   font-size: 13px;
-  line-height: 48px;
 `;
 
 const BasicInput = styled.input`
@@ -56,7 +56,7 @@ const BasicInput = styled.input`
   box-sizing: border-box;
   background-color: #fff;
   padding: 0 15px;
-  height: 52px;
+  height: 45px;
   margin-bottom: 16px;
 `;
 

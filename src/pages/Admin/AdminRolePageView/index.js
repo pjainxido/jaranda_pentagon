@@ -1,1 +1,1 @@
-export {default} from './AdminRolePageView';
+export { default } from './AdminRolePageView';

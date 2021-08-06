@@ -1,10 +1,10 @@
-import { getAllUsers } from "api/user";
-import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import theme from "styles/theme";
-import Modal from "./Modal";
-import Table from "./Table";
-import ResultNotFound from "./ResultNotFound"
+import { getAllUsers } from 'api/user';
+import React, { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import theme from 'styles/theme';
+import Modal from './Modal';
+import Table from './Table';
+import ResultNotFound from './ResultNotFound';
 
 const Search = () => {
   const [pageData, setPageData] = useState([]);
@@ -12,22 +12,20 @@ const Search = () => {
   const [page, setPage] = useState(1);
 
   const Searching = (category, searchInput) => {
-    let filteredData = "";
+    let filteredData = '';
 
     if (category === undefined) {
       let tmpArr = new Array();
       for (let i = 0; i < pageData.length; i++) {
-        Object.values(pageData[i]).includes(searchInput) ? tmpArr.push(i) : "";
+        Object.values(pageData[i]).includes(searchInput) ? tmpArr.push(i) : '';
       }
       filteredData = pageData.filter((item, index) => tmpArr.includes(index));
     } else {
-      filteredData = pageData.filter(
-        (item) => item[`${category}`] === searchInput
-      );
+      filteredData = pageData.filter((item) => item[`${category}`] === searchInput);
     }
 
     if (filteredData.length === 0) {
-      filteredData = "noresult";
+      filteredData = 'noresult';
     }
     setPage(1);
     return filteredData;
@@ -35,7 +33,7 @@ const Search = () => {
 
   const [category, setCategory] = useState();
   const [inputs, setInputs] = useState({
-    userInput: "",
+    userInput: '',
   });
   const [searchedItem, setSearchedItem] = useState([]);
 
@@ -65,10 +63,10 @@ const Search = () => {
     e.preventDefault();
     setCategory();
     setInputs({
-      userInput: "",
+      userInput: '',
     });
     setSearchedItem([]);
-    selectItem.current.value = "default";
+    selectItem.current.value = 'default';
   };
 
   const [isShown, setIsShown] = useState(false);
@@ -91,63 +89,45 @@ const Search = () => {
       <Container>
         <SearchBox>
           <Category onChange={handleCategoryChange} ref={selectItem}>
-            <option value="default">전체</option>
-            <option value="userId" ref={selectItem}>
+            <option value='default'>전체</option>
+            <option value='userId' ref={selectItem}>
               아이디
             </option>
-            <option value="name" ref={selectItem}>
+            <option value='name' ref={selectItem}>
               이름
             </option>
-            <option value="role" ref={selectItem}>
+            <option value='role' ref={selectItem}>
               권한
             </option>
-            <option value="address" ref={selectItem}>
+            <option value='address' ref={selectItem}>
               주소
             </option>
-            <option value="age" ref={selectItem}>
+            <option value='age' ref={selectItem}>
               나이
             </option>
-            <option value="creditCard" ref={selectItem}>
+            <option value='creditCard' ref={selectItem}>
               카드번호
             </option>
           </Category>
           <form onSubmit={onSubmit}>
-            <SearchInput
-              type="search"
-              name="userInput"
-              value={userInput}
-              onChange={handleSearchChange}
-              placeholder="&#xF002; 검색"
-            />
+            <SearchInput type='search' name='userInput' value={userInput} onChange={handleSearchChange} placeholder='&#xF002; 검색' />
           </form>
         </SearchBox>
         <OptionBtnBox>
-          <input type="reset" onClick={clearState} value="전체 목록 보기" />
+          <input type='reset' onClick={clearState} value='전체 목록 보기' />
           <button onClick={handleModalOpen}>계정 생성</button>
         </OptionBtnBox>
-        {isShown && (
-          <Modal handleModalClose={handleModalClose} setIsShown={setIsShown} />
-        )}
+        {isShown && <Modal handleModalClose={handleModalClose} setIsShown={setIsShown} />}
       </Container>
       <div>
         {searchedItem.length > 0 ? (
-          searchedItem === "noresult" ? (
+          searchedItem === 'noresult' ? (
             <ResultNotFound />
           ) : (
-            <Table
-              data={searchedItem}
-              page={page}
-              setPage={setPage}
-              loading={loading}
-            />
+            <Table data={searchedItem} page={page} setPage={setPage} loading={loading} />
           )
         ) : (
-          <Table
-            data={pageData}
-            page={page}
-            setPage={setPage}
-            loading={loading}
-          />
+          <Table data={pageData} page={page} setPage={setPage} loading={loading} />
         )}
       </div>
     </>
@@ -155,13 +135,13 @@ const Search = () => {
 };
 
 const Container = styled.div`
-	margin-bottom: 10px;
-	display: flex;
-	justify-content: space-between;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Category = styled.select`
-  font-family: "Font Awesome 5 Free";
+  font-family: 'Font Awesome 5 Free';
   font-weight: 600;
   text-align: center;
   opacity: 0.4;
@@ -170,22 +150,22 @@ const Category = styled.select`
 `;
 
 const SearchBox = styled.div`
-	display: flex;
+  display: flex;
 `;
 
 const SearchInput = styled.input`
-	::placeholder {
-		font-family: 'Font Awesome 5 Free';
-		font-weight: 600;
-		text-align: center;
-		opacity: 0.5;
-	}
-	outline: none;
-	height: 30px;
-	width: 300px;
-	border-radius: 3px;
-	border: 1px solid rgba(0, 0, 0, 0.2);
-	margin-left: 10px;
+  ::placeholder {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 600;
+    text-align: center;
+    opacity: 0.5;
+  }
+  outline: none;
+  height: 30px;
+  width: 300px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-left: 10px;
 `;
 
 const OptionBtnBox = styled.div`
