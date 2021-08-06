@@ -1,8 +1,17 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import menuTheme from 'styles/menuTheme';
+
+const { Container, Contents, Main, LogoImg } = menuTheme;
 
 function RequestDetail() {
-  return <h1>신청서 내역</h1>;
+  return (
+    <Container>
+      <Contents>
+        <Main>신청서 내역</Main>
+        <LogoImg src='/image/jaranda.image.jpeg' alt='자란다이미지' />
+      </Contents>
+    </Container>
+  );
 }
 
 export default RequestDetail;
