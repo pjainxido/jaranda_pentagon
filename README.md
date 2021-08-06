@@ -43,6 +43,7 @@ $ yarn start
 
 - [ ] 계정별로 들어갈수있는 메뉴 접속 시 일단 메뉴명만 출력되면 된다.
 
+
 ### 권한 및 계정관리 페이지(관리자)
 
 - [x] 계정 임의생성
@@ -71,6 +72,11 @@ $ yarn start
 - [박제인](https://github.com/pjainxido)
 
 - [김명준](https://github.com/JOHNKIM-KK)
+  - Nav 구현
+  - 권한별 메뉴 생성 구현
+  - 로그아웃 기능 구현
+  - 다음 API 주소입력 
+  - 메뉴별 페이지 구현
 
 - [이가은](https://github.com/salybu)
 
