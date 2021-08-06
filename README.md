@@ -75,7 +75,7 @@ $ yarn start
   - Nav 구현
   - 권한별 메뉴 생성 구현
   - 로그아웃 기능 구현
-  - 다음 API 주소입력 
+  - 다음 API를 사용하여 주소입력창 구현
   - 메뉴별 페이지 구현
 
 - [이가은](https://github.com/salybu)
