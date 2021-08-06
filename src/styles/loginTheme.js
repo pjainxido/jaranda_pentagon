@@ -2,6 +2,7 @@ import styled from "styled-components";
 import theme from "styles/theme";
 
 const Container = styled.div`
+  margin-top: ${({ theme }) => theme.height.component};
   padding: 130px 0;
 `;
 
