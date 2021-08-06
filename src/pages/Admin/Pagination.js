@@ -36,11 +36,11 @@ const Pagination = ({ page, perPage, setPage, pageData }) => {
   };
 
   const handleDobleNextPage = () => {
-    const pages = Math.floor(Math.ceil(pageData.length / perPage) / 5);
+    const pages = Math.ceil(pageData.length / perPage / 5);
     if (pageNumbers.length < 5) {
       return;
     }
-    if (pageCount > pages) {
+    if (pageCount >= pages) {
       toastRef.current.addMessage(toast);
       return;
     }
