@@ -45,7 +45,6 @@ const Nav = () => {
 
     if (menuData && location.pathname.split('/')[2]) {
       const secondPathValid = menuData.menu.some((data) => location.pathname.split('/')[2].includes(data.route));
-
       if (isForbidden && secondPathValid) {
         setIsValidMenu(true);
       } else {
