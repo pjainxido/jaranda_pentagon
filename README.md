@@ -67,6 +67,8 @@ $ yarn start
   - 데이터 테이블 (목업, 페이지네이션, 계정 생성) 구현
 
 - [박제인](https://github.com/pjainxido)
+  - ToastPortal 컴포넌트 작성
+  - login 페이지 내부 redirect시 알람 이벤트 처리
 
 - [김명준](https://github.com/JOHNKIM-KK)
 
