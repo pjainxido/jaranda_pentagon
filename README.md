@@ -63,6 +63,8 @@ $ yarn start
 
 - [구남규](https://github.com/nain93)
 
+  - 데이터 테이블 (목업, 페이지네이션, 계정 생성) 구현
+
 - [박제인](https://github.com/pjainxido)
 
 - [김명준](https://github.com/JOHNKIM-KK)
