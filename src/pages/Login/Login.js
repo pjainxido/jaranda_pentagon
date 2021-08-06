@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect} from 'react';
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import loginTheme from 'styles/loginTheme';
 import { findUserByIdAndPassword } from 'api/user';
 import storage from 'utils/storage';
+import ToastPortal from 'components/ToastPortal';
+import TOAST from 'constants/toast';
 
 const { Container, WiderContent, NarrowContent, Title, StyledButton, BasicInput } = loginTheme;
 
@@ -30,10 +33,19 @@ const Divider = styled.div`
 `;
 
 const Login = (props) => {
+  const location = useLocation();
+  const toastRef = useRef();
   const [inputs, setInputs] = useState({
     id: '',
     pw: '',
   });
+  
+  useEffect(() => {
+    console.log(location);
+    if(toastRef.current && location.state?.isRedirect) {
+      toastRef.current.addMessage({mode: TOAST.MODE.ERROR, message: '잘못된 접근입니다.'})
+    }
+  }, [toastRef]);
 
   const onChange = (e) => {
     let { name, value } = e.target;
@@ -84,6 +96,7 @@ const Login = (props) => {
           </StyledButton>
         </NarrowContent>
       </WiderContent>
+      <ToastPortal position={TOAST.POSITION.TOP_RIGHT} ref={toastRef} />
     </Container>
   );
 };

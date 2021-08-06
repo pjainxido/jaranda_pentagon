@@ -19,7 +19,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 			render={(props) => {
 				const user = storage.get('userInfo');
 
-				if (!user) return <Redirect to='/' />;
+				if (!user) return <Redirect to={{pathname:'/' , state: {isRedirect: true}}} />;
 				// if (!isValidURL(user)) return <Redirect to={`/${user.role}`} />;
 				if (!isValidURL(user)) return <Forbidden />;
 
