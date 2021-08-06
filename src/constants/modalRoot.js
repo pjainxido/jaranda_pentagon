@@ -1,2 +1,2 @@
-const MODALROOT = "modal-root";
+const MODALROOT = 'modal-root';
 export default MODALROOT;

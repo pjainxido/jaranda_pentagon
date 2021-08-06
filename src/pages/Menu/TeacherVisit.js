@@ -1,8 +1,18 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import menuTheme from 'styles/menuTheme';
+
+const { Container, Contents, Main, LogoImg } = menuTheme;
+
 
 function TeacherVisit() {
-  return <h1>방문일지</h1>;
+  return (
+    <Container>
+      <Contents>
+        <Main>방문일지</Main>
+        <LogoImg src='/image/jaranda.image.jpeg' alt='자란다이미지' />
+      </Contents>
+    </Container>
+  );
 }
 
 export default TeacherVisit;
