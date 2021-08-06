@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { createUser, checkUserByUserId } from "api/user/index";
 import AddressApi from "components/AddressApi/AddressApi";
 import { CreditCardPopup } from "components/CreditCardPopup";
-import ToastPortal from "components/common/ToastPortal";
+import ToastPortal from "components/ToastPortal";
 import TOAST from "constants/toast";
 
 import styled from "styled-components";
