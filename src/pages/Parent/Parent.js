@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import menuTheme from 'styles/menuTheme';
 import PropTypes from 'prop-types';
 
 import { PrivateRoute } from 'routes';
@@ -9,6 +9,9 @@ import { storage } from 'utils';
 import NotFound from 'pages/NotFound';
 
 /* eslint-disable */
+
+const { Container, Contents, Main, LogoImg } = menuTheme;
+
 const Parent = ({ location, match }) => {
   const [menus, setMenus] = useState(null);
 
@@ -27,16 +30,17 @@ const Parent = ({ location, match }) => {
 
   return (
     <Container>
-      {match.isExact && <h1>Parent 메인</h1>}
+      {match.isExact && (
+        <Contents>
+          <Main>부모님 메인</Main>
+          <LogoImg src='/image/jaranda.image.jpeg' alt='자란다이미지' />
+        </Contents>
+      )}
       {menus && menus.menu.map(({ route }) => <PrivateRoute key={route} path={`/parent/${route}`} component={menuRouteMapping[route]} />)}
       {menus && menus.menu.filter(({ route }) => `/parent/${route}` !== location.pathname).length === menus.menu.length && !match.isExact && <NotFound />}
     </Container>
   );
 };
-
-const Container = styled.div`
-  padding-top: 160px;
-`;
 
 Parent.propTypes = {
   match: PropTypes.object,
