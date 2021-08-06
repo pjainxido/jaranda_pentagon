@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory  } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import loginTheme from 'styles/loginTheme';
@@ -12,15 +12,16 @@ import ROUTE_PATH from 'constants/routePath';
 const Login = (props) => {
   const location = useLocation();
   const toastRef = useRef();
+  const history = useHistory();
   const [inputs, setInputs] = useState({
     id: '',
     pw: '',
   });
 
   useEffect(() => {
-    console.log(location);
     if (toastRef.current && location.state?.isRedirect) {
       toastRef.current.addMessage({ mode: TOAST.MODE.ERROR, message: '잘못된 접근입니다.' });
+      history.replace('/');
     }
   }, [toastRef]);
 
