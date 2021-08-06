@@ -91,3 +91,7 @@ $ yarn start
 - Back : Firebase Cloud Firestore
 - Deploy : Firebase Hosting
 - Etc : Git, GitHub
+
+
+### 배포주소
+[https://jaranda-f17b8.web.app/](https://jaranda-f17b8.web.app/)
