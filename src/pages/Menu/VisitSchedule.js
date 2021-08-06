@@ -1,8 +1,18 @@
 import React from 'react';
-import styled from 'styled-components';
+import menuTheme from 'styles/menuTheme';
+
+const { Container, Contents, Main, LogoImg } = menuTheme;
+
 
 function VisitSchedule() {
-  return <h1>방문일정</h1>;
+  return (
+    <Container>
+      <Contents>
+        <Main>방문일정</Main>
+        <LogoImg src='/image/jaranda.image.jpeg' alt='자란다이미지' />
+      </Contents>
+    </Container>
+  );
 }
 
 export default VisitSchedule;

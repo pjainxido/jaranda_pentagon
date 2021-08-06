@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import ToastPortal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
-import getRole from 'utils/getRole';
 import styled from 'styled-components';
 import storage from 'utils/storage';
 
