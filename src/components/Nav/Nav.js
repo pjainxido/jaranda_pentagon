@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import ToastPortal from "components/ToastPortal";
 import TOAST from "constants/toast";
+import getRole from "utils/getRole";
 import styled from "styled-components";
 import storage from "utils/storage";
 
@@ -10,7 +11,7 @@ const NOTMEMBER = [
   { name: "자란다선생님 보기", route: "/#" },
   { name: "선생님 지원하기", route: "/#" },
   { name: "이용안내", route: "/#" },
-  { name: "로그인/회원가입", route: "/login" },
+  { name: "로그인/회원가입", route: "/" },
 ];
 
 function Nav() {
@@ -27,11 +28,15 @@ function Nav() {
     }
   }, [location.pathname]);
 
-  useEffect(async () => {
-    const res = await getAllRoles();
-    if (res) {
-      setMenuData(...res.filter((data) => data.id === userRole));
-    }
+  useEffect(() => {
+    const fetchRoleData = async () => {
+      const res = await getAllRoles();
+      if (res) {
+        setMenuData(...res.filter((data) => data.id === userRole));
+      }
+    };
+
+    fetchRoleData();
   }, [userRole]);
 
   const addToast = (mode, message) => {
@@ -52,7 +57,6 @@ function Nav() {
         <AppStoreLink to="/#"></AppStoreLink>
         <GooglePlayLink to="/#"></GooglePlayLink>
       </Banner>
-
       <NavBox>
         <Logo>
           <Link to="/">
@@ -126,8 +130,9 @@ const Container = styled.div`
 `;
 
 const Banner = styled.div`
-  width: 100%;
   position: relative;
+  width: 100%;
+  height: 100px;
 
   img {
     width: 100%;
@@ -235,7 +240,7 @@ const UserRole = styled.span`
 const FakeElement = styled.div`
   position: absolute;
   top: 20px;
-  left: ${(props) => (props.isAdmin ? "76px" : "-76px")};
+  left: ${(props) => (props.isAdmin ? "-6px" : "-76px")};
   height: 50px;
   min-width: 120px;
   z-index: 1;

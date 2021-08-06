@@ -24,9 +24,14 @@ const size = {
   tablet: "1023px",
 };
 
+const height = {
+  component: "200px",
+};
+
 const theme = {
   colors,
   common,
+  height,
   tablet: `(max-width: ${size.tablet})`,
 };
 
