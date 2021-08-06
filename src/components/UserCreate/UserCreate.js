@@ -124,7 +124,7 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
         role: inputs.role,
         password: inputs.pw,
         name: inputs.name,
-        age: Number(inputs.age),
+        age: inputs.age,
         address: inputs.address + inputs.addressDetail,
         creditCard: {
           cardNumber: cardNumber,

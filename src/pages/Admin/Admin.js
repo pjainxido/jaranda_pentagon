@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import Nav from 'components/Nav/Nav';
 import Search from './Search';
 
 const Admin = () => {
   return (
-    <Container>
-      <Search />
-    </Container>
+    <>
+      <Nav />
+      <Container>
+        <Search />
+      </Container>
+    </>
   );
 };
 
@@ -32,4 +36,3 @@ const Container = styled.div`
 `;
 
 export default Admin;
-

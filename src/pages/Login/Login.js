@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import loginTheme from 'styles/loginTheme';
 import { findUserByIdAndPassword } from 'api/user';
+import Nav from 'components/Nav/Nav';
 import storage from 'utils/storage';
 import ToastPortal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
@@ -12,15 +13,16 @@ import ROUTE_PATH from 'constants/routePath';
 const Login = (props) => {
   const location = useLocation();
   const toastRef = useRef();
+  const history = useHistory();
   const [inputs, setInputs] = useState({
     id: '',
     pw: '',
   });
 
   useEffect(() => {
-    console.log(location);
     if (toastRef.current && location.state?.isRedirect) {
       toastRef.current.addMessage({ mode: TOAST.MODE.ERROR, message: '잘못된 접근입니다.' });
+      history.replace('/');
     }
   }, [toastRef]);
 
@@ -60,26 +62,29 @@ const Login = (props) => {
   };
 
   return (
-    <Container>
-      <WiderContent>
-        <NarrowContent>
-          <Title>자란다 로그인</Title>
-          <StyledInput placeholder='아이디' name='id' onChange={onChange} value={inputs.id} />
-          <StyledInput placeholder='비밀번호' type='password' name='pw' onChange={onChange} value={inputs.pw} />
-          <GreenButton onClick={login}>로그인</GreenButton>
-          <Divider />
-          <StyledButton
-            onClick={() => {
-              props.history.push(ROUTE_PATH.SIGN_UP);
-            }}
-          >
-            회원가입
-          </StyledButton>
-        </NarrowContent>
-        <ToastPortal ref={toastRef} position={TOAST.POSITION.TOP_CENTER} />
-      </WiderContent>
-      <ToastPortal position={TOAST.POSITION.TOP_RIGHT} ref={toastRef} />
-    </Container>
+    <>
+      <Nav />
+      <Container>
+        <WiderContent>
+          <NarrowContent>
+            <Title>자란다 로그인</Title>
+            <StyledInput placeholder='아이디' name='id' onChange={onChange} value={inputs.id} />
+            <StyledInput placeholder='비밀번호' type='password' name='pw' onChange={onChange} value={inputs.pw} />
+            <GreenButton onClick={login}>로그인</GreenButton>
+            <Divider />
+            <StyledButton
+              onClick={() => {
+                props.history.push(ROUTE_PATH.SIGN_UP);
+              }}
+            >
+              회원가입
+            </StyledButton>
+          </NarrowContent>
+          <ToastPortal ref={toastRef} position={TOAST.POSITION.TOP_CENTER} />
+        </WiderContent>
+        <ToastPortal position={TOAST.POSITION.TOP_RIGHT} ref={toastRef} />
+      </Container>
+    </>
   );
 };
 

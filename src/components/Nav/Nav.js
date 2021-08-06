@@ -16,7 +16,7 @@ const NOTMEMBER = [
 
 const Nav = () => {
   const [isHover, setIsHover] = useState(false);
-  const [isValidMenu, setIsValidMenu] = useState(false);
+  // const [isValidMenu, setIsValidMenu] = useState(true);
   const [menuData, setMenuData] = useState('');
   const [userRole, setUserRole] = useState('');
   const toastRef = useRef();
@@ -40,22 +40,6 @@ const Nav = () => {
     fetchRoleData();
   }, [userRole]);
 
-  useEffect(() => {
-    const isForbidden = location.pathname.split('/')[1].includes(userRole);
-
-    if (menuData && location.pathname.split('/')[2]) {
-      const secondPathValid = menuData.menu.some((data) => location.pathname.split('/')[2].includes(data.route));
-
-      if (isForbidden && secondPathValid) {
-        setIsValidMenu(true);
-      } else {
-        setIsValidMenu(false);
-      }
-    } else if (menuData && isForbidden) {
-      setIsValidMenu(true);
-    }
-  }, [menuData, location.pathname]);
-
   const addToast = (mode, message) => {
     toastRef.current.addMessage({ mode, message });
   };
@@ -68,68 +52,64 @@ const Nav = () => {
   };
 
   return (
-    <>
-      {isValidMenu && (
-        <Container>
-          <Banner>
-            <img alt='앱다운로드배너' src='/image/app-download-banner.png' />
-            <AppStoreLink to='/#'></AppStoreLink>
-            <GooglePlayLink to='/#'></GooglePlayLink>
-          </Banner>
-          <NavBox>
-            <Logo>
-              <Link to={ROUTE_PATH.MAIN}>
-                <img alt='자란다로고' src='/image/jaranda.log.png'></img>
-              </Link>
-            </Logo>
-            <MenuWrapper>
-              {menuData
-                ? menuData.menu.map((menu, idx) => (
-                    <Menu key={idx}>
-                      <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
-                    </Menu>
-                  ))
-                : NOTMEMBER.map((menu, idx) => (
-                    <Menu key={idx}>
-                      <Link to={menu.route}>{menu.name}</Link>
-                    </Menu>
-                  ))}
-              {userRole && (
-                <PersonalMenu onClick={() => setIsHover(false)} onMouseLeave={() => setIsHover(false)} onMouseOver={() => setIsHover(true)}>
-                  {userRole === 'admin' ? (
-                    <AdminMode>
-                      <UserRole>관리자모드</UserRole>
-                      <i className='fas fa-users-cog'></i>
-                    </AdminMode>
-                  ) : (
-                    <i className='far fa-user-circle' />
-                  )}
-                  {isHover && <FakeElement isAdmin={userRole === 'admin'}></FakeElement>}
-                  <DropList isHover={isHover} isAdmin={userRole === 'admin'}>
-                    {userRole !== 'admin' && (
-                      <>
-                        <DropItem>
-                          <Link to='/#'>마이페이지</Link>
-                        </DropItem>
-                        <Divider />
-                        <DropItem>
-                          <Link to='/#'>이용안내</Link>
-                        </DropItem>
-                        <Divider />
-                      </>
-                    )}
-                    <DropItem>
-                      <LogOut onClick={deleteStorage}>로그아웃</LogOut>
-                    </DropItem>
-                  </DropList>
-                </PersonalMenu>
+    <Container>
+      <Banner>
+        <img alt='앱다운로드배너' src='/image/app-download-banner.png' />
+        <AppStoreLink to='/#'></AppStoreLink>
+        <GooglePlayLink to='/#'></GooglePlayLink>
+      </Banner>
+      <NavBox>
+        <Logo>
+          <Link to={ROUTE_PATH.MAIN}>
+            <img alt='자란다로고' src='/image/jaranda.log.png'></img>
+          </Link>
+        </Logo>
+        <MenuWrapper>
+          {menuData
+            ? menuData.menu.map((menu, idx) => (
+                <Menu key={idx}>
+                  <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
+                </Menu>
+              ))
+            : NOTMEMBER.map((menu, idx) => (
+                <Menu key={idx}>
+                  <Link to={menu.route}>{menu.name}</Link>
+                </Menu>
+              ))}
+          {userRole && (
+            <PersonalMenu onClick={() => setIsHover(false)} onMouseLeave={() => setIsHover(false)} onMouseOver={() => setIsHover(true)}>
+              {userRole === 'admin' ? (
+                <AdminMode>
+                  <UserRole>관리자모드</UserRole>
+                  <i className='fas fa-users-cog'></i>
+                </AdminMode>
+              ) : (
+                <i className='far fa-user-circle' />
               )}
-            </MenuWrapper>
-          </NavBox>
-          <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
-        </Container>
-      )}
-    </>
+              {isHover && <FakeElement isAdmin={userRole === 'admin'}></FakeElement>}
+              <DropList isHover={isHover} isAdmin={userRole === 'admin'}>
+                {userRole !== 'admin' && (
+                  <>
+                    <DropItem>
+                      <Link to='/#'>마이페이지</Link>
+                    </DropItem>
+                    <Divider />
+                    <DropItem>
+                      <Link to='/#'>이용안내</Link>
+                    </DropItem>
+                    <Divider />
+                  </>
+                )}
+                <DropItem>
+                  <LogOut onClick={deleteStorage}>로그아웃</LogOut>
+                </DropItem>
+              </DropList>
+            </PersonalMenu>
+          )}
+        </MenuWrapper>
+      </NavBox>
+      <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
+    </Container>
   );
 };
 

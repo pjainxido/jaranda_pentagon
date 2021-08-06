@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { PublicRoute, PrivateRoute } from 'routes';
-import Nav from 'components/Nav';
 import Login from 'pages/Login';
 import SignUp from 'pages/SignUp';
 import Admin from 'pages/Admin';
@@ -14,7 +13,6 @@ import ROUTE_PATH from 'constants/routePath';
 const App = () => {
   return (
     <Router>
-      <Nav />
       <Switch>
         <PublicRoute path={ROUTE_PATH.MAIN} component={Login} restricted exact />
         <PublicRoute path={ROUTE_PATH.SIGN_UP} component={SignUp} restricted />

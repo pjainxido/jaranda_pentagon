@@ -6,6 +6,7 @@ import { PrivateRoute } from 'routes';
 import { menuRouteMapping } from 'utils';
 import { getAllRoles } from 'api/role';
 import { storage } from 'utils';
+import Nav from 'components/Nav/Nav';
 import NotFound from 'pages/NotFound';
 import menuTheme from 'styles/menuTheme';
 import ROUTE_PATH from 'constants/routePath';
@@ -29,22 +30,25 @@ const Parent = ({ match }) => {
   }, []);
 
   return (
-    <Container>
-      {match.isExact && (
-        <Contents>
-          <Main>부모님 메인</Main>
-          <LogoImg src='/image/jaranda.image.jpeg' alt='자란다이미지' />
-        </Contents>
-      )}
-      {menus && (
-        <Switch>
-          {menus.menu.map(({ route }) => (
-            <PrivateRoute key={route} path={`${ROUTE_PATH.PARENT}/${route}`} component={menuRouteMapping[`/${route}`]} exact />
-          ))}
-          {!match.isExact && <NotFound />}
-        </Switch>
-      )}
-    </Container>
+    <>
+      <Nav />
+      <Container>
+        {match.isExact && (
+          <Contents>
+            <Main>부모님 메인</Main>
+            <LogoImg src='/image/jaranda.image.jpeg' alt='자란다이미지' />
+          </Contents>
+        )}
+        {menus && (
+          <Switch>
+            {menus.menu.map(({ route }) => (
+              <PrivateRoute key={route} path={`${ROUTE_PATH.PARENT}/${route}`} component={menuRouteMapping[`/${route}`]} exact />
+            ))}
+            {!match.isExact && <NotFound />}
+          </Switch>
+        )}
+      </Container>
+    </>
   );
 };
 
