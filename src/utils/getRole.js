@@ -1,9 +1,15 @@
 import { getAllRoles } from "api/role";
+import storage from "utils/storage";
 
-const getRole = async (saveRole, userRole) => {
+const getRole = async () => {
   const res = await getAllRoles();
-  if (res) {
-    saveRole(...res.filter((data) => data.id === userRole));
+
+  if (storage.get("userInfo")) {
+    const userRole = storage.get("userInfo").role;
+    if (res && userRole) {
+      const object = res.filter((data) => data.id === userRole);
+      return object;
+    }
   }
 };
 

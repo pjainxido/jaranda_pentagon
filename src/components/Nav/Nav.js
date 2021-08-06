@@ -29,7 +29,14 @@ function Nav() {
   }, [location.pathname]);
 
   useEffect(() => {
-    getRole(setMenuData, userRole);
+    const fetchRoleData = async () => {
+      const res = await getAllRoles();
+      if (res) {
+        setMenuData(...res.filter((data) => data.id === userRole));
+      }
+    };
+
+    fetchRoleData();
   }, [userRole]);
 
   const addToast = (mode, message) => {
@@ -50,7 +57,6 @@ function Nav() {
         <AppStoreLink to="/#"></AppStoreLink>
         <GooglePlayLink to="/#"></GooglePlayLink>
       </Banner>
-
       <NavBox>
         <Logo>
           <Link to="/">
@@ -124,8 +130,9 @@ const Container = styled.div`
 `;
 
 const Banner = styled.div`
-  width: 100%;
   position: relative;
+  width: 100%;
+  height: 100px;
 
   img {
     width: 100%;
@@ -233,7 +240,7 @@ const UserRole = styled.span`
 const FakeElement = styled.div`
   position: absolute;
   top: 20px;
-  left: ${(props) => (props.isAdmin ? "76px" : "-76px")};
+  left: ${(props) => (props.isAdmin ? "-6px" : "-76px")};
   height: 50px;
   min-width: 120px;
   z-index: 1;
