@@ -256,6 +256,16 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
             {isAdmin ? '계정생성' : '회원가입'}
           </StyledButton>
         </form>
+        {!isAdmin && (
+          <StyledButton
+            style={{ width: '100%', marginTop: 10, opacity: 0.6 }}
+            onClick={(e) => {
+              props.history.replace('/');
+            }}
+          >
+            뒤로 가기
+          </StyledButton>
+        )}
       </NarrowContent>
       {isCreditClick &&
         createPortal(<CreditCardPopup onClose={() => setIsCreditClick(false)} saveCardInfo={setInputs} />, document.getElementById('user-modal-root'))}
