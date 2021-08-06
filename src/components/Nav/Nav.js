@@ -16,13 +16,12 @@ const NOTMEMBER = [
 
 const Nav = () => {
   const [isHover, setIsHover] = useState(false);
-  const [isValidMenu, setIsValidMenu] = useState(true);
+  const [isValidMenu, setIsValidMenu] = useState(false);
   const [menuData, setMenuData] = useState('');
   const [userRole, setUserRole] = useState('');
   const toastRef = useRef();
   const location = useLocation();
   const history = useHistory();
-  const isForbidden = location.pathname.split('/')[1].includes(userRole);
 
   useEffect(() => {
     if (storage.get('userInfo')) {
@@ -42,9 +41,17 @@ const Nav = () => {
   }, [userRole]);
 
   useEffect(() => {
+    const isForbidden = location.pathname.split('/')[1].includes(userRole);
+
     if (menuData && location.pathname.split('/')[2]) {
-      setIsValidMenu(menuData.menu.some((data) => location.pathname.split('/')[2].includes(data)));
-    } else {
+      const secondPathValid = menuData.menu.some((data) => location.pathname.split('/')[2].includes(data.route));
+
+      if (isForbidden && secondPathValid) {
+        setIsValidMenu(true);
+      } else {
+        setIsValidMenu(false);
+      }
+    } else if (menuData && isForbidden) {
       setIsValidMenu(true);
     }
   }, [menuData, location.pathname]);
@@ -62,7 +69,7 @@ const Nav = () => {
 
   return (
     <>
-      {isForbidden && isValidMenu && (
+      {isValidMenu && (
         <Container>
           <Banner>
             <img alt='앱다운로드배너' src='/image/app-download-banner.png' />
