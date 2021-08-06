@@ -3,7 +3,6 @@ import RoleSelectorItem from './RoleSelectorItem';
 import styled from 'styled-components';
 import { getAllMenus } from 'api/menu';
 import { getAllRoles, adjustRoleForMenu } from 'api/role';
-import Nav from 'components/Nav/Nav';
 import ToastPotal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
 
@@ -71,40 +70,31 @@ const AdminRolePageView = () => {
   };
 
   return (
-    <>
-      <Nav />
-      <Container>
-        <Warrper>
-          <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
-        </Warrper>
-        <Table>
-          <Thead>
-            <tr>
-              <SlashTh>
-                <div>권한명</div>
-                <p>메뉴명</p>
-              </SlashTh>
-              <th>경로</th>
-              {getRoleNameList().map((role, index) => (
-                <th key={index}>{role}</th>
-              ))}
-            </tr>
-          </Thead>
-          <Tbody>
-            {pageViewList.map((page, index) => (
-              <RoleSelectorItem
-                key={index}
-                pageView={page}
-                getCheckedRole={getCheckedRole}
-                getRoleNameList={getRoleNameList()}
-                handleRoleData={handleRoleData}
-              />
+    <Container>
+      <Warrper>
+        <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
+      </Warrper>
+      <Table>
+        <Thead>
+          <tr>
+            <SlashTh>
+              <div>권한명</div>
+              <p>메뉴명</p>
+            </SlashTh>
+            <th>경로</th>
+            {getRoleNameList().map((role, index) => (
+              <th key={index}>{role}</th>
             ))}
-          </Tbody>
-        </Table>
-        <ToastPotal ref={toastRef} autoCloseTime={3000} autoClose={true} position={TOAST.POSITION.TOP_CENTER} />
-      </Container>
-    </>
+          </tr>
+        </Thead>
+        <Tbody>
+          {pageViewList.map((page, index) => (
+            <RoleSelectorItem key={index} pageView={page} getCheckedRole={getCheckedRole} getRoleNameList={getRoleNameList()} handleRoleData={handleRoleData} />
+          ))}
+        </Tbody>
+      </Table>
+      <ToastPotal ref={toastRef} autoCloseTime={3000} autoClose={true} position={TOAST.POSITION.TOP_CENTER} />
+    </Container>
   );
 };
 

@@ -1,16 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Nav from 'components/Nav/Nav';
 import Search from './Search';
 
 const Admin = () => {
   return (
-    <>
-      <Nav />
-      <Container>
-        <Search />
-      </Container>
-    </>
+    <Container>
+      <Search />
+    </Container>
   );
 };
 
