@@ -76,7 +76,7 @@ $ yarn start
 
 - [조성원](https://github.com/JSWww)
 
-- [이지열](https://github.com/highspirit7){:target="_blank"}
+- [이지열](https://github.com/highspirit7)
   - 파이어베이스 DB 세팅 & api 제작
   - 파이어베이스 호스팅(배포)
   - 404(not found), 403(forbidden) 페이지용 컴포넌트 제작
