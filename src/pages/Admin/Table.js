@@ -1,14 +1,14 @@
-import { changeUserRole } from "api/user";
-import React, { useState, useRef } from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import Pagination from "./Pagination";
-import theme from "styles/theme";
-import ToastPortal from "components/ToastPortal";
-import Loading from "./Loading";
-import TOAST from "constants/toast";
+import { changeUserRole } from 'api/user';
+import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import Pagination from './Pagination';
+import theme from 'styles/theme';
+import ToastPortal from 'components/ToastPortal';
+import Loading from './Loading';
+import TOAST from 'constants/toast';
 
-const ROLE = ["admin", "teacher", "parent"];
+const ROLE = ['admin', 'teacher', 'parent'];
 
 const Table = ({ data, loading, page, setPage }) => {
   const [perPage, setPerPage] = useState(10);
@@ -19,14 +19,14 @@ const Table = ({ data, loading, page, setPage }) => {
   }
 
   const postChange = (e) => {
-    let message = "권한이 성공적으로 변경되었습니다.";
+    let message = '권한이 성공적으로 변경되었습니다.';
     let mode = TOAST.MODE.INFO;
 
     try {
       changeUserRole(e.target.id, e.target.value);
     } catch (err) {
       mode = TOAST.MODE.ERROR;
-      message = "권한 변경에 실패했습니다.";
+      message = '권한 변경에 실패했습니다.';
     }
 
     const toast = { mode, message };
@@ -66,24 +66,14 @@ const Table = ({ data, loading, page, setPage }) => {
           ))}
         </tbody>
       </table>
-      <Pagination
-        page={page}
-        perPage={perPage}
-        setPage={setPage}
-        pageData={data}
-      />
-      <ToastPortal
-        ref={toastRef}
-        autoCloseTime={3000}
-        autoClose={true}
-        position={"top-right"}
-      />
+      <Pagination page={page} perPage={perPage} setPage={setPage} pageData={data} />
+      <ToastPortal ref={toastRef} autoCloseTime={3000} autoClose={true} position={'top-right'} />
     </Container>
   );
 };
 
 const Container = styled.div`
-  font-family: "Font Awesome 5 Free";
+  font-family: 'Font Awesome 5 Free';
   table {
     width: 100%;
     text-align: center;
@@ -104,7 +94,8 @@ const Container = styled.div`
   }
   tbody {
     tr {
-      td:nth-child(4) {
+      td:nth-child(4),
+      td:last-child {
         width: 100px;
         overflow: hidden;
         text-overflow: ellipsis;

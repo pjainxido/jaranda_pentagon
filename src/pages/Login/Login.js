@@ -1,18 +1,11 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import loginTheme from "styles/loginTheme";
-import { findUserByIdAndPassword } from "api/user";
-import storage from "utils/storage";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import loginTheme from 'styles/loginTheme';
+import { findUserByIdAndPassword } from 'api/user';
+import storage from 'utils/storage';
 
-const {
-  Container,
-  WiderContent,
-  NarrowContent,
-  Title,
-  StyledButton,
-  BasicInput,
-} = loginTheme;
+const { Container, WiderContent, NarrowContent, Title, StyledButton, BasicInput } = loginTheme;
 
 const StyledInput = styled(BasicInput)`
   outline-color: #87bf44;
@@ -38,8 +31,8 @@ const Divider = styled.div`
 
 const Login = (props) => {
   const [inputs, setInputs] = useState({
-    id: "",
-    pw: "",
+    id: '',
+    pw: '',
   });
 
   const onChange = (e) => {
@@ -55,11 +48,11 @@ const Login = (props) => {
     const user = result[0];
 
     if (!user) {
-      alert("아이디와 비밀번호를 다시 확인하세요");
+      alert('아이디와 비밀번호를 다시 확인하세요');
       return;
     }
 
-    storage.set("userInfo", {
+    storage.set('userInfo', {
       name: user.name,
       role: user.role,
     });
@@ -78,24 +71,13 @@ const Login = (props) => {
       <WiderContent>
         <NarrowContent>
           <Title>자란다 로그인</Title>
-          <StyledInput
-            placeholder="아이디"
-            name="id"
-            onChange={onChange}
-            value={inputs.id}
-          />
-          <StyledInput
-            placeholder="비밀번호"
-            type="password"
-            name="pw"
-            onChange={onChange}
-            value={inputs.pw}
-          />
+          <StyledInput placeholder='아이디' name='id' onChange={onChange} value={inputs.id} />
+          <StyledInput placeholder='비밀번호' type='password' name='pw' onChange={onChange} value={inputs.pw} />
           <GreenButton onClick={login}>로그인</GreenButton>
           <Divider />
           <StyledButton
             onClick={() => {
-              props.history.push("/signup");
+              props.history.push('/signup');
             }}
           >
             회원가입
