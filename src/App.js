@@ -11,7 +11,7 @@ import { Teacher } from 'pages/Teacher';
 import NotFound from 'pages/NotFound';
 import ROUTE_PATH from 'constants/routePath';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Nav />
@@ -26,6 +26,6 @@ function App() {
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;

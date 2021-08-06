@@ -11,7 +11,8 @@ const PublicRoute = ({ component: Component, restricted, ...rest }) => {
       render={(props) => {
         const user = storage.get('userInfo');
 
-        return user && restricted ? <Redirect to={`/${user.role}`} /> : <Component {...props} />;
+        // return user && restricted ? <Redirect to={`/${user.role}`} /> : <Component {...props} />;
+        return user && restricted ? <Redirect to={{pathname:`/${user.role}`, state: {isRedirect:true}}} /> : <Component {...props} />;
       }}
     />
   );
