@@ -3,14 +3,14 @@ import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 
 import { createUser, checkUserByUserId } from "api/user/index";
-import ToastPortal from "components/common/ToastPortal";
 import AddressApi from "components/AddressApi/AddressApi";
 import { CreditCardPopup } from "components/CreditCardPopup";
+import ToastPortal from "components/common/ToastPortal";
+import TOAST from "constants/toast";
 
 import styled from "styled-components";
 import theme from "styles/theme";
 import loginTheme from "styles/loginTheme";
-import TOAST from "constants/toast";
 
 // eslint-disable-next-line react/prop-types
 const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
@@ -29,18 +29,27 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
     cardNumber: "",
     effectiveDate: "",
     cvc: "",
-    pwValidCheck: false,
   });
 
   const [isCreditClick, setIsCreditClick] = useState(false);
 
-  const pwAlert = useRef(null);
-  const pwConfirmAlert = useRef(null);
-  const pwValidCheck = useRef(false);
-  const pwConfirmCheck = useRef(false);
+  const [cautions, setCautions] = useState({
+    pwShow: false,
+    pwConfirmShow: false,
+    pwCheck: false,
+    pwConfirmCheck: false,
+  });
 
   const onChange = (e) => {
     let { value, name } = e.target;
+
+    if (name == "id" || name == "pw" || name == "pwConfirm") {
+      value = value.replace(/[ㄱ-힣~!@#$%^&*()_+|<>?:{}= ]/g, "");
+    }
+    if (name == "age") {
+      value = value.replace(/[^0-9]/g, "");
+    }
+
     pwValidation(e);
 
     setInputs({
@@ -60,29 +69,21 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
       const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
       let pwValid = regExp.test(value);
 
-      if (pwValid) {
-        pwAlert.current.innerHTML = "비밀번호 양식에 맞게 입력하였습니다";
-        pwAlert.current.style.color = theme.colors.green;
-        pwValidCheck.current = true;
-      } else {
-        pwAlert.current.innerHTML = "영문 및 숫자 포함 8 ~ 10자 작성해주세요";
-        pwAlert.current.style.color = theme.colors.red;
-        pwValidCheck.current = false;
-      }
+      setCautions({
+        ...cautions,
+        pwShow: true,
+        pwCheck: pwValid,
+      });
     }
 
     if (name == "pwConfirm") {
       var pwConfirmValid = inputs.pw == value;
 
-      if (pwConfirmValid) {
-        pwConfirmAlert.current.innerHTML = "비밀번호가 일치합니다";
-        pwConfirmAlert.current.style.color = theme.colors.green;
-        pwConfirmCheck.current = true;
-      } else {
-        pwConfirmAlert.current.innerHTML = "비밀번호가 일치하지 않습니다";
-        pwConfirmAlert.current.style.color = theme.colors.red;
-        pwConfirmCheck.current = false;
-      }
+      setCautions({
+        ...cautions,
+        pwConfirmShow: true,
+        pwConfirmCheck: pwConfirmValid,
+      });
     }
   };
 
@@ -131,7 +132,7 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
           cvc: inputs.cvc,
         },
       };
-      console.log(newUser);
+
       await createUser(newUser)
         .then(() => {
           if (isAdmin) {
@@ -164,11 +165,11 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
       addToast(TOAST.MODE.ERROR, "비밀번호를 입력하세요");
       return false;
     }
-    if (!pwValidCheck.current) {
+    if (!cautions.pwCheck) {
       addToast(TOAST.MODE.ERROR, "비밀번호를 양식에 맞게 입력하세요");
       return false;
     }
-    if (!pwConfirmCheck.current) {
+    if (!cautions.pwConfirmCheck) {
       addToast(TOAST.MODE.ERROR, "비밀번호를 확인하세요");
       return false;
     }
@@ -214,27 +215,36 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
           type="password"
           value={inputs.pw}
           onChange={onChange}
-          style={{ marginBottom: 5 }}
+          show={cautions.pwShow}
         ></StyledInput>
-        {/* {inputs.pwValidCheck ? (
-          <Confirm>영문 및 숫자 포함 8 ~ 10자 작성해주세요</Confirm>
-        ) : (
-          <Alert>영문 및 숫자 포함 8 ~ 10자 작성해주세요</Alert>
-        )} */}
-        <Alert valid={false} ref={pwAlert}>
-          영문 및 숫자 포함 8 ~ 10자 작성해주세요
-        </Alert>
+        {cautions.pwShow &&
+          (cautions.pwCheck ? (
+            <Alert isAlert={cautions.pwCheck}>
+              비밀번호 양식에 맞게 입력하였습니다
+            </Alert>
+          ) : (
+            <Alert isAlert={cautions.pwCheck}>
+              영문 및 숫자 포함 8 ~ 10자 작성해주세요
+            </Alert>
+          ))}
         <StyledInput
           placeholder="비밀번호 확인"
           name="pwConfirm"
           type="password"
           value={inputs.pwConfirm}
-          style={{ marginBottom: 5 }}
           onChange={onChange}
+          show={cautions.pwConfirmShow}
         ></StyledInput>
-        <Alert valid={false} ref={pwConfirmAlert}>
-          비밀번호가 일치하지 않습니다
-        </Alert>
+        {cautions.pwConfirmShow &&
+          (cautions.pwConfirmCheck ? (
+            <Alert isAlert={cautions.pwConfirmCheck}>
+              비밀번호가 일치합니다
+            </Alert>
+          ) : (
+            <Alert isAlert={cautions.pwConfirmCheck}>
+              비밀번호가 일치하지 않습니다
+            </Alert>
+          ))}
         <StyledInput
           placeholder="이름"
           name="name"
@@ -326,6 +336,7 @@ const {
 } = loginTheme;
 
 const StyledInput = styled(BasicInput)`
+  margin-bottom: ${(prop) => (prop.show ? "5px" : "15px")};
   :focus {
     color: ${({ theme }) => theme.colors.blue};
     background-color: rgba(0, 133, 253, 0.1);
@@ -342,13 +353,12 @@ const RoleSelect = styled.select`
 
 const Alert = styled.div`
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.red};
+  color: ${(prop) =>
+    prop.isAlert
+      ? ({ theme }) => theme.colors.green
+      : ({ theme }) => theme.colors.red};
   text-align: left;
   padding-bottom: 15px;
-`;
-
-const Confirm = styled(Alert)`
-  color: ${({ theme }) => theme.colors.green};
 `;
 
 UserCreate.propTypes = {
