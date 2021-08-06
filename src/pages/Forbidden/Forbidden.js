@@ -23,7 +23,7 @@ const Container = styled.div`
 
 const ContentWrapper = styled.div`
 	margin: 0 auto;
-	height: 50%;
+	height: 380px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
