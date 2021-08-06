@@ -8,6 +8,7 @@ import MODALROOT from 'constants/modalRoot';
 const Modal = ({ setIsShown, handleModalClose }) => {
   return ReactDOM.createPortal(
     <ModalStyle>
+      <Overlay onClick={handleModalClose} />
       <ModalInputBox>
         <ModalInput>
           <ModalBtnBox>
@@ -26,6 +27,7 @@ Modal.propTypes = {
   handleModalClose: PropTypes.func,
 };
 
+
 const ModalStyle = styled.div`
   position: fixed;
   z-index: 19;
@@ -36,11 +38,17 @@ const ModalStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  `;
+
+const Overlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
-  border: 1px solid grey;
 `;
 
 const ModalInputBox = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
