@@ -347,7 +347,7 @@ const StyledInput = styled(BasicInput)`
 const RoleSelect = styled.select`
   width: 100%;
   margin-bottom: 16px;
-  height: 52px;
+  height: 45px;
   padding: 0 15px;
 `;
 
