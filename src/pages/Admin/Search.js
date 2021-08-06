@@ -18,10 +18,15 @@ const Search = () => {
       let tmpArr = new Array();
       for (let i = 0; i < pageData.length; i++) {
         Object.values(pageData[i]).includes(searchInput) ? tmpArr.push(i) : '';
+        if (pageData[i].creditCard) {
+          Object.values(pageData[i].creditCard).includes(searchInput) ? tmpArr.push(i) : '';
+        }
       }
       filteredData = pageData.filter((item, index) => tmpArr.includes(index));
     } else {
-      filteredData = pageData.filter((item) => item[`${category}`] === searchInput);
+      filteredData = (category === "creditCard") ?
+      pageData.filter((item) => item.creditCard?.cardNumber == searchInput) :
+      pageData.filter((item) => item[`${category}`] === searchInput)
     }
 
     if (filteredData.length === 0) {
