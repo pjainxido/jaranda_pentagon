@@ -13,7 +13,7 @@
  *  }
  */
 
-import { db, firebaseInstance } from "firebase.js";
+import { db, firebaseInstance } from 'firebase.js';
 
 // 이전에 사용하던 함수
 // export const createUser = ({ userId, password, role = 'parent', name, age, address, creditCard }) => {
@@ -48,18 +48,10 @@ import { db, firebaseInstance } from "firebase.js";
 // };
 
 export const getAllUsers = () => {
-  return db.collection("user_test").doc("users1").get();
+  return db.collection('user_test').doc('users1').get();
 };
 
-export const createUser = async ({
-  userId,
-  password,
-  role = "parent",
-  name,
-  age,
-  address,
-  creditCard,
-}) => {
+export const createUser = async ({ userId, password, role = 'parent', name, age, address, creditCard }) => {
   // 기존 유저 리스트 배열 받아옴
   const res = await getAllUsers();
   const users = res.data()?.list;
@@ -76,17 +68,17 @@ export const createUser = async ({
   });
 
   // document 내 유저 리스트. 즉, list 필드를 업데이트
-  return db.collection("user_test").doc("users1").update({
+  return db.collection('user_test').doc('users1').update({
     list: users,
   });
 };
 
 // 로그인 용
 export const findUserByIdAndPassword = async (inputId, inputPassword) => {
-  const usersRef = db.collection("user_test");
+  const usersRef = db.collection('user_test');
 
   const result = usersRef
-    .doc("users1")
+    .doc('users1')
     .get()
     .then((res) => {
       const { list } = res.data();
@@ -125,10 +117,10 @@ export const findUserByIdAndPassword = async (inputId, inputPassword) => {
 
 // 회원가입 시 아이디 중복 검사 용
 export const checkUserByUserId = (inputId) => {
-  const usersRef = db.collection("user_test");
+  const usersRef = db.collection('user_test');
 
   return usersRef
-    .doc("users1")
+    .doc('users1')
     .get()
     .then((res) => {
       const { list } = res.data();
@@ -143,8 +135,8 @@ export const checkUserByUserId = (inputId) => {
 // 유저 권한 변경용 for 관리자
 export const changeUserRole = async (userId, newRole) => {
   const result = db
-    .collection("user_test")
-    .doc("users1")
+    .collection('user_test')
+    .doc('users1')
     .get()
     .then((res) => {
       const { list } = res.data();
@@ -155,7 +147,7 @@ export const changeUserRole = async (userId, newRole) => {
 
   const userData = await result;
 
-  return db.collection("user_test").doc("users1").update({
+  return db.collection('user_test').doc('users1').update({
     list: userData,
   });
 };

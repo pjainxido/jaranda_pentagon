@@ -1,6 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import Search from "./Search";
+import React from 'react';
+import styled from 'styled-components';
+import theme from 'styles/theme';
+import Search from './Search';
 
 const Admin = () => {
   return (
@@ -11,7 +12,7 @@ const Admin = () => {
 };
 
 const Container = styled.div`
-  margin-top: 200px;
+  margin-top: ${({ theme }) => theme.height.component};
   padding: 0 20px;
   > table {
     border: 1px solid black;
