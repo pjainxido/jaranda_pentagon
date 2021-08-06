@@ -9,7 +9,6 @@ import ToastPortal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
 
 import styled from 'styled-components';
-import theme from 'styles/theme';
 import loginTheme from 'styles/loginTheme';
 
 // eslint-disable-next-line react/prop-types
@@ -77,7 +76,7 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
     }
 
     if (name == 'pwConfirm') {
-      var pwConfirmValid = inputs.pw == value;
+      let pwConfirmValid = inputs.pw == value;
 
       setCautions({
         ...cautions,
@@ -89,7 +88,7 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
 
   const checkSameId = async () => {
     if (inputs.id.trim() !== '') {
-      var checked = await checkUserByUserId(inputs.id);
+      let checked = await checkUserByUserId(inputs.id);
       if (checked) {
         addToast(TOAST.MODE.INFO, '작성한 아이디로 가입할 수 있습니다');
         setInputs({
