@@ -4,7 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
 import theme from "styles/theme";
-import ToastPortal from "components/common/ToastPortal";
+import ToastPortal from "components/ToastPortal";
 import Loading from "./Loading";
 import TOAST from "constants/toast";
 

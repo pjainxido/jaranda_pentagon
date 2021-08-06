@@ -1,7 +1,7 @@
 import { getAllRoles } from "api/role";
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import ToastPortal from "components/common/ToastPortal";
+import ToastPortal from "components/ToastPortal";
 import TOAST from "constants/toast";
 import styled from "styled-components";
 import storage from "utils/storage";
