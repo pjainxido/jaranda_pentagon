@@ -7,6 +7,7 @@ import AddressApi from 'components/AddressApi/AddressApi';
 import { CreditCardPopup } from 'components/CreditCardPopup';
 import ToastPortal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
+import ROUTE_PATH from 'constants/routePath';
 
 import styled from 'styled-components';
 import loginTheme from 'styles/loginTheme';
@@ -138,7 +139,7 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
             setIsShown(false);
           } else {
             addToast(TOAST.MODE.SUCCESS, '성공적으로 회원 가입하셨습니다!! 🎊');
-            props.history.replace('/');
+            props.history.replace(ROUTE_PATH.MAIN);
           }
         })
         .catch((error) => {
@@ -267,7 +268,7 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
           <StyledButton
             style={{ width: '100%', marginTop: 10, opacity: 0.6 }}
             onClick={(e) => {
-              props.history.replace('/');
+              props.history.replace(ROUTE_PATH.MAIN);
             }}
           >
             뒤로 가기
