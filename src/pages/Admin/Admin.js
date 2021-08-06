@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from 'styles/theme';
 import Search from './Search';
 
 const Admin = () => {
@@ -33,3 +32,4 @@ const Container = styled.div`
 `;
 
 export default Admin;
+

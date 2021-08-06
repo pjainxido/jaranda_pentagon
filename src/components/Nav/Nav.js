@@ -5,22 +5,24 @@ import ToastPortal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
 import styled from 'styled-components';
 import storage from 'utils/storage';
+import ROUTE_PATH from 'constants/routePath';
 
 const NOTMEMBER = [
-  { name: '자란다선생님 보기', route: '/#' },
-  { name: '선생님 지원하기', route: '/#' },
+  { name: '자란다선생님 보기', route: '/#' },
+  { name: '선생님 지원하기', route: '/#' },
   { name: '이용안내', route: '/#' },
-  { name: '로그인/회원가입', route: '/' },
+  { name: '로그인/회원가입', route: ROUTE_PATH.SIGN_UP },
 ];
 
-function Nav() {
+const Nav = () => {
   const [isHover, setIsHover] = useState(false);
+  const [isValidMenu, setIsValidMenu] = useState(true);
   const [menuData, setMenuData] = useState('');
   const [userRole, setUserRole] = useState('');
   const toastRef = useRef();
   const location = useLocation();
   const history = useHistory();
-  const isforbidden = location.pathname.split('/')[1].includes(userRole);
+  const isForbidden = location.pathname.split('/')[1].includes(userRole);
 
   useEffect(() => {
     if (storage.get('userInfo')) {
@@ -39,6 +41,14 @@ function Nav() {
     fetchRoleData();
   }, [userRole]);
 
+  useEffect(() => {
+    if (menuData && location.pathname.split('/')[2]) {
+      setIsValidMenu(menuData.menu.some((data) => location.pathname.split('/')[2].includes(data)));
+    } else {
+      setIsValidMenu(true);
+    }
+  }, [menuData, location.pathname]);
+
   const addToast = (mode, message) => {
     toastRef.current.addMessage({ mode, message });
   };
@@ -47,12 +57,12 @@ function Nav() {
     addToast(TOAST.MODE.INFO, '로그아웃 성공');
     setUserRole('');
     storage.remove('userInfo');
-    history.push('/');
+    history.push(ROUTE_PATH.MAIN);
   };
 
   return (
     <>
-      {isforbidden && (
+      {isForbidden && isValidMenu && (
         <Container>
           <Banner>
             <img alt='앱다운로드배너' src='/image/app-download-banner.png' />
@@ -61,11 +71,11 @@ function Nav() {
           </Banner>
           <NavBox>
             <Logo>
-              <Link to='/'>
+              <Link to={ROUTE_PATH.MAIN}>
                 <img alt='자란다로고' src='/image/jaranda.log.png'></img>
               </Link>
             </Logo>
-            <MenuWarrper>
+            <MenuWrapper>
               {menuData
                 ? menuData.menu.map((menu, idx) => (
                     <Menu key={idx}>
@@ -107,14 +117,14 @@ function Nav() {
                   </DropList>
                 </PersonalMenu>
               )}
-            </MenuWarrper>
+            </MenuWrapper>
           </NavBox>
           <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
         </Container>
       )}
     </>
   );
-}
+};
 
 const Container = styled.div`
   position: fixed;
@@ -168,7 +178,7 @@ const NavBox = styled.div`
   }
 `;
 
-const MenuWarrper = styled.ul`
+const MenuWrapper = styled.ul`
   display: flex;
   justify-content: flex-end;
   align-items: center;

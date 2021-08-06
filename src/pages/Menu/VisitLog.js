@@ -3,8 +3,7 @@ import menuTheme from 'styles/menuTheme';
 
 const { Container, Contents, Main, LogoImg } = menuTheme;
 
-
-function VisitLog() {
+const VisitLog = () => {
   return (
     <Container>
       <Contents>
@@ -13,6 +12,6 @@ function VisitLog() {
       </Contents>
     </Container>
   );
-}
+};
 
 export default VisitLog;
