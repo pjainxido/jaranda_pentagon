@@ -6,6 +6,7 @@ import { findUserByIdAndPassword } from 'api/user';
 import storage from 'utils/storage';
 import ToastPortal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
+import ROUTE_PATH from 'constants/routePath';
 
 const Login = (props) => {
   const toastRef = useRef();
@@ -60,7 +61,7 @@ const Login = (props) => {
           <Divider />
           <StyledButton
             onClick={() => {
-              props.history.push('/signup');
+              props.history.push(ROUTE_PATH.SIGN_UP);
             }}
           >
             회원가입

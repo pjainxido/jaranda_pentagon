@@ -5,12 +5,13 @@ import ToastPortal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
 import styled from 'styled-components';
 import storage from 'utils/storage';
+import ROUTE_PATH from 'constants/routePath';
 
 const NOTMEMBER = [
-  { name: '자란다선생님 보기', route: '/#' },
-  { name: '선생님 지원하기', route: '/#' },
+  { name: '자란다선생님 보기', route: '/#' },
+  { name: '선생님 지원하기', route: '/#' },
   { name: '이용안내', route: '/#' },
-  { name: '로그인/회원가입', route: '/' },
+  { name: '로그인/회원가입', route: ROUTE_PATH.SIGN_UP },
 ];
 
 function Nav() {
@@ -47,7 +48,7 @@ function Nav() {
     addToast(TOAST.MODE.INFO, '로그아웃 성공');
     setUserRole('');
     storage.remove('userInfo');
-    history.push('/');
+    history.push(ROUTE_PATH.MAIN);
   };
 
   return (
@@ -61,11 +62,11 @@ function Nav() {
           </Banner>
           <NavBox>
             <Logo>
-              <Link to='/'>
+              <Link to={ROUTE_PATH.MAIN}>
                 <img alt='자란다로고' src='/image/jaranda.log.png'></img>
               </Link>
             </Logo>
-            <MenuWarrper>
+            <MenuWrapper>
               {menuData
                 ? menuData.menu.map((menu, idx) => (
                     <Menu key={idx}>
@@ -107,7 +108,7 @@ function Nav() {
                   </DropList>
                 </PersonalMenu>
               )}
-            </MenuWarrper>
+            </MenuWrapper>
           </NavBox>
           <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
         </Container>
@@ -168,7 +169,7 @@ const NavBox = styled.div`
   }
 `;
 
-const MenuWarrper = styled.ul`
+const MenuWrapper = styled.ul`
   display: flex;
   justify-content: flex-end;
   align-items: center;
