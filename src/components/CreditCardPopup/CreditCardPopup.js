@@ -71,6 +71,17 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
       return false;
     }
 
+    const date = new Date();
+    const currentYear = date.getFullYear() % 100;
+    const currentMonth = date.getMonth() + 1;
+
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      setCautions((prev) => {
+        return { ...prev, 1: '유효기간이 만료된 카드입니다' };
+      });
+      return false;
+    }
+
     setCautions((prev) => {
       return { ...prev, 1: '' };
     });
