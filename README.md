@@ -27,7 +27,8 @@ $ yarn start
 - [ ] 회원가입 버튼
 - [ ] 로그인 버튼
 
-### 회원가입 페이지 
+### 회원가입 페이지
+
 회원가입 통해서 가입시 기본적으로 '부모님' 권한으로 세팅됩니다
 
 - [ ] 아이디, 비밀번호
@@ -43,7 +44,6 @@ $ yarn start
 
 - [ ] 계정별로 들어갈수있는 메뉴 접속 시 일단 메뉴명만 출력되면 된다.
 
-
 ### 권한 및 계정관리 페이지(관리자)
 
 - [x] 계정 임의생성
@@ -53,7 +53,6 @@ $ yarn start
   - 페이지네이션 : 한번에 전체 데이터 불러오는 걸로
   - 검색
 - [x] 데이터 테이블에서 팝업으로 유저추가
-
 
 ## 개발 인원 및 기간
 
@@ -69,9 +68,12 @@ $ yarn start
 
 - [구남규](https://github.com/nain93)
 
+  - 데이터 테이블 (목업, 페이지네이션, 계정 생성) 구현
+
 - [박제인](https://github.com/pjainxido)
 
 - [김명준](https://github.com/JOHNKIM-KK)
+
   - Nav 구현
   - 권한별 메뉴 생성 구현
   - 로그아웃 기능 구현
@@ -98,6 +100,6 @@ $ yarn start
 - Deploy : Firebase Hosting
 - Etc : Git, GitHub
 
-
 ### 배포주소
+
 [https://jaranda-f17b8.web.app/](https://jaranda-f17b8.web.app/)
