@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import RoleSelectorItem from "./RoleSelectorItem";
-import styled from "styled-components";
-import { getAllMenus } from "api/menu";
-import { getAllRoles, adjustRoleForMenu } from "api/role";
-import ToastPotal from "components/ToastPortal";
-import TOAST from "constants/toast";
+import React, { useState, useEffect, useRef } from 'react';
+import RoleSelectorItem from './RoleSelectorItem';
+import styled from 'styled-components';
+import { getAllMenus } from 'api/menu';
+import { getAllRoles, adjustRoleForMenu } from 'api/role';
+import ToastPotal from 'components/ToastPortal';
+import TOAST from 'constants/toast';
 
 const AdminRolePageView = () => {
   const toastRef = useRef();
@@ -23,7 +23,7 @@ const AdminRolePageView = () => {
       const roles = new Object();
 
       for (const id of roleNames) {
-        if (id !== "admin") {
+        if (id !== 'admin') {
           roles[id] = fetchRoleData.find((role) => role.id === id).menu;
         }
       }
@@ -40,9 +40,7 @@ const AdminRolePageView = () => {
 
     setRoleData((prev) => ({
       ...prev,
-      [role]: isExistAndRemove
-        ? prev[role].filter((el) => el.id !== pageView.id)
-        : [...prev[role], pageView],
+      [role]: isExistAndRemove ? prev[role].filter((el) => el.id !== pageView.id) : [...prev[role], pageView],
     }));
   };
 
@@ -51,7 +49,7 @@ const AdminRolePageView = () => {
   };
 
   const submitRoleData = async () => {
-    let message = "성공했습니다.";
+    let message = '성공했습니다.';
     let mode = TOAST.MODE.SUCCESS;
 
     try {
@@ -60,7 +58,7 @@ const AdminRolePageView = () => {
       }
     } catch (err) {
       mode = TOAST.MODE.ERROR;
-      message = "실패했습니다.";
+      message = '실패했습니다.';
     }
 
     const toast = { mode, message };
@@ -74,9 +72,7 @@ const AdminRolePageView = () => {
   return (
     <Container>
       <Warrper>
-        <ApiCallButton onClick={submitRoleData}>
-          페이지 뷰 업데이트
-        </ApiCallButton>
+        <ApiCallButton onClick={submitRoleData}>페이지 뷰 업데이트</ApiCallButton>
       </Warrper>
       <Table>
         <Thead>
@@ -93,22 +89,11 @@ const AdminRolePageView = () => {
         </Thead>
         <Tbody>
           {pageViewList.map((page, index) => (
-            <RoleSelectorItem
-              key={index}
-              pageView={page}
-              getCheckedRole={getCheckedRole}
-              getRoleNameList={getRoleNameList()}
-              handleRoleData={handleRoleData}
-            />
+            <RoleSelectorItem key={index} pageView={page} getCheckedRole={getCheckedRole} getRoleNameList={getRoleNameList()} handleRoleData={handleRoleData} />
           ))}
         </Tbody>
       </Table>
-      <ToastPotal
-        ref={toastRef}
-        autoCloseTime={3000}
-        autoClose={true}
-        position={TOAST.POSITION.TOP_CENTER}
-      />
+      <ToastPotal ref={toastRef} autoCloseTime={3000} autoClose={true} position={TOAST.POSITION.TOP_CENTER} />
     </Container>
   );
 };

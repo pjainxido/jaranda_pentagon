@@ -3,6 +3,7 @@ import menuTheme from 'styles/menuTheme';
 
 const { Container, Contents, Main, LogoImg } = menuTheme;
 
+
 function RequestDetail() {
   return (
     <Container>

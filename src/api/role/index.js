@@ -9,11 +9,11 @@
  *  ]
  */
 
-import { db } from "firebase.js";
+import { db } from 'firebase.js';
 
 export const getAllRoles = () => {
   return db
-    .collection("role")
+    .collection('role')
     .get()
     .then((querySnapshot) => {
       const result = [];
@@ -33,7 +33,7 @@ export const getAllRoles = () => {
  * @param {*} menu(object, 예시 형식은 파일 최상단에서 확인 가능)
  */
 export const adjustRoleForMenu = (id, menu) => {
-  return db.collection("role").doc(id).set(menu);
+  return db.collection('role').doc(id).set(menu);
   // .then(() => {
   // 	console.log('Document successfully written!');
   // })

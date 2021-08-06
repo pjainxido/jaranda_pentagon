@@ -2,8 +2,7 @@ const storage = {
   set: (key, object) => {
     if (!localStorage) return null;
 
-    localStorage[key] =
-      typeof object === "string" ? object : JSON.stringify(object);
+    localStorage[key] = typeof object === 'string' ? object : JSON.stringify(object);
   },
   get: (key) => {
     if (!localStorage) return null;

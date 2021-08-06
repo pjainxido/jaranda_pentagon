@@ -1,8 +1,8 @@
 const colors = {
-  green: "#87bf44",
-  lightgreen: "#dcf2b5",
-  blue: "#0085fd",
-  red: "#f8666a",
+  green: '#87bf44',
+  lightgreen: '#dcf2b5',
+  blue: '#0085fd',
+  red: '#f8666a',
 };
 
 const common = {
@@ -21,11 +21,11 @@ const common = {
 };
 
 const size = {
-  tablet: "1023px",
+  tablet: '1023px',
 };
 
 const height = {
-  component: "200px",
+  component: '200px',
 };
 
 const theme = {
