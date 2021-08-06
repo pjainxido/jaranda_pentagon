@@ -1,5 +1,8 @@
 # Jaranda-pentagon
 
+### 배포주소
+[https://jaranda-f17b8.web.app/](https://jaranda-f17b8.web.app/)
+
 ## Installation
 
 ```
@@ -8,6 +11,11 @@
 $ yarn
 $ yarn start
 ```
+
+## TEST 계정 ID / PW
+- admin 계정: admin / admin
+- parent 계정: parent / parent
+- teacher 계정: teacher / teacher
 
 ## 필수구현 사항
 
