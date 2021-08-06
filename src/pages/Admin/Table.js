@@ -94,7 +94,8 @@ const Container = styled.div`
   }
   tbody {
     tr {
-      td:nth-child(4) {
+      td:nth-child(4),
+      td:last-child {
         width: 100px;
         overflow: hidden;
         text-overflow: ellipsis;
