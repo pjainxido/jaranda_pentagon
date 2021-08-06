@@ -1,35 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import loginTheme from 'styles/loginTheme';
 import { findUserByIdAndPassword } from 'api/user';
 import storage from 'utils/storage';
-
-const { Container, WiderContent, NarrowContent, Title, StyledButton, BasicInput } = loginTheme;
-
-const StyledInput = styled(BasicInput)`
-  outline-color: #87bf44;
-
-  :focus,
-  :hover {
-    color: #6dc043;
-    background-color: rgba(165, 210, 95, 0.1);
-    border: solid 1px #a5d25f;
-  }
-`;
-
-const GreenButton = styled(StyledButton)`
-  background-color: ${({ theme }) => theme.colors.green};
-`;
-
-const Divider = styled.div`
-  margin: 12px 0;
-  background-color: #e5e5e5;
-  height: 1px;
-  width: 100%;
-`;
+import ToastPortal from 'components/ToastPortal';
+import TOAST from 'constants/toast';
+import ROUTE_PATH from 'constants/routePath';
 
 const Login = (props) => {
+  const toastRef = useRef();
   const [inputs, setInputs] = useState({
     id: '',
     pw: '',
@@ -43,12 +23,16 @@ const Login = (props) => {
     });
   };
 
+  const addToast = (mode, message) => {
+    toastRef.current.addMessage({ mode, message });
+  };
+
   const login = async () => {
     const result = await findUserByIdAndPassword(inputs.id, inputs.pw);
     const user = result[0];
 
     if (!user) {
-      alert('아이디와 비밀번호를 다시 확인하세요');
+      addToast(TOAST.MODE.ERROR, '아이디와 비밀번호를 다시 확인하세요');
       return;
     }
 
@@ -77,16 +61,41 @@ const Login = (props) => {
           <Divider />
           <StyledButton
             onClick={() => {
-              props.history.push('/signup');
+              props.history.push(ROUTE_PATH.SIGN_UP);
             }}
           >
             회원가입
           </StyledButton>
         </NarrowContent>
+        <ToastPortal ref={toastRef} position={TOAST.POSITION.TOP_CENTER} />
       </WiderContent>
     </Container>
   );
 };
+
+const { Container, WiderContent, NarrowContent, Title, StyledButton, BasicInput } = loginTheme;
+
+const StyledInput = styled(BasicInput)`
+  outline-color: #87bf44;
+
+  :focus,
+  :hover {
+    color: #6dc043;
+    background-color: rgba(165, 210, 95, 0.1);
+    border: solid 1px #a5d25f;
+  }
+`;
+
+const GreenButton = styled(StyledButton)`
+  background-color: ${({ theme }) => theme.colors.green};
+`;
+
+const Divider = styled.div`
+  margin: 12px 0;
+  background-color: #e5e5e5;
+  height: 1px;
+  width: 100%;
+`;
 
 Login.propTypes = {
   props: PropTypes.any,

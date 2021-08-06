@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import menuTheme from 'styles/menuTheme';
+import { Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { PrivateRoute } from 'routes';
@@ -7,25 +7,25 @@ import { menuRouteMapping } from 'utils';
 import { getAllRoles } from 'api/role';
 import { storage } from 'utils';
 import NotFound from 'pages/NotFound';
-
-/* eslint-disable */
+import menuTheme from 'styles/menuTheme';
+import ROUTE_PATH from 'constants/routePath';
 
 const { Container, Contents, Main, LogoImg } = menuTheme;
 
-const Teacher = ({ location, match }) => {
+const Teacher = ({ match }) => {
   const [menus, setMenus] = useState(null);
 
   useEffect(() => {
     const userRole = storage.get('userInfo');
 
-    const fetchData = async () => {
+    const fetchRoleData = async () => {
       const res = await getAllRoles();
       if (res) {
         setMenus(...res.filter((data) => data.id === userRole.role));
       }
     };
 
-    fetchData();
+    fetchRoleData();
   }, []);
 
   return (
@@ -36,8 +36,14 @@ const Teacher = ({ location, match }) => {
           <LogoImg src='/image/jaranda.image.jpeg' alt='자란다이미지' />
         </Contents>
       )}
-      {menus && menus.menu.map(({ route }) => <PrivateRoute key={route} path={`/teacher/${route}`} component={menuRouteMapping[route]} />)}
-      {menus && menus.menu.filter(({ route }) => `/teacher/${route}` !== location.pathname).length === menus.menu.length && !match.isExact && <NotFound />}
+      {menus && (
+        <Switch>
+          {menus.menu.map(({ route }) => (
+            <PrivateRoute key={route} path={`${ROUTE_PATH.TEACHER}/${route}`} component={menuRouteMapping[`/${route}`]} exact />
+          ))}
+          {!match.isExact && <NotFound />}
+        </Switch>
+      )}
     </Container>
   );
 };

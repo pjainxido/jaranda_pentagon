@@ -1,16 +1,17 @@
 import { getAllRoles } from 'api/role';
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation, useHistory, withRouter } from 'react-router-dom';
 import ToastPortal from 'components/ToastPortal';
 import TOAST from 'constants/toast';
 import styled from 'styled-components';
 import storage from 'utils/storage';
+import ROUTE_PATH from 'constants/routePath';
 
 const NOTMEMBER = [
-  { name: '자란다선생님 보기', route: '/#' },
-  { name: '선생님 지원하기', route: '/#' },
+  { name: '자란다선생님 보기', route: '/#' },
+  { name: '선생님 지원하기', route: '/#' },
   { name: '이용안내', route: '/#' },
-  { name: '로그인/회원가입', route: '/' },
+  { name: '로그인/회원가입', route: ROUTE_PATH.SIGN_UP },
 ];
 
 function Nav() {
@@ -20,6 +21,7 @@ function Nav() {
   const toastRef = useRef();
   const location = useLocation();
   const history = useHistory();
+  const isforbidden = location.pathname.split('/')[1].includes(userRole);
 
   useEffect(() => {
     if (storage.get('userInfo')) {
@@ -46,68 +48,72 @@ function Nav() {
     addToast(TOAST.MODE.INFO, '로그아웃 성공');
     setUserRole('');
     storage.remove('userInfo');
-    history.push('/');
+    history.push(ROUTE_PATH.MAIN);
   };
 
   return (
-    <Container>
-      <Banner>
-        <img alt='앱다운로드배너' src='/image/app-download-banner.png' />
-        <AppStoreLink to='/#'></AppStoreLink>
-        <GooglePlayLink to='/#'></GooglePlayLink>
-      </Banner>
-      <NavBox>
-        <Logo>
-          <Link to='/'>
-            <img alt='자란다로고' src='/image/jaranda.log.png'></img>
-          </Link>
-        </Logo>
-        <MenuWarrper>
-          {menuData
-            ? menuData.menu.map((menu, idx) => (
-                <Menu key={idx}>
-                  <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
-                </Menu>
-              ))
-            : NOTMEMBER.map((menu, idx) => (
-                <Menu key={idx}>
-                  <Link to={menu.route}>{menu.name}</Link>
-                </Menu>
-              ))}
-          {userRole && (
-            <PersonalMenu onClick={() => setIsHover(false)} onMouseLeave={() => setIsHover(false)} onMouseOver={() => setIsHover(true)}>
-              {userRole === 'admin' ? (
-                <AdminMode>
-                  <UserRole>관리자모드</UserRole>
-                  <i className='fas fa-users-cog'></i>
-                </AdminMode>
-              ) : (
-                <i className='far fa-user-circle' />
+    <>
+      {isforbidden && (
+        <Container>
+          <Banner>
+            <img alt='앱다운로드배너' src='/image/app-download-banner.png' />
+            <AppStoreLink to='/#'></AppStoreLink>
+            <GooglePlayLink to='/#'></GooglePlayLink>
+          </Banner>
+          <NavBox>
+            <Logo>
+              <Link to={ROUTE_PATH.MAIN}>
+                <img alt='자란다로고' src='/image/jaranda.log.png'></img>
+              </Link>
+            </Logo>
+            <MenuWrapper>
+              {menuData
+                ? menuData.menu.map((menu, idx) => (
+                    <Menu key={idx}>
+                      <Link to={`/${userRole}/${menu.route}`}>{menu.name}</Link>
+                    </Menu>
+                  ))
+                : NOTMEMBER.map((menu, idx) => (
+                    <Menu key={idx}>
+                      <Link to={menu.route}>{menu.name}</Link>
+                    </Menu>
+                  ))}
+              {userRole && (
+                <PersonalMenu onClick={() => setIsHover(false)} onMouseLeave={() => setIsHover(false)} onMouseOver={() => setIsHover(true)}>
+                  {userRole === 'admin' ? (
+                    <AdminMode>
+                      <UserRole>관리자모드</UserRole>
+                      <i className='fas fa-users-cog'></i>
+                    </AdminMode>
+                  ) : (
+                    <i className='far fa-user-circle' />
+                  )}
+                  {isHover && <FakeElement isAdmin={userRole === 'admin'}></FakeElement>}
+                  <DropList isHover={isHover} isAdmin={userRole === 'admin'}>
+                    {userRole !== 'admin' && (
+                      <>
+                        <DropItem>
+                          <Link to='/#'>마이페이지</Link>
+                        </DropItem>
+                        <Divider />
+                        <DropItem>
+                          <Link to='/#'>이용안내</Link>
+                        </DropItem>
+                        <Divider />
+                      </>
+                    )}
+                    <DropItem>
+                      <LogOut onClick={deleteStorage}>로그아웃</LogOut>
+                    </DropItem>
+                  </DropList>
+                </PersonalMenu>
               )}
-              {isHover && <FakeElement isAdmin={userRole === 'admin'}></FakeElement>}
-              <DropList isHover={isHover} isAdmin={userRole === 'admin'}>
-                {userRole !== 'admin' && (
-                  <>
-                    <DropItem>
-                      <Link to='/#'>마이페이지</Link>
-                    </DropItem>
-                    <Divider />
-                    <DropItem>
-                      <Link to='/#'>이용안내</Link>
-                    </DropItem>
-                    <Divider />
-                  </>
-                )}
-                <DropItem>
-                  <LogOut onClick={deleteStorage}>로그아웃</LogOut>
-                </DropItem>
-              </DropList>
-            </PersonalMenu>
-          )}
-        </MenuWarrper>
-      </NavBox>
-      <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
-    </Container>
+            </MenuWrapper>
+          </NavBox>
+          <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
+        </Container>
+      )}
+    </>
   );
 }
 
@@ -163,7 +169,7 @@ const NavBox = styled.div`
   }
 `;
 
-const MenuWarrper = styled.ul`
+const MenuWrapper = styled.ul`
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -290,4 +296,4 @@ const LogOut = styled.button`
   color: #4a4a4a;
 `;
 
-export default Nav;
+export default withRouter(Nav);
