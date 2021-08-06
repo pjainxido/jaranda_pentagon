@@ -81,7 +81,10 @@ const AdminRolePageView = () => {
       <Table>
         <Thead>
           <tr>
-            <th>메뉴명 \ 권한명</th>
+            <SlashTh>
+              <div>권한명</div>
+              <p>메뉴명</p>
+            </SlashTh>
             <th>경로</th>
             {getRoleNameList().map((role, index) => (
               <th key={index}>{role}</th>
@@ -146,9 +149,23 @@ const Thead = styled.thead`
   td {
     background-color: ${({ theme }) => theme.colors.green};
     color: white;
-    padding: 10px 0;
+    padding: 10px;
+    vertical-align: middle;
   }
 `;
+
+const SlashTh = styled.th`
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="0" x2="100%" y2="100%" stroke="lightgray" /></svg>');
+
+  p {
+    padding-left: 10px;
+    text-align: left;
+  }
+  div {
+    text-align: right;
+  }
+`;
+
 const Tbody = styled.tbody`
   th,
   td {
