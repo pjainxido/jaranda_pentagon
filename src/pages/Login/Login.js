@@ -19,7 +19,6 @@ const Login = (props) => {
   });
 
   useEffect(() => {
-    console.log(location);
     if (toastRef.current && location.state?.isRedirect) {
       toastRef.current.addMessage({ mode: TOAST.MODE.ERROR, message: '잘못된 접근입니다.' });
       history.replace('/');
