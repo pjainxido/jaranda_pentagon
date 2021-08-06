@@ -172,6 +172,14 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
       addToast(TOAST.MODE.ERROR, '비밀번호를 확인하세요');
       return false;
     }
+    if (inputs.name == '') {
+      addToast(TOAST.MODE.ERROR, '이름을 입력하세요');
+      return false;
+    }
+    if (inputs.age == '') {
+      addToast(TOAST.MODE.ERROR, '나이를 입력하세요');
+      return false;
+    }
     if (inputs.address == '' || inputs.addressDetail == '') {
       addToast(TOAST.MODE.ERROR, '주소 및 상세주소를 입력하세요');
       return false;
@@ -196,7 +204,7 @@ const UserCreate = ({ props, setIsShown, isAdmin = false }) => {
           </Title>
         )}
         <ButtonWrap>
-          <StyledInput placeholder='아이디' name='id' value={inputs.id} onChange={onChange}></StyledInput>
+          <StyledInput placeholder='아이디' name='id' value={inputs.id} onChange={onChange} readOnly={inputs.idConfirm}></StyledInput>
           <StyledButton onClick={checkSameId}>아이디 중복확인</StyledButton>
         </ButtonWrap>
         <StyledInput
