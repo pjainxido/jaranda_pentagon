@@ -6,6 +6,7 @@ import Pagination from "./Pagination";
 import theme from "styles/theme";
 import ToastPortal from "components/common/ToastPortal";
 import Loading from "./Loading";
+import TOAST from "constants/toast";
 
 const ROLE = ["admin", "teacher", "parent"];
 
@@ -19,12 +20,12 @@ const Table = ({ data, loading, page, setPage }) => {
 
   const postChange = (e) => {
     let message = "권한이 성공적으로 변경되었습니다.";
-    let mode = "info";
+    let mode = TOAST.MODE.INFO;
 
     try {
       changeUserRole(e.target.id, e.target.value);
     } catch (err) {
-      mode = "error";
+      mode = TOAST.MODE.ERROR;
       message = "권한 변경에 실패했습니다.";
     }
 

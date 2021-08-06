@@ -28,7 +28,7 @@ Modal.propTypes = {
 
 const ModalStyle = styled.div`
   position: fixed;
-  z-index: 999;
+  z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
