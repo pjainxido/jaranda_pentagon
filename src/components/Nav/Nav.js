@@ -16,12 +16,13 @@ const NOTMEMBER = [
 
 const Nav = () => {
   const [isHover, setIsHover] = useState(false);
+  const [isValidMenu, setIsValidMenu] = useState(true);
   const [menuData, setMenuData] = useState('');
   const [userRole, setUserRole] = useState('');
   const toastRef = useRef();
   const location = useLocation();
   const history = useHistory();
-  const isforbidden = location.pathname.split('/')[1].includes(userRole);
+  const isForbidden = location.pathname.split('/')[1].includes(userRole);
 
   useEffect(() => {
     if (storage.get('userInfo')) {
@@ -40,6 +41,14 @@ const Nav = () => {
     fetchRoleData();
   }, [userRole]);
 
+  useEffect(() => {
+    if (menuData && location.pathname.split('/')[2]) {
+      setIsValidMenu(menuData.menu.some((data) => location.pathname.split('/')[2].includes(data)));
+    } else {
+      setIsValidMenu(true);
+    }
+  }, [menuData, location.pathname]);
+
   const addToast = (mode, message) => {
     toastRef.current.addMessage({ mode, message });
   };
@@ -53,7 +62,7 @@ const Nav = () => {
 
   return (
     <>
-      {isforbidden && (
+      {isForbidden && isValidMenu && (
         <Container>
           <Banner>
             <img alt='앱다운로드배너' src='/image/app-download-banner.png' />
