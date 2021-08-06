@@ -113,7 +113,7 @@ const AdminRolePageView = () => {
 export default AdminRolePageView;
 
 const Container = styled.div`
-  margin: 150px auto 0;
+  margin: 200px auto 0;
   max-width: 1000px;
 `;
 
