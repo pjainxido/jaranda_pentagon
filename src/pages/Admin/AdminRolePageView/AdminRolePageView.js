@@ -3,7 +3,7 @@ import RoleSelectorItem from "./RoleSelectorItem";
 import styled from "styled-components";
 import { getAllMenus } from "api/menu";
 import { getAllRoles, adjustRoleForMenu } from "api/role";
-import ToastPotal from "components/common/ToastPortal";
+import ToastPotal from "components/ToastPortal";
 import TOAST from "constants/toast";
 
 const AdminRolePageView = () => {

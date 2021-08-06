@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import theme from "styles/theme";
-import ToastPortal from "components/common/ToastPortal";
+import ToastPortal from "components/ToastPortal";
 
 let message = "마지막 페이지 입니다";
 const toast = { mode: "error", message };
