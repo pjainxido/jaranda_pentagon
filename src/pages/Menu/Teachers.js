@@ -3,8 +3,7 @@ import menuTheme from 'styles/menuTheme';
 
 const { Container, Contents, Main, LogoImg } = menuTheme;
 
-
-function Teachers() {
+const Teachers = () => {
   return (
     <Container>
       <Contents>
@@ -13,6 +12,6 @@ function Teachers() {
       </Contents>
     </Container>
   );
-}
+};
 
 export default Teachers;

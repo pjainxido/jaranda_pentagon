@@ -13,7 +13,7 @@ const NOTMEMBER = [
   { name: '로그인/회원가입', route: '/' },
 ];
 
-function Nav() {
+const Nav = () => {
   const [isHover, setIsHover] = useState(false);
   const [menuData, setMenuData] = useState('');
   const [userRole, setUserRole] = useState('');
@@ -109,7 +109,7 @@ function Nav() {
       <ToastPortal ref={toastRef} position={TOAST.POSITION.BOT_RIGHT} />
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   position: fixed;

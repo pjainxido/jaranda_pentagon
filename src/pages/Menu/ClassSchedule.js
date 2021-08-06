@@ -3,8 +3,7 @@ import menuTheme from 'styles/menuTheme';
 
 const { Container, Contents, Main, LogoImg } = menuTheme;
 
-
-function ClassSchedule() {
+const ClassSchedule = () => {
   return (
     <Container>
       <Contents>
@@ -13,6 +12,6 @@ function ClassSchedule() {
       </Contents>
     </Container>
   );
-}
+};
 
 export default ClassSchedule;

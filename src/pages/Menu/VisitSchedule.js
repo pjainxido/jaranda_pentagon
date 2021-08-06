@@ -3,8 +3,7 @@ import menuTheme from 'styles/menuTheme';
 
 const { Container, Contents, Main, LogoImg } = menuTheme;
 
-
-function VisitSchedule() {
+const VisitSchedule = () => {
   return (
     <Container>
       <Contents>
@@ -13,6 +12,6 @@ function VisitSchedule() {
       </Contents>
     </Container>
   );
-}
+};
 
 export default VisitSchedule;

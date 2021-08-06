@@ -3,8 +3,7 @@ import menuTheme from 'styles/menuTheme';
 
 const { Container, Contents, Main, LogoImg } = menuTheme;
 
-
-function RequestDetail() {
+const RequestDetail = () => {
   return (
     <Container>
       <Contents>
@@ -13,6 +12,6 @@ function RequestDetail() {
       </Contents>
     </Container>
   );
-}
+};
 
 export default RequestDetail;

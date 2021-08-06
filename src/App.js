@@ -10,7 +10,7 @@ import { Parent } from 'pages/Parent';
 import { Teacher } from 'pages/Teacher';
 import NotFound from 'pages/NotFound';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Nav />
@@ -25,6 +25,6 @@ function App() {
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;
