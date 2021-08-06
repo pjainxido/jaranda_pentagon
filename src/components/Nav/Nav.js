@@ -14,7 +14,7 @@ const NOTMEMBER = [
   { name: '로그인/회원가입', route: ROUTE_PATH.SIGN_UP },
 ];
 
-function Nav() {
+const Nav = () => {
   const [isHover, setIsHover] = useState(false);
   const [menuData, setMenuData] = useState('');
   const [userRole, setUserRole] = useState('');
@@ -115,7 +115,7 @@ function Nav() {
       )}
     </>
   );
-}
+};
 
 const Container = styled.div`
   position: fixed;

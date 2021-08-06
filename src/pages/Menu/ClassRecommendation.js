@@ -3,8 +3,7 @@ import menuTheme from 'styles/menuTheme';
 
 const { Container, Contents, Main, LogoImg } = menuTheme;
 
-
-function ClassRecommendation() {
+const ClassRecommendation = () => {
   return (
     <Container>
       <Contents>
@@ -13,6 +12,6 @@ function ClassRecommendation() {
       </Contents>
     </Container>
   );
-}
+};
 
 export default ClassRecommendation;
