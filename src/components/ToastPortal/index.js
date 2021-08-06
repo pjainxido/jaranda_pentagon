@@ -1,1 +1,1 @@
-export {default} from './ToastPortal';
+export { default } from './ToastPortal';

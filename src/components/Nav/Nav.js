@@ -1,30 +1,30 @@
-import { getAllRoles } from "api/role";
-import React, { useEffect, useState, useRef } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import ToastPortal from "components/ToastPortal";
-import TOAST from "constants/toast";
-import getRole from "utils/getRole";
-import styled from "styled-components";
-import storage from "utils/storage";
+import { getAllRoles } from 'api/role';
+import React, { useEffect, useState, useRef } from 'react';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import ToastPortal from 'components/ToastPortal';
+import TOAST from 'constants/toast';
+import getRole from 'utils/getRole';
+import styled from 'styled-components';
+import storage from 'utils/storage';
 
 const NOTMEMBER = [
-  { name: "자란다선생님 보기", route: "/#" },
-  { name: "선생님 지원하기", route: "/#" },
-  { name: "이용안내", route: "/#" },
-  { name: "로그인/회원가입", route: "/" },
+  { name: '자란다선생님 보기', route: '/#' },
+  { name: '선생님 지원하기', route: '/#' },
+  { name: '이용안내', route: '/#' },
+  { name: '로그인/회원가입', route: '/' },
 ];
 
 function Nav() {
   const [isHover, setIsHover] = useState(false);
-  const [menuData, setMenuData] = useState("");
-  const [userRole, setUserRole] = useState("");
+  const [menuData, setMenuData] = useState('');
+  const [userRole, setUserRole] = useState('');
   const toastRef = useRef();
   const location = useLocation();
   const history = useHistory();
 
   useEffect(() => {
-    if (storage.get("userInfo")) {
-      setUserRole(storage.get("userInfo").role);
+    if (storage.get('userInfo')) {
+      setUserRole(storage.get('userInfo').role);
     }
   }, [location.pathname]);
 
@@ -44,23 +44,23 @@ function Nav() {
   };
 
   const deleteStorage = () => {
-    addToast(TOAST.MODE.INFO, "로그아웃 성공");
-    setUserRole("");
-    storage.remove("userInfo");
-    history.push("/");
+    addToast(TOAST.MODE.INFO, '로그아웃 성공');
+    setUserRole('');
+    storage.remove('userInfo');
+    history.push('/');
   };
 
   return (
     <Container>
       <Banner>
-        <img alt="앱다운로드배너" src="/image/app-download-banner.png" />
-        <AppStoreLink to="/#"></AppStoreLink>
-        <GooglePlayLink to="/#"></GooglePlayLink>
+        <img alt='앱다운로드배너' src='/image/app-download-banner.png' />
+        <AppStoreLink to='/#'></AppStoreLink>
+        <GooglePlayLink to='/#'></GooglePlayLink>
       </Banner>
       <NavBox>
         <Logo>
-          <Link to="/">
-            <img alt="자란다로고" src="/image/jaranda.log.png"></img>
+          <Link to='/'>
+            <img alt='자란다로고' src='/image/jaranda.log.png'></img>
           </Link>
         </Logo>
         <MenuWarrper>
@@ -76,31 +76,25 @@ function Nav() {
                 </Menu>
               ))}
           {userRole && (
-            <PersonalMenu
-              onClick={() => setIsHover(false)}
-              onMouseLeave={() => setIsHover(false)}
-              onMouseOver={() => setIsHover(true)}
-            >
-              {userRole === "admin" ? (
+            <PersonalMenu onClick={() => setIsHover(false)} onMouseLeave={() => setIsHover(false)} onMouseOver={() => setIsHover(true)}>
+              {userRole === 'admin' ? (
                 <AdminMode>
                   <UserRole>관리자모드</UserRole>
-                  <i className="fas fa-users-cog"></i>
+                  <i className='fas fa-users-cog'></i>
                 </AdminMode>
               ) : (
-                <i className="far fa-user-circle" />
+                <i className='far fa-user-circle' />
               )}
-              {isHover && (
-                <FakeElement isAdmin={userRole === "admin"}></FakeElement>
-              )}
-              <DropList isHover={isHover} isAdmin={userRole === "admin"}>
-                {userRole !== "admin" && (
+              {isHover && <FakeElement isAdmin={userRole === 'admin'}></FakeElement>}
+              <DropList isHover={isHover} isAdmin={userRole === 'admin'}>
+                {userRole !== 'admin' && (
                   <>
                     <DropItem>
-                      <Link to="/#">마이페이지</Link>
+                      <Link to='/#'>마이페이지</Link>
                     </DropItem>
                     <Divider />
                     <DropItem>
-                      <Link to="/#">이용안내</Link>
+                      <Link to='/#'>이용안내</Link>
                     </DropItem>
                     <Divider />
                   </>
@@ -240,17 +234,17 @@ const UserRole = styled.span`
 const FakeElement = styled.div`
   position: absolute;
   top: 20px;
-  left: ${(props) => (props.isAdmin ? "-6px" : "-76px")};
+  left: ${(props) => (props.isAdmin ? '-6px' : '-76px')};
   height: 50px;
   min-width: 120px;
   z-index: 1;
 `;
 
 const DropList = styled.ul`
-  display: ${(props) => (props.isHover ? "block" : "none")};
+  display: ${(props) => (props.isHover ? 'block' : 'none')};
   position: absolute;
   top: 41px;
-  left: ${(props) => (props.isAdmin ? "-56px" : "-136px")};
+  left: ${(props) => (props.isAdmin ? '-56px' : '-136px')};
   min-width: 160px;
   padding: 10px 0;
   margin: 2px 0 0;

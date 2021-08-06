@@ -1,24 +1,24 @@
-import React, { useState, useRef } from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
+import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-import theme from "styles/theme";
+import theme from 'styles/theme';
 
 const CreditCardPopup = ({ onClose, saveCardInfo }) => {
   const [inputs, setInputs] = useState({
-    card1: "",
-    card2: "",
-    card3: "",
-    card4: "",
-    month: "",
-    year: "",
-    cvc: "",
+    card1: '',
+    card2: '',
+    card3: '',
+    card4: '',
+    month: '',
+    year: '',
+    cvc: '',
   });
 
   const [cautions, setCautions] = useState({
-    0: "",
-    1: "",
-    2: "",
+    0: '',
+    1: '',
+    2: '',
   });
 
   const cardNumberRefs = useRef([]);
@@ -27,7 +27,7 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
 
   const onChange = (e) => {
     let { value, name } = e.target;
-    value = value.replace(/[^0-9]/g, "");
+    value = value.replace(/[^0-9]/g, '');
 
     const idx = cardNumberRefs.current.findIndex((ref) => ref === e.target);
 
@@ -42,17 +42,15 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
   };
 
   const cardNumberValidation = () => {
-    if (
-      cardNumberRefs.current.findIndex(({ value }) => value.length !== 4) !== -1
-    ) {
+    if (cardNumberRefs.current.findIndex(({ value }) => value.length !== 4) !== -1) {
       setCautions((prev) => {
-        return { ...prev, 0: "카드번호를 확인하세요" };
+        return { ...prev, 0: '카드번호를 확인하세요' };
       });
       return false;
     }
 
     setCautions((prev) => {
-      return { ...prev, 0: "" };
+      return { ...prev, 0: '' };
     });
 
     return true;
@@ -61,20 +59,20 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
   const effectiveDateValidation = () => {
     if (month.length === 0 || year.length === 0) {
       setCautions((prev) => {
-        return { ...prev, 1: "유효기간을 확인하세요" };
+        return { ...prev, 1: '유효기간을 확인하세요' };
       });
       return false;
     }
 
     if (month <= 0 || month > 12) {
       setCautions((prev) => {
-        return { ...prev, 1: "월은 1 ~ 12 사이의 값만 가능합니다" };
+        return { ...prev, 1: '월은 1 ~ 12 사이의 값만 가능합니다' };
       });
       return false;
     }
 
     setCautions((prev) => {
-      return { ...prev, 1: "" };
+      return { ...prev, 1: '' };
     });
 
     return true;
@@ -83,13 +81,13 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
   const CVCValidation = () => {
     if (cvc.length !== 3) {
       setCautions((prev) => {
-        return { ...prev, 2: "CVC번호를 확인하세요" };
+        return { ...prev, 2: 'CVC번호를 확인하세요' };
       });
       return false;
     }
 
     setCautions((prev) => {
-      return { ...prev, 2: "" };
+      return { ...prev, 2: '' };
     });
 
     return true;
@@ -105,9 +103,9 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
     if (result) {
       saveCardInfo((prev) => ({
         ...prev,
-        ["cardNumber"]: `${card1} - ${card2} - ${card3} - ${card4}`,
-        ["effectiveDate"]: `${format(month)} / ${format(year)}`,
-        ["cvc"]: cvc,
+        ['cardNumber']: `${card1} - ${card2} - ${card3} - ${card4}`,
+        ['effectiveDate']: `${format(month)} / ${format(year)}`,
+        ['cvc']: cvc,
       }));
 
       onClose();
@@ -115,7 +113,7 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
   };
 
   return (
-    <Container onClick={({ target }) => !target.closest("table") && onClose()}>
+    <Container onClick={({ target }) => !target.closest('table') && onClose()}>
       <Wrapper>
         <Table>
           <thead>
@@ -155,23 +153,9 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
             </tr>
             <tr>
               <td>
-                <StyledInput
-                  type='text'
-                  name='month'
-                  value={month}
-                  placeholder='월'
-                  maxLength='2'
-                  onChange={onChange}
-                />
+                <StyledInput type='text' name='month' value={month} placeholder='월' maxLength='2' onChange={onChange} />
                 <span>/</span>
-                <StyledInput
-                  type='text'
-                  name='year'
-                  value={year}
-                  placeholder='년'
-                  maxLength='2'
-                  onChange={onChange}
-                />
+                <StyledInput type='text' name='year' value={year} placeholder='년' maxLength='2' onChange={onChange} />
               </td>
             </tr>
             <tr>
@@ -182,13 +166,7 @@ const CreditCardPopup = ({ onClose, saveCardInfo }) => {
             </tr>
             <tr>
               <td>
-                <StyledInput
-                  type='text'
-                  name='cvc'
-                  value={cvc}
-                  maxLength='3'
-                  onChange={onChange}
-                />
+                <StyledInput type='text' name='cvc' value={cvc} maxLength='3' onChange={onChange} />
                 <Hint>카드 뒷면 마지막 3자리 숫자</Hint>
               </td>
             </tr>

@@ -1,9 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import UserCreate from "components/UserCreate";
-import MODALROOT from "constants/modalRoot";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import UserCreate from 'components/UserCreate';
+import MODALROOT from 'constants/modalRoot';
 
 const Modal = ({ setIsShown, handleModalClose }) => {
   return ReactDOM.createPortal(
@@ -17,7 +17,7 @@ const Modal = ({ setIsShown, handleModalClose }) => {
         </ModalInput>
       </ModalInputBox>
     </ModalStyle>,
-    document.getElementById(MODALROOT)
+    document.getElementById(MODALROOT),
   );
 };
 

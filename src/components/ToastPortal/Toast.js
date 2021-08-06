@@ -1,7 +1,7 @@
-import React from "react";
-import PropType from "prop-types";
-import styled, { keyframes } from "styled-components";
-import TOAST from "constants/toast";
+import React from 'react';
+import PropType from 'prop-types';
+import styled, { keyframes } from 'styled-components';
+import TOAST from 'constants/toast';
 
 const Toast = ({ mode, onClose, message }) => {
   return (
@@ -14,13 +14,13 @@ const Toast = ({ mode, onClose, message }) => {
 const handleColorType = (color) => {
   switch (color) {
     case TOAST.MODE.SUCCESS:
-      return "#a5d25f";
+      return '#a5d25f';
     case TOAST.MODE.INFO:
-      return "#1f85fd";
+      return '#1f85fd';
     case TOAST.MODE.WARNING:
-      return "#fde349";
+      return '#fde349';
     case TOAST.MODE.ERROR:
-      return "#f6666a";
+      return '#f6666a';
   }
 };
 
