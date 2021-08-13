@@ -9,7 +9,8 @@ import ResultNotFound from './ResultNotFound';
 const Search = () => {
   const [pageData, setPageData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [result, setReult] = useState([]);
 
   const Searching = (category, searchInput) => {
     let filteredData = '';
@@ -24,15 +25,16 @@ const Search = () => {
       }
       filteredData = pageData.filter((item, index) => tmpArr.includes(index));
     } else {
-      filteredData = (category === "creditCard") ?
-      pageData.filter((item) => item.creditCard?.cardNumber == searchInput) :
-      pageData.filter((item) => item[`${category}`] === searchInput)
+      filteredData =
+        category === 'creditCard'
+          ? pageData.filter((item) => item.creditCard?.cardNumber == searchInput)
+          : pageData.filter((item) => item[`${category}`] === searchInput);
     }
 
     if (filteredData.length === 0) {
       filteredData = 'noresult';
     }
-    setPage(1);
+    setCurrentPage(1);
     return filteredData;
   };
 
@@ -58,8 +60,8 @@ const Search = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const result = Searching(category, inputs.userInput);
-    setSearchedItem(result);
+    const searchResult = Searching(category, inputs.userInput);
+    setSearchedItem(searchResult);
   };
 
   const selectItem = useRef();
@@ -88,6 +90,13 @@ const Search = () => {
       setLoading(false);
     }
   }, [isShown]);
+
+  const tableData = {
+    data: searchedItem.length > 0 ? searchedItem : pageData,
+    currentPage,
+    setCurrentPage,
+    loading,
+  };
 
   return (
     <>
@@ -124,17 +133,7 @@ const Search = () => {
         </OptionBtnBox>
         {isShown && <Modal handleModalClose={handleModalClose} setIsShown={setIsShown} />}
       </Container>
-      <div>
-        {searchedItem.length > 0 ? (
-          searchedItem === 'noresult' ? (
-            <ResultNotFound />
-          ) : (
-            <Table data={searchedItem} page={page} setPage={setPage} loading={loading} />
-          )
-        ) : (
-          <Table data={pageData} page={page} setPage={setPage} loading={loading} />
-        )}
-      </div>
+      <div>{searchedItem === 'noresult' ? <ResultNotFound /> : <Table tableData={tableData} />}</div>
     </>
   );
 };

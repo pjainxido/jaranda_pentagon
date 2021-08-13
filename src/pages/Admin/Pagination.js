@@ -7,18 +7,18 @@ import ToastPortal from 'components/ToastPortal';
 let message = '마지막 페이지 입니다';
 const toast = { mode: 'error', message };
 
-const Pagination = ({ page, perPage, setPage, pageData }) => {
-  const [pageCount, setPageCount] = useState(1);
+const Pagination = ({ pageNationData: { currentPage, limit, setCurrentPage, data } }) => {
+  const [totalPageCount, setTotalPageCount] = useState(1);
   const toastRef = useRef();
 
   const handlePageClick = (e) => {
     const { innerText } = e.target;
-    setPage(Number(innerText));
+    setCurrentPage(Number(innerText));
     return;
   };
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(pageData.length / perPage); i++) {
+  for (let i = 1; i <= Math.ceil(data.length / limit); i++) {
     pageNumbers.push(i);
   }
 
@@ -26,68 +26,81 @@ const Pagination = ({ page, perPage, setPage, pageData }) => {
     if (pageNumbers.length < 5) {
       return;
     }
-    if (pageCount === 1) {
-      toastRef.current.addMessage(toast);
-      return;
-    }
-    setPage(5 * (pageCount - 2) + 1);
-    setPageCount((pageCount) => pageCount - 1);
+    setCurrentPage(5 * (totalPageCount - 2) + 1);
+    setTotalPageCount((totalPageCount) => totalPageCount - 1);
     return;
   };
 
   const handleDobleNextPage = () => {
-    const pages = Math.ceil(pageData.length / perPage / 5);
     if (pageNumbers.length < 5) {
       return;
     }
-    if (pageCount >= pages) {
-      toastRef.current.addMessage(toast);
-      return;
-    }
-    setPage(5 * pageCount + 1);
-    setPageCount((pageCount) => pageCount + 1);
+
+    setCurrentPage(5 * totalPageCount + 1);
+    setTotalPageCount((totalPageCount) => totalPageCount + 1);
     return;
   };
 
+  const handleToastOpen = () => {
+    toastRef.current.addMessage(toast);
+  };
+
   const handlePrevPage = () => {
-    if (page === 1) {
+    if (currentPage === 1) {
       return;
     }
-    if (page === 5 * (pageCount - 1) + 1) {
-      setPageCount((pageCount) => pageCount - 1);
+    if (currentPage === 5 * (totalPageCount - 1) + 1) {
+      setTotalPageCount((totalPageCount) => totalPageCount - 1);
     }
-    setPage((page) => page - 1);
+    setCurrentPage((currentPage) => currentPage - 1);
   };
 
   const handleNextPage = () => {
-    const pages = Math.ceil(pageData.length / perPage);
-    if (page >= pages) {
+    if (currentPage >= pageNumbers[pageNumbers.length - 1]) {
       return;
     }
-    if (page === 5 * pageCount) {
-      setPageCount((pageCount) => pageCount + 1);
+    if (currentPage === 5 * totalPageCount) {
+      setTotalPageCount((totalPageCount) => totalPageCount + 1);
     }
-    setPage((page) => page + 1);
+    setCurrentPage((currentPage) => currentPage + 1);
   };
 
   return (
     <Container>
       <div>
-        <PageNextButton onClick={handleDoublePrevPage}>
+        <PageNextButton
+          onClick={() => {
+            if (totalPageCount === 1) {
+              handleToastOpen();
+              return;
+            }
+            handleDoublePrevPage();
+            return;
+          }}
+        >
           <i className='fas fa-angle-double-left' />
         </PageNextButton>
         <PageNextButton onClick={handlePrevPage}>
           <i className='fas fa-chevron-left' />
         </PageNextButton>
-        {pageNumbers.slice(5 * (pageCount - 1), 5 * pageCount).map((item) => (
-          <PageButton key={item} onClick={handlePageClick} clickButton={page === item}>
+        {pageNumbers.slice(5 * (totalPageCount - 1), 5 * totalPageCount).map((item) => (
+          <PageButton key={item} onClick={handlePageClick} clickButton={currentPage === item}>
             {item}
           </PageButton>
         ))}
         <PageNextButton onClick={handleNextPage}>
           <i className='fas fa-chevron-right' />
         </PageNextButton>
-        <PageNextButton onClick={handleDobleNextPage}>
+        <PageNextButton
+          onClick={() => {
+            if (totalPageCount >= Math.ceil(pageNumbers.length / 5)) {
+              handleToastOpen();
+              return;
+            }
+            handleDobleNextPage();
+            return;
+          }}
+        >
           <i className='fas fa-angle-double-right' />
         </PageNextButton>
       </div>
@@ -127,8 +140,9 @@ const PageButton = styled(ButtonStyle)`
 Pagination.propTypes = {
   page: PropTypes.number,
   setPage: PropTypes.func,
-  pageData: PropTypes.array,
-  perPage: PropTypes.number,
+  data: PropTypes.array,
+  limit: PropTypes.number,
+  pageNationData: PropTypes.object,
 };
 
 export default Pagination;

@@ -9,9 +9,9 @@ import Loading from './Loading';
 import TOAST from 'constants/toast';
 
 const ROLE = ['admin', 'teacher', 'parent'];
+const limit = 10;
 
-const Table = ({ data, loading, page, setPage }) => {
-  const [perPage, setPerPage] = useState(10);
+const Table = ({ tableData: { data, loading, currentPage, setCurrentPage } }) => {
   const toastRef = useRef();
 
   if (loading) {
@@ -32,6 +32,12 @@ const Table = ({ data, loading, page, setPage }) => {
     const toast = { mode, message };
     toastRef.current.addMessage(toast);
   };
+  const pageNationData = {
+    currentPage,
+    limit,
+    setCurrentPage,
+    data,
+  };
 
   return (
     <Container>
@@ -47,7 +53,7 @@ const Table = ({ data, loading, page, setPage }) => {
           </tr>
         </thead>
         <tbody>
-          {data.slice(perPage * page - perPage, perPage * page).map((item) => (
+          {data.slice(limit * currentPage - limit, limit * currentPage).map((item) => (
             <tr key={item.userId}>
               <td>{item.userId}</td>
               <td>{item.name}</td>
@@ -66,7 +72,7 @@ const Table = ({ data, loading, page, setPage }) => {
           ))}
         </tbody>
       </table>
-      <Pagination page={page} perPage={perPage} setPage={setPage} pageData={data} />
+      <Pagination pageNationData={pageNationData} />
       <ToastPortal ref={toastRef} autoCloseTime={3000} autoClose={true} position={'top-right'} />
     </Container>
   );
@@ -130,8 +136,9 @@ const Container = styled.div`
 Table.propTypes = {
   data: PropTypes.array,
   loading: PropTypes.bool,
-  page: PropTypes.number,
-  setPage: PropTypes.func,
+  currentPage: PropTypes.number,
+  setCurrentPage: PropTypes.func,
+  tableData: PropTypes.object,
 };
 
 export default Table;
